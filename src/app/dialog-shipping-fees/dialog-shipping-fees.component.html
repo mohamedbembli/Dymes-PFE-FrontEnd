@@ -1,0 +1,18 @@
+<h2 mat-dialog-title>Configurer le frais de livraison</h2>
+<mat-form-field appearance="fill" bord style="width: 400px;">
+    <mat-label>Entrer le prix</mat-label>
+    <input placeholder="Prix de livraison" matInput [(ngModel)]="shippingFees" ><br>
+</mat-form-field>
+
+<label><b>Livraison gratuite</b></label>
+
+<mat-form-field appearance="fill" bord style="width: 400px;">
+  <mat-label>Somme totale de commande supérieure ou égale</mat-label>
+  <input placeholder="Somme de commande" matInput [(ngModel)]="totalCMD"><br>
+</mat-form-field>
+  
+  <br>
+  <div mat-dialog-actions>
+    <button mat-button (click)="cancel()">Annuler</button>
+    <button mat-button  (click)="checkData()">Sauvgader</button>
+  </div>

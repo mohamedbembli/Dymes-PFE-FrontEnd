@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="zxx">
+
+<head>
+  <meta charset="utf-8">
+  <title>Shop - Dymes TN</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="shortcut icon" type="image/x-icon" href="/assets/store/img/favicon.ico">
+    
+   <!-- ======= All CSS Plugins here ======== -->
+   
+  <link rel="stylesheet" href="/assets/store/css/swiper-bundle.min.css">
+  <link rel="stylesheet" href="/assets/store/css/glightbox.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+  <!-- Plugin css -->
+  <link rel="stylesheet" href="/assets/store/css/bootstrap.min.css">
+
+  <!-- Custom Style CSS -->
+  <link rel="stylesheet" href="/assets/store/css/style.css">
+
+</head>
+
+
+<body [ngClass]="{ 'mobile_menu_open': isMobileMenuOpen }">
+    <app-header-store [basketItemCount]="basketItemCount" [countFavoriteProducts]="countFavoriteProducts"></app-header-store>
+
+    <div
+     *ngIf="errorMSG"
+     class="alert alert-danger alert-dismissible fade show fixed-top w-100"
+     role="alert">
+     {{ errorMSG }}
+    <button type="button" class="btn-close" aria-label="Close" (click)="closeError()"></button>
+    </div>
+
+    <div *ngIf="successMSG" class="alert alert-success alert-dismissible fade show fixed-top w-100" role="alert">
+        {{ successMSG }}
+        <button type="button" class="btn-close" aria-label="Close" (click)="closeSuccess()"></button>
+    </div>
+    
+    <main class="main__content_wrapper">
+        <!-- Start login section  -->
+<div class="login__section section--padding">
+    <div class="container">
+        <form #f="ngForm" *ngIf="state1">
+            <div class="login__section--inner">
+                <div class="row justify-content-center"> <!-- Center the row -->
+                    <div class="col-md-6"> <!-- Adjust the column width as needed -->
+                        <div class="account__login">
+                            <div class="account__login--header mb-25">
+                                <h2 class="account__login--header__title h3 mb-10">Réinitialiser votre mot de passe</h2>
+                                <p class="account__login--header__desc">Saisissez votre adresse électronique pour réinitialiser votre mot de passe.</p>
+                            </div>
+                            <div class="account__login--inner">
+                                <input type="text" class="account__login--input" [(ngModel)]="email" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}" type="email" name="email" placeholder="Saisissez votre adresse électronique" required >
+                                <button class="account__login--btn primary__btn" [disabled]="f.invalid || isButtonDisabled" (click)="forgetPass()" >Réinitialiser</button>
+                              </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <form #f1="ngForm" *ngIf="state2">
+            <div class="login__section--inner">
+                <div class="row justify-content-center"> <!-- Center the row -->
+                    <div class="col-md-6"> <!-- Adjust the column width as needed -->
+                        <div class="account__login">
+                            <div class="account__login--header mb-25">
+                                <h2 class="account__login--header__title h3 mb-10">Réinitialiser votre mot de passe</h2>
+                                <p class="account__login--header__desc">Code secret</p>
+                            </div>
+                            <div class="account__login--inner">
+                                <input type="text" class="account__login--input" type="text" maxlength="4" [(ngModel)]="sCode"  name="scode" placeholder="Saisissez votre code secret" required >
+                                <button class="account__login--btn primary__btn" [disabled]="f1.invalid" (click)="validateSecretCode()">Valider</button>
+                              </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <form #f2="ngForm" *ngIf="state3">
+            <div class="login__section--inner">
+                <div class="row justify-content-center"> <!-- Center the row -->
+                    <div class="col-md-6"> <!-- Adjust the column width as needed -->
+                        <div class="account__login">
+                            <div class="account__login--header mb-25">
+                                <h2 class="account__login--header__title h3 mb-10">Réinitialiser votre mot de passe</h2>
+                            </div>
+                            <div class="account__login--inner">
+                                <p class="account__login--header__desc">Nouveau mot de passe</p>
+                                <input class="account__login--input" type="password" name="npwd" minlength="3" [(ngModel)]="newPass" placeholder="Saisissez votre nouveau mot de passe" >
+                                <p class="account__login--header__desc">Vérifier le mot de passe</p>
+                                <input class="account__login--input" type="password" name="cpwd" minlength="3" [(ngModel)]="confirmPass" placeholder="Confirmer votre mot de passe" >
+                               
+                                <button class="account__login--btn primary__btn" [disabled]="f2.invalid" (click)="resetPass()">Confirmer</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>     
+</div>
+<!-- End login section  -->
+
+         <!-- Start shipping section -->
+         <section class="shipping__section2 shipping__style3 section--padding">
+            <div class="container">
+                <div class="shipping__section2--inner shipping__style3--inner d-flex justify-content-between">
+                    <div class="shipping__items2 d-flex align-items-center">
+                        <div class="shipping__items2--icon">
+                            <img src="/assets/store/img/other/shipping1-1.png" alt="">
+                        </div>
+                        <div class="shipping__items2--content">
+                            <h2 class="shipping__items2--content__title h3">Expédition</h2>
+                            <p class="shipping__items2--content__desc">Des vendeurs triés sur le volet</p>
+                        </div>
+                    </div>
+                    <div class="shipping__items2 d-flex align-items-center">
+                        <div class="shipping__items2--icon">
+                            <img src="/assets/store/img/other/shipping2-2.png" alt="">
+                        </div>
+                        <div class="shipping__items2--content">
+                            <h2 class="shipping__items2--content__title h3">Paiement</h2>
+                            <p class="shipping__items2--content__desc">Sécurisés</p>
+                        </div>
+                    </div>
+                    <div class="shipping__items2 d-flex align-items-center">
+                        <div class="shipping__items2--icon">
+                            <img src="/assets/store/img/other/shipping3-2.png" alt="">
+                        </div>
+                        <div class="shipping__items2--content">
+                            <h2 class="shipping__items2--content__title h3">Retour</h2>
+                            <p class="shipping__items2--content__desc">Garantie 48 heures</p>
+                        </div>
+                    </div>
+                    <div class="shipping__items2 d-flex align-items-center">
+                        <div class="shipping__items2--icon">
+                            <img src="/assets/store/img/other/shipping4.png" alt="">
+                        </div>
+                        <div class="shipping__items2--content">
+                            <h2 class="shipping__items2--content__title h3">Assistance</h2>
+                            <p class="shipping__items2--content__desc">24h/24 7j/7</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- End shipping section -->
+
+    </main>
+
+
+    <app-footer-store></app-footer-store>
+</body>
+</html>

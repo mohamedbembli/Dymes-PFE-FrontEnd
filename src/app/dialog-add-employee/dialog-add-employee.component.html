@@ -1,0 +1,111 @@
+<h2 *ngIf="!isEditMode" mat-dialog-title>Ajouter Personnel</h2>
+<h2 *ngIf="isEditMode" mat-dialog-title>Modifier Personnel</h2>
+<div mat-dialog-content border="1px solid blacks" style="width: 500px">
+
+  <div *ngIf="isEditMode">
+    <label>Genre:</label>
+    <select id="inputGender" class="form-control"  #genders (change)="onSelected(genders.value)">
+        <option selected="" disabled>Choisissez...</option>
+        <option *ngIf="data.gender == 'MALE'" value="MALE" selected>Homme</option>
+        <option *ngIf="data.gender == 'MALE'" value="FEMALE" selected>Femme</option>
+        <option *ngIf="data.gender == 'FEMALE'"value="MALE">Homme</option>
+        <option *ngIf="data.gender == 'FEMALE'"value="FEMALE" selected>Femme</option>
+    </select>
+  </div>
+  <div *ngIf="!isEditMode">
+        <label>Genre:</label>
+        <select id="inputGender" class="form-control" #genders (change)="onSelected(genders.value)">
+            <option selected="" disabled>Choisissez...</option>
+            <option value="MALE">Homme</option>
+            <option value="FEMALE">Femme</option>
+        </select>
+</div>
+        <br>
+        
+  <mat-form-field appearance="fill" bord style="width: 454px;">
+    <mat-label>Prénom</mat-label>
+    <input placeholder="Entrer le prénom de personel" matInput [(ngModel)]="data.firstName"><br>
+  </mat-form-field>
+
+  <br>
+  <mat-form-field appearance="fill" bord style="width: 454px;">
+    <mat-label>Nom</mat-label>
+    <input placeholder="Entrer le nom de personel" style="width:290px" matInput [(ngModel)]="data.lastName"><br>
+  </mat-form-field>
+
+  <br>
+  <mat-form-field appearance="fill" bord style="width: 454px;">
+    <mat-label>Email</mat-label>
+    <input placeholder="Entrer l'email de personel" style="width:290px" matInput [(ngModel)]="data.email"><br>
+  </mat-form-field>
+
+  <br>
+  <mat-form-field appearance="fill" bord style="width: 454px;">
+    <mat-label>Mot de passe</mat-label>
+    <input type="password" placeholder="Entrer le mot de passe de personel" style="width:290px" matInput [(ngModel)]="data.pass"><br>
+  </mat-form-field>
+
+  <br>
+  <mat-form-field appearance="fill" bord style="width: 454px;">
+    <mat-label>Numéro de télephone</mat-label>
+    <input type="text" placeholder="Entrer le numéro de télephone de personel" style="width:290px" matInput [(ngModel)]="data.phone"><br>
+  </mat-form-field>
+
+  <br>
+  <mat-form-field appearance="fill" bord style="width: 454px;">
+    <mat-label>BIO</mat-label>
+    <input type="text" placeholder="Entrer le BIO de personel" style="width:290px" matInput [(ngModel)]="data.bio"><br>
+  </mat-form-field>
+
+  <h3 style="font-weight: 600;">Les modules autorisés</h3>
+  <div>
+    <h3>Sélectionnez un module :</h3>
+    <select class="form-control" id="selectedModule" [(ngModel)]="selectedModule" (change)="onModuleChange()">
+    <option selected="" disabled>Sélectionnez un module</option>
+    <option *ngFor="let module of modules" [ngValue]="module">{{ module.name }}</option>
+    </select>
+  </div>
+  <br>
+  <button type="button" class="btn btn-primary" (click)="addModule()">Ajouter Module</button>
+  <br>
+  
+  <div *ngIf="selectedModule">
+    <div *ngIf="selectedModuleHasSubmodules">
+        <br>
+        <h3 >Sélectionnez un sous-module :</h3>
+        <select id="selectedSubmodule" class="form-control" *ngIf="selectedModuleHasSubmodules" [(ngModel)]="selectedSubmodule">
+        <option selected="" disabled>Sélectionnez un sous-module</option>
+        <option *ngFor="let sub of selectedModule.submodules" [value]="sub.name">{{ sub.name }}</option>
+        </select>
+        <br>
+        <button type="button" class="btn btn-primary" (click)="addSubmodule()">Ajouter sous-module</button>
+    </div>
+  </div>
+  <br>
+  
+<!-- Display the datatable with added modules and submodules -->
+<h4>List:</h4>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Type</th>
+      <th>Nom</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let item of datatableItems; let i = index">
+      <td>{{ item.type }}</td>
+      <td>{{ item.name }}</td>
+      <td>
+        <button type="button" class="btn btn-danger" (click)="removeItem(i)">Supprimer</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+  </div>
+<div mat-dialog-actions>
+  <button mat-button (click)="cancel()">Non merci</button>
+  <button mat-button  (click)="checkData()">Envoyer</button>
+</div>

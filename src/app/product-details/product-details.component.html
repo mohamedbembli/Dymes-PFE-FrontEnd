@@ -1,0 +1,649 @@
+<!doctype html>
+<html lang="zxx">
+
+<head>
+  <meta charset="utf-8">
+  <title>Shop - Dymes TN</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="shortcut icon" type="image/x-icon" href="/assets/store/img/favicon.ico">
+    
+   <!-- ======= All CSS Plugins here ======== -->
+   
+  <link rel="stylesheet" href="/assets/store/css/swiper-bundle.min.css">
+  <link rel="stylesheet" href="/assets/store/css/glightbox.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+  <!-- Plugin css -->
+  <link rel="stylesheet" href="/assets/store/css/bootstrap.min.css">
+
+  <!-- Custom Style CSS -->
+  <link rel="stylesheet" href="/assets/store/css/style.css">
+
+</head>
+
+
+<body [ngClass]="{ 'mobile_menu_open': isMobileMenuOpen }">
+    <app-header-store [basketItemCount]="basketItemCount" [countFavoriteProducts]="countFavoriteProducts"></app-header-store>
+
+    <main class="main__content_wrapper">
+        
+        <!-- Start breadcrumb section -->
+        <section class="breadcrumb__section breadcrumb__bg">
+            <div class="container">
+                <div class="row row-cols-1">
+                    <div class="col">
+                        <div class="breadcrumb__content text-center">
+                            <h1 class="breadcrumb__content--title text-white mb-25">Détails du produit</h1>
+                            <ul class="breadcrumb__content--menu d-flex justify-content-center">
+                                <li class="breadcrumb__content--menu__items"><a class="text-white" [routerLink]="['/']" routerLinkActive="router-link-active" >Boutique</a></li>
+                                <li class="breadcrumb__content--menu__items"><span class="text-white">Détails du produit</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- End breadcrumb section -->
+
+        <!-- Start product details section -->
+        <section class="product__details--section section--padding">
+            <div class="container">
+                <div class="row row-cols-lg-2 row-cols-md-2">
+                    <div class="col">
+                        <div class="product__details--media">
+                            <div *ngIf="imagesProductList.length > 0" class="product__media--preview swiper">
+                                
+                                <swiper [loop]="true" [autoHeight]="true" [allowTouchMove]="false"
+                                [pagination]="{ clickable: true }">
+
+                                <!--  [autoplay]="{ delay: 7000, disableOnInteraction: false }"-->
+                                    <ng-container *ngFor="let Pimage of imagesProductList; let i = index">
+                                        <ng-template class="swiper-slide"  role="group"
+                                            style="width: 354px; margin-right: 10px;" swiperSlide>
+                                            
+                                            <ng-container *ngIf="Pimage.type =='productImage'" >
+                                                    <a class="product__media--preview__items--link glightbox" [href]="getProductImagePhotoUrl(Pimage.obj.id)">
+                                                        <img style="height: 560px; width: 600px;" class="product__media--preview__items--img"
+                                                            [src]="getProductImagePhotoUrl(Pimage.obj.id)" alt="product-media-img">
+                                                    </a>
+
+                                                    <a class="product__media--view__icon--link glightbox"
+                                                        [href]="getProductImagePhotoUrl(Pimage.obj.id)" data-gallery="product-media-preview">
+                                                        <svg class="product__media--view__icon--svg" xmlns="http://www.w3.org/2000/svg" width="22.51"
+                                                            height="22.443" viewBox="0 0 512 512">
+                                                            <path d="M221.09 64a157.09 157.09 0 10157.09 157.09A157.1 157.1 0 00221.09 64z" fill="none"
+                                                                stroke="currentColor" stroke-miterlimit="10" stroke-width="32"></path>
+                                                            <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10"
+                                                                stroke-width="32" d="M338.29 338.29L448 448"></path>
+                                                        </svg>
+                                                    </a>
+                                            </ng-container>
+
+                                            
+                                                
+
+                                            <ng-container *ngIf="Pimage.type =='variant'" >
+                                                        <a class="product__media--preview__items--link glightbox" [href]="getVariantImage(Pimage.obj.id)">
+                                                            <img style="height: 560px;" class="product__media--preview__items--img"
+                                                                [src]="getVariantImage(Pimage.obj.id)" alt="product-media-img">
+                                                        </a>
+
+                                                        <a class="product__media--view__icon--link glightbox"
+                                                            [href]="getVariantImage(Pimage.obj.id)" data-gallery="product-media-preview">
+                                                            <svg class="product__media--view__icon--svg" xmlns="http://www.w3.org/2000/svg" width="22.51"
+                                                                height="22.443" viewBox="0 0 512 512">
+                                                                <path d="M221.09 64a157.09 157.09 0 10157.09 157.09A157.1 157.1 0 00221.09 64z" fill="none"
+                                                                    stroke="currentColor" stroke-miterlimit="10" stroke-width="32"></path>
+                                                                <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10"
+                                                                    stroke-width="32" d="M338.29 338.29L448 448"></path>
+                                                            </svg>
+                                                        </a>
+                                            </ng-container>
+
+                                        </ng-template>
+                                    </ng-container>
+                                </swiper>
+                                <div class="swiper__nav--btn swiper-button-next" (click)="onNextClick()"></div>
+                                <div class="swiper__nav--btn swiper-button-prev" (click)="onPrevClick()"></div>
+                            </div>
+                            <!-- slider product images -->
+                            <BR>
+                           
+                        </div>
+                    </div>
+                    
+                    
+                    
+                    
+                    
+                    <div class="col">
+                        <div class="product__details--info">
+                            <form >
+                                <h2 *ngIf="product?.visitorsRange != null" class="product__details--info__title mb-15" style="font-size: 16px;">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye" viewBox="0 0 16 16">
+                                    <path d="M16 8s-3-5.5-8-5.5S0 8 0 8s3 5.5 8 5.5S16 8 16 8M1.173 8a13 13 0 0 1 1.66-2.043C4.12 4.668 5.88 3.5 8 3.5s3.879 1.168 5.168 2.457A13 13 0 0 1 14.828 8q-.086.13-.195.288c-.335.48-.83 1.12-1.465 1.755C11.879 11.332 10.119 12.5 8 12.5s-3.879-1.168-5.168-2.457A13 13 0 0 1 1.172 8z"/>
+                                    <path d="M8 5.5a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5M4.5 8a3.5 3.5 0 1 1 7 0 3.5 3.5 0 0 1-7 0"/>
+                                  </svg> &nbsp;{{randomValueVisitors | async}} <span style="font-weight: 400;">visiteurs regardent ce produit maintenant</span> 
+                                </h2>
+
+                                <h2 class="product__details--info__title mb-15">{{product?.name}}</h2>
+                                <!-- product PRICE START -->
+                                <div class="product__details--info__price mb-10" *ngIf="product && variantToBasket == null">
+                                     <ng-container *ngIf="product?.simpleDiscountValue > 0">
+                                            <span class="old__price">{{product.sellPrice}} DT</span>
+                                            <span class="price__divided"></span>
+                                                <ng-container *ngIf="product.simpleDiscountType == 'fixed'">
+                                                    <span class="current__price">{{product.sellPrice - product.simpleDiscountValue}} DT</span>
+                                                </ng-container>
+
+                                                <ng-container *ngIf="product.simpleDiscountType == 'percent'">
+                                                    <span class="current__price">{{product.sellPrice - ((product.sellPrice * product.simpleDiscountValue) / 100) }} DT</span>
+                                                </ng-container>
+                                     </ng-container>
+
+                                        <ng-container *ngIf="product.simpleDiscountValue == 0 || product.simpleDiscountValue == null">
+                                                <span class="current__price">{{product.sellPrice}} DT</span>
+                                        </ng-container>
+                                </div>
+                                <!-- END PRODUCT PRICE-->
+                                <!-- VARIANT PRICE START -->
+                                <div class="product__details--info__price mb-10" *ngIf="variantToBasket != null">
+                                    <ng-container *ngIf="product?.simpleDiscountValue > 0">
+                                        <span class="old__price">{{variantToBasket.price}} DT</span>
+                                        <span class="price__divided"></span>
+                                            <ng-container *ngIf="product.simpleDiscountType == 'fixed'">
+                                                <span class="current__price">{{variantToBasket.price - product.simpleDiscountValue}} DT</span>
+                                            </ng-container>
+
+                                            <ng-container *ngIf="product.simpleDiscountType == 'percent'">
+                                                <span class="current__price">{{variantToBasket.price - ((variantToBasket.price * product.simpleDiscountValue) / 100) }} DT</span>
+                                            </ng-container>
+                                    </ng-container>
+
+                                    <ng-container *ngIf="product.simpleDiscountValue == 0 || product.simpleDiscountValue == null">
+                                        <span class="current__price">{{variantToBasket.price}} DT</span>
+                                    </ng-container>
+                                </div>
+                                <!-- END VARIANT -->
+
+                                <h2 *ngIf="product.timer != null " class="countdown">
+                                    <h4>Offre spéciale et presque terminé</h4>
+                                    <span  class="days">{{ countdownValue.split(':')[0] }}<br> <span style="font-size: 14px;">Jours</span></span>:
+                                    <span class="hours">{{ countdownValue.split(':')[1] }}<br><span style="font-size: 14px;">Heures</span></span>:
+                                    <span class="minutes">{{ countdownValue.split(':')[2] }}<br><span style="font-size: 14px;">Minutes</span></span>:
+                                    <span class="seconds">{{ countdownValue.split(':')[3] }}<br><span style="font-size: 14px;">Secondes</span></span>
+                                </h2>
+                                  
+                                <div class="product__details--info__rating d-flex align-items-center mb-15">
+                                    <ul class="rating d-flex justify-content-center">
+                                        <ng-container *ngIf="product.ratings.length > 0" >
+                                            <ng-container *ngFor="let star of [].constructor(calculateAverageRating()); let i = index"> 
+                                            <li class="rating__list">
+                                                <span class="rating__list--icon">
+                                                    <svg class="rating__list--icon__svg" xmlns="http://www.w3.org/2000/svg" width="14.105" height="14.732" viewBox="0 0 10.105 9.732">
+                                                    <path data-name="star - Copy" d="M9.837,3.5,6.73,3.039,5.338.179a.335.335,0,0,0-.571,0L3.375,3.039.268,3.5a.3.3,0,0,0-.178.514L2.347,6.242,1.813,9.4a.314.314,0,0,0,.464.316L5.052,8.232,7.827,9.712A.314.314,0,0,0,8.292,9.4L7.758,6.242l2.257-2.231A.3.3,0,0,0,9.837,3.5Z" transform="translate(0 -0.018)" fill="currentColor"></path>
+                                                    </svg>
+                                                </span>
+                                            </li>
+                                            </ng-container>
+                                        </ng-container>
+                                    </ul>
+                                    <span class="product__items--rating__count--number">({{product.ratings.length}})</span>
+                                </div>
+                                <p class="product__details--info__desc mb-15" [innerHTML]="product.description"></p>
+                               
+                                <div class="product__variant">
+                                 <ng-container *ngFor="let attribute of elementsByAttributeList" >
+                                    <div class="product__variant--list mb-10" >
+                                        <fieldset class="variant__input--fieldset" >
+                                            <legend class="product__variant--title mb-3">{{attribute.name}}</legend>
+
+                                            <ng-container *ngIf="attribute.type == 'dropdown'" >
+                                                <mat-form-field appearance="fill">
+                                                    <mat-label>Votre {{attribute.name.toLowerCase()}}</mat-label>
+                                                    <mat-select >
+                                                        <ng-container *ngFor="let item of groupedElements | keyvalue">
+                                                            <ng-container *ngIf="item.key == attribute.id " >
+                                                                <div *ngFor="let element of item.value">
+                                                                    <mat-option (click)="onOptionSelected(attribute.id, attribute.type, element.name, element.reference)" value="{{element.reference}}">{{element.name}}</mat-option>
+                                                                </div>
+                                                            </ng-container>
+                                                        </ng-container>
+                                                     <!--  <mat-option value="option2" disabled>Option 2 (disabled)</mat-option> -->
+                                                     
+                                                    </mat-select>
+                                                  </mat-form-field>
+                                            </ng-container>
+
+                                            <ng-container *ngIf="attribute.type == 'colors'">
+                                                <ng-container *ngFor="let item of groupedElements | keyvalue">
+                                                  <ng-container *ngIf="item.key == attribute.id">
+                                                    <div class="color-inputs">
+                                                      <div *ngFor="let element of item.value">
+                                                        <input id="color-{{ element.id }}" name="color" type="radio" (click)="onOptionSelected(attribute.id, attribute.type, element.name, element.reference)">
+                                                        <label class="variant__color--value" 
+                                                        [style.background-color]="element.reference"
+                                                        [style.border]="isSelected(attribute.id, attribute.type, element.name, element.reference) ? '2px solid #000' : 'none'"
+                                                        for="color-{{ element.id }}" 
+                                                        title="{{ element.name }}">
+                                                        </label>
+                                                      </div>
+                                                    </div>
+                                                  </ng-container>
+                                                </ng-container>
+                                              </ng-container>
+
+                                              <ng-container *ngIf="attribute.type == 'buttons'">
+                                                <ng-container *ngFor="let item of groupedElements | keyvalue">
+                                                  <ng-container *ngIf="item.key == attribute.id">
+                                                    <div class="horizontal-buttons">
+                                                      <div *ngFor="let element of item.value">
+                                                        <input
+                                                          id="btn-{{ element.id }}"
+                                                          value="{{ element.reference }}"
+                                                          name="{{ attribute.id }}"
+                                                          type="radio"
+                                                        />
+                                                        <label
+                                                          style="width: 95px;"
+                                                          class="variant__size--value red"
+                                                          for="{{ element.id }}"
+                                                          [style.border]="isSelected(attribute.id, attribute.type, element.name, element.reference) ? '2px solid #000' : '1px solid var(--secondary-color)'"
+                                                          (click)="onOptionSelected(attribute.id, attribute.type, element.name, element.reference)"
+                                                        >
+                                                          {{ element.name }}
+                                                        </label>
+                                                      </div>
+                                                    </div>
+                                                  </ng-container>
+                                                </ng-container>
+                                              </ng-container>
+                                                                                        
+                                              <ng-container *ngIf="attribute.type == 'images'">
+                                                <div class="horizontal-images-container">
+                                                  <ng-container *ngFor="let item of imagesProductList">
+                                                    <ng-container *ngIf="item.type == 'variant'">
+                                                      <a (click)="onOptionSelected(attribute.id, attribute.type, item.position, item.obj.id)"
+                                                        [class.selected-image]="isSelected(attribute.id, attribute.type, item.position, item.obj.id)">
+                                                        <img class="variant__color--value" style="height: 100px;" class="variant__media"
+                                                          [src]="getVariantImage(item.obj.id)" alt="{{item.obj.name}}" title="{{item.obj.name}}">
+                                                      </a>
+                                                    </ng-container>
+                                                  </ng-container>
+                                                </div>
+                                              </ng-container>
+                                              
+                                              
+                                            
+                                            
+
+                                        </fieldset>
+                                    </div>
+                                </ng-container>
+                                    <div
+                                        *ngIf="errorMSG"
+                                        class="alert alert-danger alert-dismissible fade show fixed-top w-100"
+                                        role="alert"
+                                        >
+                                        {{ errorMSG }}
+                                        <button type="button" class="btn-close" aria-label="Close" (click)="closeError()">
+                                        </button>
+                                    </div>
+
+                                    <div *ngIf="successMSG" class="alert alert-success alert-dismissible fade show fixed-top w-100" role="alert">
+                                        {{ successMSG }}
+                                        <button type="button" class="btn-close" aria-label="Close" (click)="closeSuccess()"></button>
+                                    </div>
+
+                                    <div class="product__variant--list quantity d-flex align-items-center mb-20">
+                                        <div class="quantity__box">
+                                            <button type="button" class="quantity__value quickview__value--quantity decrease" aria-label="quantity value" value="Decrease Value" (click)="decreaseQte()">-</button>
+                                            <label>
+                                                <input type="number" class="quantity__number quickview__value--number" min="1" value="{{quantity}}" [(ngModel)]="quantity" (input)="onQuantityChange($event)" />
+                                            </label>
+                                            <button type="button" class="quantity__value quickview__value--quantity increase" aria-label="quantity value" value="Increase Value" (click)="increaseQte()">+</button>
+                                        </div>
+                                        <button class="quickview__cart--btn primary__btn" type="submit" (click)="addToBasket()">Ajouter au panier</button>  
+                                    </div>
+
+                                    <div class="product__variant--list mb-15">
+                                        <button type="submit"  class="variant__buy--now__btn primary__btn" (click)="fastCheckout()" >Achetez maintenant</button>
+                                    </div>
+                                    
+                                    <div class="product__details--info__meta">
+                                        <p *ngIf="product.category != null" class="product__details--info__meta--list"><strong>Catégorie: </strong>  <span>{{product.category.name}}</span> </p>
+                                        <p *ngIf="product.barCode != null" class="product__details--info__meta--list"><strong>Code à barre:</strong>  <span>{{product.barCode}}</span> </p>
+                                        <p *ngIf="product.reference != null" class="product__details--info__meta--list"><strong>Référence:</strong>  <span>{{product.reference}}</span> </p>
+                                    </div>
+                                </div>
+                                <div class="quickview__social d-flex align-items-center mb-15">
+                                    <label class="quickview__social--title">Partage Social:</label>
+                                    <ul class="quickview__social--wrapper mt-0 d-flex">
+                                        <li class="quickview__social--list">
+                                            <a class="quickview__social--icon" target="_blank" href="https://www.facebook.com">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="7.667" height="16.524" viewBox="0 0 7.667 16.524">
+                                                    <path data-name="Path 237" d="M967.495,353.678h-2.3v8.253h-3.437v-8.253H960.13V350.77h1.624v-1.888a4.087,4.087,0,0,1,.264-1.492,2.9,2.9,0,0,1,1.039-1.379,3.626,3.626,0,0,1,2.153-.6l2.549.019v2.833h-1.851a.732.732,0,0,0-.472.151.8.8,0,0,0-.246.642v1.719H967.8Z" transform="translate(-960.13 -345.407)" fill="currentColor"></path>
+                                                </svg>
+                                                <span class="visually-hidden">Facebook</span>
+                                            </a>
+                                        </li>
+                                        <li class="quickview__social--list">
+                                            <a class="quickview__social--icon" target="_blank" href="https://twitter.com">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16.489" height="13.384" viewBox="0 0 16.489 13.384">
+                                                    <path data-name="Path 303" d="M966.025,1144.2v.433a9.783,9.783,0,0,1-.621,3.388,10.1,10.1,0,0,1-1.845,3.087,9.153,9.153,0,0,1-3.012,2.259,9.825,9.825,0,0,1-4.122.866,9.632,9.632,0,0,1-2.748-.4,9.346,9.346,0,0,1-2.447-1.11q.4.038.809.038a6.723,6.723,0,0,0,2.24-.376,7.022,7.022,0,0,0,1.958-1.054,3.379,3.379,0,0,1-1.958-.687,3.259,3.259,0,0,1-1.186-1.666,3.364,3.364,0,0,0,.621.056,3.488,3.488,0,0,0,.885-.113,3.267,3.267,0,0,1-1.374-.631,3.356,3.356,0,0,1-.969-1.186,3.524,3.524,0,0,1-.367-1.5v-.057a3.172,3.172,0,0,0,1.544.433,3.407,3.407,0,0,1-1.1-1.214,3.308,3.308,0,0,1-.4-1.609,3.362,3.362,0,0,1,.452-1.694,9.652,9.652,0,0,0,6.964,3.538,3.911,3.911,0,0,1-.075-.772,3.293,3.293,0,0,1,.452-1.694,3.409,3.409,0,0,1,1.233-1.233,3.257,3.257,0,0,1,1.685-.461,3.351,3.351,0,0,1,2.466,1.073,6.572,6.572,0,0,0,2.146-.828,3.272,3.272,0,0,1-.574,1.083,3.477,3.477,0,0,1-.913.8,6.869,6.869,0,0,0,1.958-.546A7.074,7.074,0,0,1,966.025,1144.2Z" transform="translate(-951.23 -1140.849)" fill="currentColor"></path>
+                                                </svg>
+                                                <span class="visually-hidden">Twitter</span>
+                                            </a>
+                                        </li>
+                                        <li class="quickview__social--list">
+                                            <a class="quickview__social--icon" target="_blank" href="https://www.instagram.com">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16.497" height="16.492" viewBox="0 0 19.497 19.492">
+                                                    <path data-name="Icon awesome-instagram" d="M9.747,6.24a5,5,0,1,0,5,5A4.99,4.99,0,0,0,9.747,6.24Zm0,8.247A3.249,3.249,0,1,1,13,11.238a3.255,3.255,0,0,1-3.249,3.249Zm6.368-8.451A1.166,1.166,0,1,1,14.949,4.87,1.163,1.163,0,0,1,16.115,6.036Zm3.31,1.183A5.769,5.769,0,0,0,17.85,3.135,5.807,5.807,0,0,0,13.766,1.56c-1.609-.091-6.433-.091-8.042,0A5.8,5.8,0,0,0,1.64,3.13,5.788,5.788,0,0,0,.065,7.215c-.091,1.609-.091,6.433,0,8.042A5.769,5.769,0,0,0,1.64,19.341a5.814,5.814,0,0,0,4.084,1.575c1.609.091,6.433.091,8.042,0a5.769,5.769,0,0,0,4.084-1.575,5.807,5.807,0,0,0,1.575-4.084c.091-1.609.091-6.429,0-8.038Zm-2.079,9.765a3.289,3.289,0,0,1-1.853,1.853c-1.283.509-4.328.391-5.746.391S5.28,19.341,4,18.837a3.289,3.289,0,0,1-1.853-1.853c-.509-1.283-.391-4.328-.391-5.746s-.113-4.467.391-5.746A3.289,3.289,0,0,1,4,3.639c1.283-.509,4.328-.391,5.746-.391s4.467-.113,5.746.391a3.289,3.289,0,0,1,1.853,1.853c.509,1.283.391,4.328.391,5.746S17.855,15.705,17.346,16.984Z" transform="translate(0.004 -1.492)" fill="currentColor"></path>
+                                                </svg>
+                                                <span class="visually-hidden">Instagram</span> 
+                                            </a>
+                                        </li>
+                                        <li class="quickview__social--list">
+                                            <a class="quickview__social--icon" target="_blank" href="https://www.youtube.com">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16.49" height="11.582" viewBox="0 0 16.49 11.582">
+                                                    <path data-name="Path 321" d="M967.759,1365.592q0,1.377-.019,1.717-.076,1.114-.151,1.622a3.981,3.981,0,0,1-.245.925,1.847,1.847,0,0,1-.453.717,2.171,2.171,0,0,1-1.151.6q-3.585.265-7.641.189-2.377-.038-3.387-.085a11.337,11.337,0,0,1-1.5-.142,2.206,2.206,0,0,1-1.113-.585,2.562,2.562,0,0,1-.528-1.037,3.523,3.523,0,0,1-.141-.585c-.032-.2-.06-.5-.085-.906a38.894,38.894,0,0,1,0-4.867l.113-.925a4.382,4.382,0,0,1,.208-.906,2.069,2.069,0,0,1,.491-.755,2.409,2.409,0,0,1,1.113-.566,19.2,19.2,0,0,1,2.292-.151q1.82-.056,3.953-.056t3.952.066q1.821.067,2.311.142a2.3,2.3,0,0,1,.726.283,1.865,1.865,0,0,1,.557.49,3.425,3.425,0,0,1,.434,1.019,5.72,5.72,0,0,1,.189,1.075q0,.095.057,1C967.752,1364.1,967.759,1364.677,967.759,1365.592Zm-7.6.925q1.49-.754,2.113-1.094l-4.434-2.339v4.66Q958.609,1367.311,960.156,1366.517Z" transform="translate(-951.269 -1359.8)" fill="currentColor"></path>
+                                                </svg>
+                                                <span class="visually-hidden">Youtube</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="guarantee__safe--checkout">
+                                    <h5 class="guarantee__safe--checkout__title">Paiement sécurisé garanti</h5>
+                                </div>
+                                <div *ngIf="product.shippingPrice != null && product.shippingPrice == 0 " class="freeShipping" >
+                                    <span style="font-weight: 500; font-size:21px;">Livraison gratuite</span>
+                                    <img width="100px" height="50px" src="/assets/store/img/product/livraison-rapide_ZKS2ui4.png">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- End product details section -->
+
+        <!-- Start product details tab section -->
+        <section class="product__details--tab__section section--padding">
+            <div class="container">
+                <div class="row row-cols-1">
+                    <div class="col">
+                        <ul class="product__details--tab d-flex mb-30">
+                            <li class="product__details--tab__list" [class.active]="!isRatingActive" data-toggle="tab" (click)="toggleView('description')" >Description</li>
+                            <li class="product__details--tab__list" [class.active]="isRatingActive" data-toggle="tab" (click)="toggleView('rating')" >Avis clients</li>
+                        </ul>
+                        <div class="product__details--tab__inner border-radius-10">
+                            <div class="tab_content">
+                                <div id="description" class="tab_pane" [class.active]="!isRatingActive" [class.show]="!isRatingActive">
+                                    <div class="product__tab--content">
+                                        <div class="product__tab--content__step mb-30">
+                                            <h2 class="product__tab--content__title h4 mb-10">{{product.name}}</h2>
+                                            <p class="product__tab--content__desc" [innerHTML]="product.description"></p>                                    </div>
+                                        <div class="product__tab--content__step">
+
+                                            <div *ngIf="product.discounts != null && product.discounts.length > 0">
+                                                <h4 class="product__tab--content__title mb-10">Promotion</h4>
+                                                <ul *ngFor="let discount of product.discounts">
+                                                    <li class="product__tab--content__list">
+                                                        <svg class="product__tab--content__list--icon" xmlns="http://www.w3.org/2000/svg" width="22.51" height="20.443" viewBox="0 0 512 512"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="48" d="M268 112l144 144-144 144M392 256H100"></path></svg>
+                                                        Lors de l'achat de {{discount.quantity}} produits, le prix unitaire sera de {{discount.finalPrice}} DT par produit.
+                                                    </li>
+                                                    
+                                                </ul>
+                                            </div>
+
+                                        </div>
+                                    </div> 
+                                </div>
+                                <div id="reviews" class="tab_pane" [class.active]="isRatingActive" [class.show]="isRatingActive">
+                                    <div class="product__reviews">
+                                        <div class="product__reviews--header">
+                                            <h2 class="product__reviews--header__title h3 mb-20">Avis des clients</h2>
+                                            <div class="reviews__ratting d-flex align-items-center">
+                                                <ul class="rating d-flex">
+                                                    <ng-container *ngIf="product.ratings.length > 0" >
+                                                        <ng-container *ngFor="let star of [].constructor(calculateAverageRating()); let i = index"> 
+                                                        <li class="rating__list">
+                                                            <span class="rating__list--icon">
+                                                                <svg class="rating__list--icon__svg" xmlns="http://www.w3.org/2000/svg" width="14.105" height="14.732" viewBox="0 0 10.105 9.732">
+                                                                <path data-name="star - Copy" d="M9.837,3.5,6.73,3.039,5.338.179a.335.335,0,0,0-.571,0L3.375,3.039.268,3.5a.3.3,0,0,0-.178.514L2.347,6.242,1.813,9.4a.314.314,0,0,0,.464.316L5.052,8.232,7.827,9.712A.314.314,0,0,0,8.292,9.4L7.758,6.242l2.257-2.231A.3.3,0,0,0,9.837,3.5Z" transform="translate(0 -0.018)" fill="currentColor"></path>
+                                                                </svg>
+                                                            </span>
+                                                        </li>
+                                                        </ng-container>
+                                                    </ng-container>
+                                                </ul>
+                                                <span class="reviews__summary--caption">Basé sur {{ratingList.length}} commentaires</span>
+                                            </div>
+                                            <a class="actions__newreviews--btn primary__btn" (click)="openAddRatingDialog()">Ajouter votre avis</a>
+                                        </div>
+                                        <div class="reviews__comment--area">
+                                            
+                                            <ng-container *ngFor="let rating of ratingList" >
+                                                <div class="reviews__comment--list d-flex">
+                                                    <div class="reviews__comment--thumb">
+                                                        <img src="/assets/img/logoUserEmpty.png" class="img-fluid rounded-circle mb-2" alt="" style="width: 100px; height:100px;">
+                                                    </div>
+                                                    <div class="reviews__comment--content">
+                                                        <div class="reviews__comment--top d-flex justify-content-between">
+                                                            <div class="reviews__comment--top__left">
+                                                                <h3 class="reviews__comment--content__title h4">{{rating.fullname}}</h3>
+                                                                <ul class="rating reviews__comment--rating d-flex">
+                                                                    <ng-container *ngFor="let star of [].constructor(rating.stars); let i = index"> 
+                                                                        <li class="rating__list">
+                                                                            <span class="rating__list--icon">
+                                                                                <svg class="rating__list--icon__svg" xmlns="http://www.w3.org/2000/svg" width="14.105" height="14.732" viewBox="0 0 10.105 9.732">
+                                                                                <path data-name="star - Copy" d="M9.837,3.5,6.73,3.039,5.338.179a.335.335,0,0,0-.571,0L3.375,3.039.268,3.5a.3.3,0,0,0-.178.514L2.347,6.242,1.813,9.4a.314.314,0,0,0,.464.316L5.052,8.232,7.827,9.712A.314.314,0,0,0,8.292,9.4L7.758,6.242l2.257-2.231A.3.3,0,0,0,9.837,3.5Z" transform="translate(0 -0.018)" fill="currentColor"></path>
+                                                                                </svg>
+                                                                            </span>
+                                                                        </li>    
+                                                                    </ng-container>                                                               
+                                                                </ul>
+                                                            </div>
+                                                            <span class="reviews__comment--content__date">{{rating.date}}</span>
+                                                        </div>
+                                                        <p class="reviews__comment--content__desc">{{rating.comment}}</p>
+                                                    </div>
+                                                </div>
+                                            </ng-container>
+                                        </div>
+                                        
+                                    </div>    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- End product details tab section -->
+        
+       <!-- Start product section -->
+        <section class="product__section section--padding pt-0">
+            <div class="container-fluid">
+                <div class="section__heading text-center mb-35">
+                    <h2 class="section__heading--maintitle">Vous pouvez aussi aimer</h2>
+                </div>
+
+                <div class="tab_content">
+                    <div id="featured" class="tab_pane active show">
+                        <div class="product__section--inner">
+                            <div class="row row-cols-xl-5 row-cols-lg-4 row-cols-md-3 row-cols-2 mb--n30">
+
+                                    <ng-container *ngIf="productsList != null">
+                                        <ng-container *ngFor="let pr of productsList">
+                                            <ng-container *ngIf="pr.id != product.id">
+                                                <div class="col mb-30" >
+                                                    <div class="product__items ">
+                                                        <div class="product__items--thumbnail" [routerLink]="['/product-details', product.id]" routerLinkActive="router-link-active">
+                                                            <a class="product__items--link">
+                                                                <img class="product__items--img product__primary--img" [src]="getProductPhotoUrl(pr.id)" style="width:282px; height:310px;" alt="product-img">
+                                                                <ng-container *ngIf="pr.productImages.length > 1">
+                                                                    <img class="product__items--img product__secondary--img" style="width:282px; height:310px;" [src]="getProductImagePhotoUrl(pr.productImages[1].id)" alt="product-img">
+                                                                </ng-container>
+                                                            </a>      
+                                                            <ng-container *ngIf="pr.simpleDiscountValue > 0 || pr.discounts.length > 0">                                                 
+                                                                <div class="product__badge">
+                                                                    <span class="product__badge--items sale">En promotion!</span>
+                                                                </div>
+                                                            </ng-container> 
+                                                        </div>
+                                                        <div class="product__items--content">
+                                                            <span class="product__items--content__subtitle"> {{pr.category.name}}</span>
+                                                            <h3 class="product__items--content__title h4"><a>{{pr.name}}</a></h3>
+                                                            <div class="product__items--price">
+                                                                <ng-container *ngIf="pr.simpleDiscountValue > 0">
+                                                                            <span class="old__price">{{pr.sellPrice}} DT</span>
+                                                                            <span class="price__divided"></span>
+                                                                            <ng-container *ngIf="pr.simpleDiscountType == 'fixed'">
+                                                                                <span class="current__price">{{pr.sellPrice - pr.simpleDiscountValue}} DT</span>
+                                                                            </ng-container>
+
+                                                                            <ng-container *ngIf="pr.simpleDiscountType == 'percent'">
+                                                                                <span class="current__price">{{pr.sellPrice - ((pr.sellPrice * pr.simpleDiscountValue) / 100) }} DT</span>
+                                                                            </ng-container>
+                                                                </ng-container>
+
+                                                                <ng-container *ngIf="pr.simpleDiscountValue == 0 || pr.simpleDiscountValue == null">
+                                                                        <span class="current__price">{{pr.sellPrice}} DT</span>
+                                                                </ng-container>
+
+
+                                                            </div>
+                                                            <ul class="rating product__rating d-flex">
+                                                                <li class="rating__list">
+                                                                    <span class="rating__list--icon">
+                                                                        <svg class="rating__list--icon__svg" xmlns="http://www.w3.org/2000/svg" width="14.105" height="14.732" viewBox="0 0 10.105 9.732">
+                                                                        <path data-name="star - Copy" d="M9.837,3.5,6.73,3.039,5.338.179a.335.335,0,0,0-.571,0L3.375,3.039.268,3.5a.3.3,0,0,0-.178.514L2.347,6.242,1.813,9.4a.314.314,0,0,0,.464.316L5.052,8.232,7.827,9.712A.314.314,0,0,0,8.292,9.4L7.758,6.242l2.257-2.231A.3.3,0,0,0,9.837,3.5Z" transform="translate(0 -0.018)" fill="currentColor"></path>
+                                                                        </svg>
+                                                                    </span>
+                                                                </li>
+                                                                <li class="rating__list">
+                                                                    <span class="rating__list--icon">
+                                                                        <svg class="rating__list--icon__svg" xmlns="http://www.w3.org/2000/svg" width="14.105" height="14.732" viewBox="0 0 10.105 9.732">
+                                                                        <path data-name="star - Copy" d="M9.837,3.5,6.73,3.039,5.338.179a.335.335,0,0,0-.571,0L3.375,3.039.268,3.5a.3.3,0,0,0-.178.514L2.347,6.242,1.813,9.4a.314.314,0,0,0,.464.316L5.052,8.232,7.827,9.712A.314.314,0,0,0,8.292,9.4L7.758,6.242l2.257-2.231A.3.3,0,0,0,9.837,3.5Z" transform="translate(0 -0.018)" fill="currentColor"></path>
+                                                                        </svg>
+                                                                    </span>
+                                                                </li>
+                                                                <li class="rating__list">
+                                                                    <span class="rating__list--icon">
+                                                                        <svg class="rating__list--icon__svg" xmlns="http://www.w3.org/2000/svg" width="14.105" height="14.732" viewBox="0 0 10.105 9.732">
+                                                                        <path data-name="star - Copy" d="M9.837,3.5,6.73,3.039,5.338.179a.335.335,0,0,0-.571,0L3.375,3.039.268,3.5a.3.3,0,0,0-.178.514L2.347,6.242,1.813,9.4a.314.314,0,0,0,.464.316L5.052,8.232,7.827,9.712A.314.314,0,0,0,8.292,9.4L7.758,6.242l2.257-2.231A.3.3,0,0,0,9.837,3.5Z" transform="translate(0 -0.018)" fill="currentColor"></path>
+                                                                        </svg>
+                                                                    </span>
+                                                                </li>
+                                                                <li class="rating__list">
+                                                                    <span class="rating__list--icon">
+                                                                        <svg class="rating__list--icon__svg" xmlns="http://www.w3.org/2000/svg" width="14.105" height="14.732" viewBox="0 0 10.105 9.732">
+                                                                        <path data-name="star - Copy" d="M9.837,3.5,6.73,3.039,5.338.179a.335.335,0,0,0-.571,0L3.375,3.039.268,3.5a.3.3,0,0,0-.178.514L2.347,6.242,1.813,9.4a.314.314,0,0,0,.464.316L5.052,8.232,7.827,9.712A.314.314,0,0,0,8.292,9.4L7.758,6.242l2.257-2.231A.3.3,0,0,0,9.837,3.5Z" transform="translate(0 -0.018)" fill="currentColor"></path>
+                                                                        </svg>
+                                                                    </span>
+                                                                </li>
+                                                                <li class="rating__list">
+                                                                    <span class="rating__list--icon">
+                                                                        <svg class="rating__list--icon__svg" xmlns="http://www.w3.org/2000/svg" width="14.105" height="14.732" viewBox="0 0 10.105 9.732">
+                                                                        <path data-name="star - Copy" d="M9.837,3.5,6.73,3.039,5.338.179a.335.335,0,0,0-.571,0L3.375,3.039.268,3.5a.3.3,0,0,0-.178.514L2.347,6.242,1.813,9.4a.314.314,0,0,0,.464.316L5.052,8.232,7.827,9.712A.314.314,0,0,0,8.292,9.4L7.758,6.242l2.257-2.231A.3.3,0,0,0,9.837,3.5Z" transform="translate(0 -0.018)" fill="currentColor"></path>
+                                                                        </svg>
+                                                                    </span>
+                                                                </li>
+
+                                                            </ul>
+                                                            <ul class="product__items--action d-flex">
+                                                                <li class="product__items--action__list" [routerLink]="['/product-details', pr.id]" routerLinkActive="router-link-active">
+                                                                    <a class="product__items--action__btn add__to--cart">
+                                                                        <span class="add__to--cart__text">Voir plus</span>
+                                                                    </a>
+                                                                </li>
+                                                                <li class="product__items--action__list">
+                                                                    <a *ngIf="isFavorite(pr.id)" class="product__items--action__btn"  style="color: white; background-color:#ee2761;" (click)="addProductToFavoriteList(pr)">
+                                                                        <svg class="product__items--action__btn--svg" xmlns="http://www.w3.org/2000/svg" width="25.51" height="23.443" viewBox="0 0 512 512">
+                                                                            <path d="M352.92 80C288 80 256 144 256 144s-32-64-96.92-64c-52.76 0-94.54 44.14-95.08 96.81-1.1 109.33 86.73 187.08 183 252.42a16 16 0 0018 0c96.26-65.34 184.09-143.09 183-252.42-.54-52.67-42.32-96.81-95.08-96.81z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"></path>
+                                                                        </svg> 
+                                                                        <span class="visually-hidden">Liste des favoris</span>
+                                                                    </a>
+
+                                                                    <a *ngIf="!isFavorite(pr.id)" class="product__items--action__btn" (click)="addProductToFavoriteList(pr)">
+                                                                        <svg class="product__items--action__btn--svg" xmlns="http://www.w3.org/2000/svg" width="25.51" height="23.443" viewBox="0 0 512 512">
+                                                                            <path d="M352.92 80C288 80 256 144 256 144s-32-64-96.92-64c-52.76 0-94.54 44.14-95.08 96.81-1.1 109.33 86.73 187.08 183 252.42a16 16 0 0018 0c96.26-65.34 184.09-143.09 183-252.42-.54-52.67-42.32-96.81-95.08-96.81z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"></path>
+                                                                        </svg> 
+                                                                        <span class="visually-hidden">Liste des favoris</span>
+                                                                    </a>
+                                                            </li>
+                                                                <li class="product__items--action__list" [routerLink]="['/product-details', pr.id]" routerLinkActive="router-link-active">
+                                                                    <a class="product__items--action__btn" data-open="modal1" [routerLink]="['/product-details', pr.id]" routerLinkActive="router-link-active">
+                                                                        <svg class="product__items--action__btn--svg" xmlns="http://www.w3.org/2000/svg"  width="25.51" height="23.443" viewBox="0 0 512 512">
+                                                                            <path d="M255.66 112c-77.94 0-157.89 45.11-220.83 135.33a16 16 0 00-.27 17.77C82.92 340.8 161.8 400 255.66 400c92.84 0 173.34-59.38 221.79-135.25a16.14 16.14 0 000-17.47C428.89 172.28 347.8 112 255.66 112z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/><circle cx="256" cy="256" r="80" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"/></svg>
+                                                                        <span class="visually-hidden">Aperçu rapide</span>
+                                                                    </a>
+                                                                </li>
+                                                                
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </ng-container>
+                                    </ng-container>
+                                </ng-container>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+            </div>
+        </section>
+        <!-- End product section -->
+
+        <!-- Start shipping section -->
+        <section class="shipping__section2 shipping__style3 section--padding">
+            <div class="container">
+                <div class="shipping__section2--inner shipping__style3--inner d-flex justify-content-between">
+                    <div class="shipping__items2 d-flex align-items-center">
+                        <div class="shipping__items2--icon">
+                            <img src="/assets/store/img/other/shipping1-1.png" alt="">
+                        </div>
+                        <div class="shipping__items2--content">
+                            <h2 class="shipping__items2--content__title h3">Expédition</h2>
+                            <p class="shipping__items2--content__desc">Des vendeurs triés sur le volet</p>
+                        </div>
+                    </div>
+                    <div class="shipping__items2 d-flex align-items-center">
+                        <div class="shipping__items2--icon">
+                            <img src="/assets/store/img/other/shipping2-2.png" alt="">
+                        </div>
+                        <div class="shipping__items2--content">
+                            <h2 class="shipping__items2--content__title h3">Paiement</h2>
+                            <p class="shipping__items2--content__desc">Sécurisés</p>
+                        </div>
+                    </div>
+                    <div class="shipping__items2 d-flex align-items-center">
+                        <div class="shipping__items2--icon">
+                            <img src="/assets/store/img/other/shipping3-2.png" alt="">
+                        </div>
+                        <div class="shipping__items2--content">
+                            <h2 class="shipping__items2--content__title h3">Retour</h2>
+                            <p class="shipping__items2--content__desc">Garantie 48 heures</p>
+                        </div>
+                    </div>
+                    <div class="shipping__items2 d-flex align-items-center">
+                        <div class="shipping__items2--icon">
+                            <img src="/assets/store/img/other/shipping4.png" alt="">
+                        </div>
+                        <div class="shipping__items2--content">
+                            <h2 class="shipping__items2--content__title h3">Assistance</h2>
+                            <p class="shipping__items2--content__desc">24h/24 7j/7</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- End shipping section -->
+    </main>
+
+<app-footer-store></app-footer-store>
+</body>
+</html>

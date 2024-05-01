@@ -1,0 +1,236 @@
+<h2 *ngIf="!isEditMode" mat-dialog-title>Ajouter UpSell</h2>
+<h2 *ngIf="isEditMode" mat-dialog-title>Modifier UpSell</h2>
+
+<h3 style="color: #0d6efd;"><b>Description de l'offre</b></h3>
+<div mat-dialog-content border="1px solid blacks" style="width: 600px;">
+    <mat-form-field appearance="fill" bord style="width: 550px;" >
+        <mat-label>Entrer le Nom de l'UpSell</mat-label>
+        <input placeholder="Entrer le Nom" matInput [(ngModel)]="upSellName" ><br>
+    </mat-form-field>
+      
+      <br>
+    <!-- Header -->
+      <h4><b>Type de contenu de l'entête</b></h4>
+      <mat-form-field appearance="fill" style="width: 100%;">
+        <mat-label>Selectionner le type de l'entête</mat-label>
+        <mat-select [(ngModel)]="headerType" (ngModelChange)="onSelectHeaderType($event)">
+            <mat-option value="text">Texte</mat-option>
+            <mat-option value="image">Image</mat-option>
+            <mat-option value="video">Video</mat-option>
+        </mat-select>
+     </mat-form-field>
+
+     <ng-container *ngIf="headerType == 'text'">
+      <label>Contenu de Entête (*)</label>
+       <div appearance="fill" bord style="width: 550px;" >
+         <angular-editor  placeholder="Entrer le text ici..." value="header" [(ngModel)]="header"></angular-editor>
+       </div>
+    </ng-container>
+
+    <ng-container *ngIf="headerType == 'video'">
+        <label>Contenu de Entête (*)</label>
+        <mat-form-field appearance="fill" bord style="width: 550px;" >
+            <mat-label>Entrer le lien de vidéo</mat-label>
+            <input placeholder="https://www.exmple.com " matInput value="header" [(ngModel)]="header" ><br>
+        </mat-form-field>
+    </ng-container>
+
+    <ng-container *ngIf="headerType == 'image'">
+        <div appearance="fill" bord style="width: 550px;" >
+            <mat-label>Contenu de Entête (*)</mat-label>
+            <div *ngIf="selectPhotoHeader == 1">
+                <img [src]="imagePreviewHeader" class="img-thumbnail" width="200px" height="200px">
+            </div>
+
+        <div class="mt-2">
+            <input #fileInput type="file" style="display: none" (change)="selectFileHeader($event)">
+            <span class="btn btn-primary" (click)="fileInput.click()"><i class="fas fa-upload"></i> Télécharger l'image</span>
+        </div>
+        </div>
+    </ng-container>
+  <!-- END Header -->
+    <br>
+    <!-- BODY -->
+      <h4><b>Type de contenu de corps</b></h4>
+      <mat-form-field appearance="fill" style="width: 100%;">
+        <mat-label>Selectionner le type de corps</mat-label>
+        <mat-select [(ngModel)]="bodyType" (ngModelChange)="onSelectBodyType($event)">
+            <mat-option value="text">Texte</mat-option>
+            <mat-option value="image">Image</mat-option>
+            <mat-option value="video">Video</mat-option>
+        </mat-select>
+     </mat-form-field>
+
+     <ng-container *ngIf="bodyType == 'text'">
+      <label>Contenu de Corps (*)</label>
+       <div appearance="fill" bord style="width: 550px;" >
+         <angular-editor  placeholder="Entrer le text ici..." value="body" [(ngModel)]="body"></angular-editor>
+       </div>
+    </ng-container>
+
+    <ng-container *ngIf="bodyType == 'video'">
+        <label>Contenu de Corps (*)</label>
+        <mat-form-field appearance="fill" bord style="width: 550px;" >
+            <mat-label>Entrer le lien de vidéo</mat-label>
+            <input placeholder="https://www.exmple.com " matInput value="body" [(ngModel)]="body" ><br>
+        </mat-form-field>
+    </ng-container>
+
+    <ng-container *ngIf="bodyType == 'image'">
+        <div appearance="fill" bord style="width: 550px;" >
+            <mat-label>Contenu de Corps (*)</mat-label>
+            <div *ngIf="selectPhotoBody == 1">
+                <img [src]="imagePreviewBody" class="img-thumbnail" width="200px" height="200px">
+            </div>
+
+        <div class="mt-2">
+            <input #fileInput type="file" style="display: none" (change)="selectFileBody($event)">
+            <span class="btn btn-primary" (click)="fileInput.click()"><i class="fas fa-upload"></i> Télécharger l'image</span>
+        </div>
+        </div>
+    </ng-container>
+    <!-- END BODY -->
+    <br>
+    <!-- FOOTER -->
+      <h4><b>Type de contenu de bas de page</b></h4>
+      <mat-form-field appearance="fill" style="width: 100%;">
+        <mat-label>Selectionner le type de bas de page</mat-label>
+        <mat-select [(ngModel)]="footerType" (ngModelChange)="onSelectfooterType($event)">
+            <mat-option value="text">Texte</mat-option>
+            <mat-option value="image">Image</mat-option>
+            <mat-option value="video">Video</mat-option>
+        </mat-select>
+     </mat-form-field>
+
+     <ng-container *ngIf="footerType == 'text'">
+      <label>Contenu de Bas de page (*)</label>
+       <div appearance="fill" bord style="width: 550px;" >
+         <angular-editor  placeholder="Entrer le text ici..." value="footer" [(ngModel)]="footer"></angular-editor>
+       </div>
+    </ng-container>
+
+    <ng-container *ngIf="footerType == 'video'">
+        <label>Contenu de Bas de page (*)</label>
+        <mat-form-field appearance="fill" bord style="width: 550px;" >
+            <mat-label>Entrer le lien de vidéo</mat-label>
+            <input placeholder="https://www.exmple.com " matInput value="footer" [(ngModel)]="footer" ><br>
+        </mat-form-field>
+    </ng-container>
+
+    <ng-container *ngIf="footerType == 'image'">
+        <div appearance="fill" bord style="width: 550px;" >
+            <mat-label>Contenu de Bas de page (*)</mat-label>
+            <div *ngIf="selectPhotoFooter == 1">
+                <img [src]="imagePreviewFooter" class="img-thumbnail" width="200px" height="200px">
+            </div>
+
+        <div class="mt-2">
+            <input #fileInput type="file" style="display: none" (change)="selectFileFooter($event)">
+            <span class="btn btn-primary" (click)="fileInput.click()"><i class="fas fa-upload"></i> Télécharger l'image</span>
+        </div>
+        </div>
+    </ng-container>
+    <!-- END FOOTER -->
+
+    <h3 style="color: hsl(216, 98%, 52%);"><b>Détails de l'offre</b></h3>
+     <!-- Choose Product -->
+     <ng-container *ngIf="productsList != null">
+
+        <h4>Si le client achete ce produit:</h4>
+         <mat-form-field appearance="fill" style="width: 100%;">
+       <mat-label>Chercher un produit</mat-label>
+        <mat-select [(ngModel)]="selectedProduct" name="selectedProduct" [compareWith]="compareUpsells" (ngModelChange)="onSelectedProduct($event)">
+            <ng-container *ngFor="let product of productsList">
+            <mat-option  [value]="product">
+                ID: {{ product.id }} - {{ product.name }}
+            </mat-option>
+            </ng-container>
+        </mat-select>
+        </mat-form-field>
+        
+        <h4>On lui affiche le produit suivant:</h4>
+        <mat-form-field appearance="fill" style="width: 100%;">
+      <mat-label>Chercher un produit</mat-label>
+       <mat-select [(ngModel)]="selectedNextProduct" name="selectedProduct" [compareWith]="compareUpsells" (ngModelChange)="onSelectedNextProduct($event)">
+           <ng-container *ngFor="let product of productsList">
+           <mat-option  [value]="product">
+               ID: {{ product.id }} - {{ product.name }}
+           </mat-option>
+           </ng-container>
+       </mat-select>
+       </mat-form-field>
+
+    </ng-container>
+    <!-- END Choose Product -->
+    <!-- Style bouton confirmer -->
+    <h3 style="color: hsl(216, 98%, 52%);"><b>Position des buttons</b></h3>
+    <mat-form-field appearance="fill" style="width: 100%;">
+        <mat-label>Selectionner la position des button</mat-label>
+        <mat-select [(ngModel)]="buttonsPosition">
+            <mat-option value="afterHeader">Aprés l'entête</mat-option>
+            <mat-option value="afterBody">Aprés le Corps</mat-option>
+            <mat-option value="afterFooter">Aprés le bas de page</mat-option>
+        </mat-select>
+     </mat-form-field>
+    <h3 style="color: hsl(216, 98%, 52%);"><b>Style bouton confirmer</b></h3>
+    <mat-form-field appearance="fill" bord style="width: 550px;" >
+        <mat-label>Configurer le texte du bouton:</mat-label>
+        <input matInput [value]="btnConfirmText" [(ngModel)]="btnConfirmText" ><br>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" bord style="width: 550px;" >
+        <mat-label>Couleur du texte du bouton:</mat-label>
+        <input type="color" matInput [value]="btnConfirmTextColor" [(ngModel)]="btnConfirmTextColor" ><br>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" bord style="width: 550px;" >
+        <mat-label>Configurer la couleur du bouton:</mat-label>
+        <input type="color" matInput [value]="btnConfirmColor" [(ngModel)]="btnConfirmColor" ><br>
+    </mat-form-field>
+
+    <label>Taille du bouton</label>
+    <mat-form-field appearance="fill" style="width: 100%;">
+        <mat-label>Selectionner la taille du button</mat-label>
+        <mat-select [(ngModel)]="btnConfirmSize">
+            <mat-option value="large">Large</mat-option>
+            <mat-option value="medium">Moyenne</mat-option>
+            <mat-option value="small">Petit</mat-option>
+        </mat-select>
+     </mat-form-field>
+     <!-- END Style bouton confirmer -->
+
+     <!-- Style bouton annuler -->
+      
+     <h3 style="color: hsl(216, 98%, 52%);"><b>Style bouton annuler</b></h3>
+    <mat-form-field appearance="fill" bord style="width: 550px;" >
+        <mat-label>Configurer le texte du bouton:</mat-label>
+        <input matInput [value]="btnCancelText" [(ngModel)]="btnCancelText" ><br>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" bord style="width: 550px;" >
+        <mat-label>Couleur du texte du bouton:</mat-label>
+        <input type="color" matInput [value]="btnCancelTextColor" [(ngModel)]="btnCancelTextColor" ><br>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" bord style="width: 550px;" >
+        <mat-label>Configurer la couleur du bouton:</mat-label>
+        <input type="color" matInput [value]="btnCancelColor" [(ngModel)]="btnCancelColor" ><br>
+    </mat-form-field>
+
+    <label>Taille du bouton</label>
+    <mat-form-field appearance="fill" style="width: 100%;">
+        <mat-label>Selectionner la taille du button</mat-label>
+        <mat-select [(ngModel)]="btnCancelSize">
+            <mat-option value="large">Large</mat-option>
+            <mat-option value="medium">Moyenne</mat-option>
+            <mat-option value="small">Petit</mat-option>
+        </mat-select>
+     </mat-form-field>
+      
+    
+    <div mat-dialog-actions>
+        <button mat-button (click)="cancel()">Annuler</button>
+        <button mat-button (click)="sendData()">Sauvgarder</button>
+    </div>
+       
+</div>

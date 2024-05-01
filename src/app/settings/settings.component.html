@@ -1,0 +1,85 @@
+<ng-container *ngIf="homePage">
+<style>
+    .hh:hover {
+        background-color: #ecedee;
+    }
+    .hh{
+        height:125px;
+        border: 1px solid rgb(205, 205, 205);
+
+    }
+</style>
+<div class="container-fluid">
+
+    <div class="header">
+        <h1 class="header-title">
+            Paramètres
+        </h1>
+    </div>
+    <div class="row">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title">Configurations</h5>
+            </div>
+            <div class="card-body">
+                
+
+                <div class="row">
+                    <div class="col-md-4" (click)="changeTemplate('store')">
+                        <div class="card py-2 hh">
+                            <div class="card-body">
+                                <h4>Paramètres de la boutique</h4>
+                                <p style="font-size: 12px;">Affichez et mettez à jour les détails de votre boutique.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4"  (click)="changeTemplate('OLC')">
+                        <div class="card py-2 hh">
+                            <div class="card-body ">
+                                <h4>Cycle de vie des commandes</h4>
+                                <p style="font-size: 12px;">Configurer le cycle des étapes pour passer une commande</p>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4" (click)="openAddShippingFeesDialog()" >
+                        <div class="card py-2 hh">
+                            <div class="card-body">
+                                <h4>Livraison</h4>
+                                <p style="font-size: 12px;">Configurer le frais de livraison</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4" (click)="changeTemplate('checkout')" >
+                        <div class="card py-2 hh">
+                            <div class="card-body ">
+                                <h4>Checkout</h4>
+                                <p style="font-size: 12px;">Configuration du formulaire du Checkout</p>
+                            </div>
+                        </div>
+                    </div>
+                </div><!-- /.row -->
+                
+            </div>
+</div>
+        
+    </div>
+</div>
+</ng-container>
+
+<ng-container *ngIf="checkoutConfigPage" >
+    <!-- Checkout Configuration -->
+    <app-checkout-configuration></app-checkout-configuration> 
+</ng-container>
+
+
+<ng-container *ngIf="OLCpage">
+    <!-- Order Life Cycle> -->
+    <app-order-life-cycle></app-order-life-cycle> 
+</ng-container>
+
+<ng-container *ngIf="storePage">
+    <!-- Store -->
+    <app-store></app-store>
+</ng-container>
+				

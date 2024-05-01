@@ -1,0 +1,149 @@
+ <div class="container-fluid">
+
+    <div class="header">
+        <h1 class="header-title">
+            Clients
+        </h1>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="">Tableau de bord</a></li>
+                <li class="breadcrumb-item"><a href="">Clients</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Mes clients</li>
+            </ol>
+        </nav>
+    </div>
+    <div class="row">
+        <div class="col-xxl-9">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-actions float-end">
+                        <a  class="me-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-refresh-cw align-middle"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+                        </a>
+                        <div class="d-inline-block dropdown show">
+                            <a  data-bs-toggle="dropdown" data-bs-display="static">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical align-middle"><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg>
+                            </a>
+
+                            <div class="dropdown-menu dropdown-menu-end">
+                                <a class="dropdown-item" >Action</a>
+                                <a class="dropdown-item" >Another action</a>
+                                <a class="dropdown-item" >Something else here</a>
+                            </div>
+                        </div>
+                    </div>
+                    <h5 class="card-title mb-0">Mes clients</h5><br>
+                </div>
+                <div class="card-body">
+                    <div id="datatables-clients_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
+                    <div class="row dt-row">
+                        <div class="col-sm-12">
+                       
+                       
+                        <table  id="clientsTable" class="table table-striped dataTable no-footer dtr-inline" style="width: 100%;" aria-describedby="datatables-clients_info">
+                            <thead>
+                            <tr>
+                                <th class="sorting" tabindex="0" aria-controls="datatables-clients" rowspan="1" colspan="1" style="width: 18px;" aria-label="#: activate to sort column ascending">#</th>
+                                <th class="sorting sorting_asc" tabindex="0" aria-controls="datatables-clients" rowspan="1" colspan="1" style="width: 58px;" aria-sort="ascending" aria-label="Name: activate to sort column descending">Nom et prénom</th>
+                                <th class="sorting" tabindex="0" aria-controls="datatables-clients" rowspan="1" colspan="1" style="width: 64px;" aria-label="Company: activate to sort column ascending">Téléphone 1</th>
+                                <th class="sorting" tabindex="0" aria-controls="datatables-clients" rowspan="1" colspan="1" style="width: 64px;" aria-label="Company: activate to sort column ascending">Téléphone 2</th>
+                                <th class="sorting" tabindex="0" aria-controls="datatables-clients" rowspan="1" colspan="1" style="width: 144px;" aria-label="Email: activate to sort column ascending">Email</th>
+                                <th class="sorting" tabindex="0" aria-controls="datatables-clients" rowspan="1" colspan="1" style="width: 42px;" aria-label="Status: activate to sort column ascending">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                      
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xxl-3">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-actions float-end">
+                        <a  class="me-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-refresh-cw align-middle"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+                        </a>
+                        <div class="d-inline-block dropdown show">
+                            <a  data-bs-toggle="dropdown" data-bs-display="static">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical align-middle"><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg>
+                            </a>
+
+                            <div class="dropdown-menu dropdown-menu-end">
+                                <a class="dropdown-item" >Action</a>
+                                <a class="dropdown-item" >Another action</a>
+                                <a class="dropdown-item" >Something else here</a>
+                            </div>
+                        </div>
+                    </div>
+                    <h5 class="card-title mb-0">{{selectedUser?.firstName}} {{selectedUser?.lastName}}</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row g-0">
+                        <div class="col-sm-3 col-xl-12 col-xxl-4 text-center">
+                            <img *ngIf="selectedUser?.profilePhoto == null" src="/assets/img/logoUserEmpty.png" width="64" height="64" class="rounded-circle mt-2" alt="{{selectedUser?.firstName}} {{selectedUser?.lastName}} ">
+                            <img *ngIf="selectedUser?.profilePhoto != null" [src]="this.authService.host + '/public/profilePhoto/' + selectedUser?.id" width="64" height="64" class="rounded-circle mt-2" alt="{{selectedUser?.firstName}} {{selectedUser?.lastName}} ">
+                        </div>
+                    </div>
+
+                    <table class="table table-sm my-2 display">
+                        <tbody>
+                            <tr>
+                                <th>Nom et prénom</th>
+                                <td>{{selectedUser?.firstName}} {{selectedUser?.lastName}}</td>
+                            </tr>
+                            <tr>
+                                <th>Email</th>
+                                <td>{{selectedUser?.email}}</td>
+                            </tr>
+                            <tr>
+                                <th>Téléphone</th>
+                                <td>{{selectedUser?.phone}}</td>
+                            </tr>
+                            <tr>
+                                <th>Date de naissance</th>
+                                <td *ngIf="selectedUser?.dob != null">{{selectedUser?.dob}}</td>
+                                <td *ngIf="selectedUser?.dob == null">inconnu</td>
+                            </tr>
+                            <tr>
+                                <th>Adresse</th>
+                                <td *ngIf="selectedUser?.address != null">{{selectedUser?.address}}</td>
+                                <td *ngIf="selectedUser?.address == null">inconnu</td>
+                            </tr>
+                            <tr>
+                                <th>Région</th>
+                                <td *ngIf="selectedUser?.state != null">{{selectedUser?.state}}</td>
+                                <td *ngIf="selectedUser?.state == null">inconnu</td>
+                            </tr>
+                            <tr>
+                                <th>Ville</th>
+                                <td *ngIf="selectedUser?.city != null">{{selectedUser?.city}}</td>
+                                <td *ngIf="selectedUser?.city == null">inconnu</td>
+                            </tr>
+                            <tr>
+                                <th>Code Postale</th>
+                                <td *ngIf="selectedUser?.zipCode != null">{{selectedUser?.zipCode}}</td>
+                                <td *ngIf="selectedUser?.zipCode == null">inconnu</td>
+                            </tr>
+                            <tr>
+                                <th>Pays</th>
+                                <td *ngIf="selectedUser?.country != null">{{selectedUser?.country}}</td>
+                                <td *ngIf="selectedUser?.country == null">inconnu</td>
+                            </tr>
+                            <tr>
+                                <th>Status</th>
+                                <td *ngIf="selectedUser?.suspension"><span class="badge bg-warning">Inactif</span></td>
+                                <td *ngIf="!selectedUser?.suspension"><span class="badge bg-success">Actif</span></td>
+
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

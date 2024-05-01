@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, width=device-width" />
+    <title>Special Offer - {{upsellObj.name}}</title>
+    <style>
+        .container {
+            margin: auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .button {
+            padding: 10px 20px;
+            margin: 5px;
+            cursor: pointer;
+            border-radius: 5px;
+            text-align: center;
+        }
+        .small {
+            width: 250px;
+        }
+        .medium {
+            width: 350px;
+        }
+        .large {
+            width: 450px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <br>
+        <!--HEADER-->
+        <ng-container *ngIf="upsellObj.headerType == 'text'" >
+            <div [innerHTML]="upsellObj.header"></div>
+        </ng-container>
+
+        <ng-container *ngIf="upsellObj.headerType == 'video'" >
+            <div style="text-align: center;">
+                <iframe width="560" height="315" [src]="embeddedUrlHeader" frameborder="0" allowfullscreen></iframe>
+            </div>
+        </ng-container>
+
+        <ng-container *ngIf="upsellObj.headerType == 'image'" >
+            <div style="text-align: center;">
+                <img width="460" height="315" [src]="authService.host+'/public/upsell/'+upsellObj.id+'/header'" alt="Header Image">
+            </div>
+        </ng-container>
+        <!-- END HEADER-->
+
+        <!--IF BUTTONS AFTER HEADER-->
+        <ng-container *ngIf="upsellObj.buttonsPosition == 'afterHeader'" >
+            <div class="button" (click)="cofirmNewOrder()" [style.color]="upsellObj.btnConfirmTextColor" [style.background-color]="upsellObj.btnConfirmColor" [ngClass]="upsellObj.btnConfirmSize">
+                {{ upsellObj.btnConfirmText }}
+            </div>
+            <div class="button" (click)="cancelNewOrder()" [style.color]="upsellObj.btnCancelTextColor" [style.background-color]="upsellObj.btnCancelColor" [ngClass]="upsellObj.btnCancelSize">
+                {{ upsellObj.btnCancelText }}
+            </div>
+        </ng-container>
+        <!--END BUTTONS AFTER HEADER-->
+
+        <br>
+        <!--BODY-->
+
+        <ng-container *ngIf="upsellObj.bodyType == 'text'" >
+            <div [innerHTML]="upsellObj.body"></div>
+        </ng-container>
+
+        <ng-container *ngIf="upsellObj.bodyType == 'video'" >
+            <div style="text-align: center;">
+                <iframe width="560" height="315" [src]="embeddedUrlBody" frameborder="0" allowfullscreen></iframe>
+            </div>
+        </ng-container>
+
+        <ng-container *ngIf="upsellObj.bodyType == 'image'" >
+            <div style="text-align: center;">
+                <img width="460" height="315" [src]="authService.host+'/public/upsell/'+upsellObj.id+'/body'" alt="Body Image">
+            </div>
+        </ng-container>
+        <!-- END BODY-->
+
+        <!--IF BUTTONS AFTER BODY -->
+        <ng-container *ngIf="upsellObj.buttonsPosition == 'afterBody'" >
+            <div class="button" (click)="cofirmNewOrder()" [style.color]="upsellObj.btnConfirmTextColor" [style.background-color]="upsellObj.btnConfirmColor" [ngClass]="upsellObj.btnConfirmSize">
+                {{ upsellObj.btnConfirmText }}
+            </div>
+            <div class="button" (click)="cancelNewOrder()" [style.color]="upsellObj.btnCancelTextColor" [style.background-color]="upsellObj.btnCancelColor" [ngClass]="upsellObj.btnCancelSize">
+                {{ upsellObj.btnCancelText }}
+            </div>
+        </ng-container>
+        <!--END BUTTONS AFTER BODY-->
+
+        <br>
+        <!--FOOTER-->
+        <ng-container *ngIf="upsellObj.footerType == 'text'" >
+            <div [innerHTML]="upsellObj.footer"></div>
+        </ng-container>
+
+        <ng-container *ngIf="upsellObj.footerType == 'video'" >
+            <div style="text-align: center;">
+                <iframe width="560" height="315" [src]="embeddedUrlFooter" frameborder="0" allowfullscreen></iframe>
+            </div>
+        </ng-container>
+
+        <ng-container *ngIf="upsellObj.footerType == 'image'" >
+            <div style="text-align: center;">
+                <img width="460" height="315" [src]="authService.host+'/public/upsell/'+upsellObj.id+'/footer'" alt="Footer Image">
+            </div>
+        </ng-container>
+        
+        <!-- END FOOTER-->
+
+        <!--IF BUTTONS AFTER FOOTER -->
+        <ng-container *ngIf="upsellObj.buttonsPosition == 'afterFooter'" >
+            <div class="button" (click)="cofirmNewOrder()" [style.color]="upsellObj.btnConfirmTextColor" [style.background-color]="upsellObj.btnConfirmColor" [ngClass]="upsellObj.btnConfirmSize">
+                {{ upsellObj.btnConfirmText }}
+            </div>
+            <div class="button" (click)="cancelNewOrder()" [style.color]="upsellObj.btnCancelTextColor" [style.background-color]="upsellObj.btnCancelColor" [ngClass]="upsellObj.btnCancelSize">
+                {{ upsellObj.btnCancelText }}
+            </div>
+        </ng-container>
+        <!--END BUTTONS AFTER FOOTER-->
+    </div>
+</body>
+</html>

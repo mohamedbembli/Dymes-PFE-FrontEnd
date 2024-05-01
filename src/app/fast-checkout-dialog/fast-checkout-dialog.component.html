@@ -1,0 +1,87 @@
+<h2 mat-dialog-title>Commande avec paiement à la livraison</h2>
+<div
+    *ngIf="errorMSG"
+    class="alert alert-danger alert-dismissible fade show fixed-top w-100"
+    role="alert">
+    {{ errorMSG }}
+    <button type="button" class="btn-close" aria-label="Close" (click)="closeError()"></button>
+</div>
+<hr>
+        <table class="cart__table--inner">
+            <tbody class="cart__table--body">
+                    <tr class="cart__table--body__items">
+                        <td class="cart__table--body__list">
+                            <div class="product__image two  d-flex align-items-center">
+                                <div class="product__thumbnail border-radius-5">
+                                    <a>
+                                        <img *ngIf="item.type == 'product' " [routerLink]="['/product-details', item.obj.id]" routerLinkActive="router-link-active" class="border-radius-5" [src]="getProductPhotoUrl(item.obj.id)" alt="cart-product">
+                                        <img *ngIf="item.type == 'variant' " [routerLink]="['/product-details', item.obj.id]" routerLinkActive="router-link-active" class="border-radius-5" [src]="getVariantImage(item.obj.id)" alt="cart-product">
+                                    </a>
+                                    <span class="product__thumbnail--quantity">{{item.qte}}</span>
+                                </div>
+                                <div class="product__description">
+                                    <h3 class="product__description--name h4">
+                                        <a *ngIf="item.type == 'product'" [routerLink]="['/product-details', item.obj.id]" routerLinkActive="router-link-active">
+                                           <b>{{item.obj.name}}</b>
+                                        </a>
+
+                                        <a *ngIf="item.type == 'variant'" [routerLink]="['/product-details', item.product.id]" routerLinkActive="router-link-active">
+                                            <b>{{item.product.name}}</b>
+                                        </a>
+                                    </h3>
+                                    <span *ngIf="description != '' " class="product__description">{{description}}</span>
+
+                                </div>
+                            </div>
+                        </td>
+                        <td class="cart__table--body__list">
+                            <ng-container *ngIf="item.type == 'product'" >
+                                <span class="old__price">{{item.obj.sellPrice}} DT</span>
+                                <span class="price__divided"></span>
+                                <span class="current__price">{{productNewPrice}} DT</span>
+                            </ng-container>
+
+                            <ng-container *ngIf="item.type == 'variant'" >
+                                <span class="old__price">{{item.obj.price}} DT</span>
+                                <span class="price__divided"></span>
+                                <span class="current__price">{{productNewPrice}} DT</span>
+                            </ng-container>
+                        </td>
+                    </tr>
+                    <tr class="totalTable">
+                        <td>Sous-total</td>
+                        <td>{{total | number:'1.1-2'}} DT<br></td>
+                    </tr>
+                    <tr class="totalTable">
+                        <td>Livraison</td>
+                        <td>{{totalShippingFees}} DT</td>
+                    </tr>
+                    <tr class="totalTable">
+                        <td><b>Total (TVA incluse)</b></td>
+                        <td><b>{{totalWithTax + totalShippingFees | number:'1.1-2'}} DT</b></td>
+                    </tr>
+            </tbody>
+    </table>
+<hr>
+<h2 style="text-align: center; font-size: 18px;">Insérez votre adresse de livraison</h2>
+<mat-form-field appearance="fill" bord style="width: 424px;">
+    <mat-label>Nom et Prénom</mat-label>
+    <input type="text" [(ngModel)]="fullName" placeholder="Entrer votre nom et Prénom" matInput  ><br>
+</mat-form-field>
+<br>
+<mat-form-field appearance="fill" bord style="width: 424px;">
+    <mat-label>Téléphone</mat-label>
+    <input type="phone" [(ngModel)]="phone" placeholder="Entrer Téléphone" matInput  ><br>
+</mat-form-field>
+<br>
+<mat-form-field appearance="fill" bord style="width: 424px;">
+    <mat-label>Adresse</mat-label>
+    <input type="text" [(ngModel)]="address" placeholder="Entrer votre Adresse" matInput  ><br>
+</mat-form-field>
+<br>
+
+<div mat-dialog-actions>
+    <button mat-button  (click)="checkData()" style="width: 100%; height: 50px; background: rgba(29, 158, 6, 1) !important; color: rgba(255,255,255,1) !important; border-radius: 2px !important; border: 0px solid rgba(0,0,0,1) !important; box-shadow: 0 2px 7px 0px rgba(0, 0, 0, 0.1) !important; font-size: calc(1 * 16.8px) !important;" class="_rsi-modal-submit-button _rsi-buy-now-button" data-animation-type="none">
+        <span>Commander - <span class="rsi-cod-form-submit-total-value">{{totalWithTax + totalShippingFees | number:'1.1-2'}} TND</span></span>
+    </button>
+</div>

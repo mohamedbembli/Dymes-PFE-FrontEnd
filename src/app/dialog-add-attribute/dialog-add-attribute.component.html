@@ -1,0 +1,43 @@
+<h2 *ngIf="!isEditMode" mat-dialog-title>Ajouter Attribut</h2>
+<h2 *ngIf="isEditMode" mat-dialog-title>Modifier Attribut</h2>
+<div mat-dialog-content border="1px solid blacks" style="width: 500px;">
+
+    <mat-form-field appearance="fill" bord style="width: 454px;">
+        <mat-label>Nom</mat-label>
+        <input placeholder="Entrer le Nom de l'attribut" matInput [(ngModel)]="name" ><br>
+      </mat-form-field>
+      
+      <br>
+
+    <label>Affichage sur le siteweb:</label>
+    <select id="inputGender" class="form-control" #genders (change)="onSelected(genders.value)">
+        <ng-container *ngIf="!isEditMode">
+            <option selected="" disabled>Choisissez...</option>
+            <option value="buttons" >Boutons</option>
+            <option value="dropdown" >Menu déroulant</option>
+            <option value="images" >Image cliquables</option>
+            <option value="colors" >Couleurs cliquables</option>
+        </ng-container>
+
+        <ng-container *ngIf="isEditMode">
+            <option disabled>Choisissez...</option>
+            <option value="buttons" *ngIf="type == 'buttons'" selected>Boutons</option>
+            <option value="buttons" *ngIf="type != 'buttons'" >Boutons</option>
+
+            <option value="dropdown" *ngIf="type == 'dropdown'"selected >Menu déroulant</option>
+            <option value="dropdown" *ngIf="type != 'dropdown'"  >Menu déroulant</option>
+
+            <option value="images" *ngIf="type == 'images'" selected>Image cliquables</option>
+            <option value="images" *ngIf="type != 'images'">Image cliquables</option>
+
+            <option value="colors" *ngIf="type == 'colors'" selected>Couleurs cliquables</option>
+            <option value="colors" *ngIf="type != 'colors'" >Couleurs cliquables</option>
+        </ng-container>
+    </select>
+        <br>
+
+
+<div mat-dialog-actions>
+  <button mat-button (click)="cancel()">Non merci</button>
+  <button mat-button  (click)="checkData()">Envoyer</button>
+</div>

@@ -1,0 +1,29 @@
+<div *ngIf="errorMSG"
+     class="alert alert-danger alert-dismissible fade show fixed-top w-100"
+     role="alert">
+     {{ errorMSG }}
+    <button type="button" class="btn-close" aria-label="Close" (click)="closeError()"></button>
+</div>
+
+<h2 mat-dialog-title>Changer de status de votre commande</h2>
+<div mat-dialog-content border="1px solid blacks" style="width: 500px;">
+
+    <ng-container *ngIf="orderLifeCycleList != null">
+        <h4>Choisissez le nouveau statut de la commande:</h4>
+        <mat-form-field appearance="fill" bord style="width: 454px;">
+    <mat-label>Choisissez maintenant</mat-label>
+    <mat-select [(value)]="orderStatus" name="orderST" id="orderST" (selectionChange)="onSelectedOrderStatus($event.value)">
+            <ng-container *ngFor="let orderS of orderLifeCycleList">
+            <mat-option *ngIf="orderS.status"  [value]="orderS.stepName">
+                <img height="35" width="35" [src]="this.authService.host+'/public/OLC/'+orderS.id">
+                  {{ orderS.stepName }}
+            </mat-option>
+            </ng-container>
+        </mat-select>
+        </mat-form-field>
+    </ng-container>
+
+    <button mat-button (click)="cancel()">Non merci</button>
+    <button mat-button  (click)="checkData()">Envoyer</button>
+    <br><br>
+</div>

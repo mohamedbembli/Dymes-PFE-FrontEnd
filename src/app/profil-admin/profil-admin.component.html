@@ -1,0 +1,254 @@
+
+<div class="container-fluid">
+
+    <div class="header">
+        <h1 class="header-title">
+            Paramètres
+        </h1>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item active"><a >Tableau de bord</a></li>
+                <li class="breadcrumb-item active"><a >Profil</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Paramètres</li>
+            </ol>
+        </nav>
+    </div>
+    <div class="row">
+        <div class="col-md-3 col-xl-2">
+
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Paramètres de profil</h5>
+                </div>
+
+                <div class="list-group list-group-flush" role="tablist">
+                    <a class="list-group-item list-group-item-action active" data-bs-toggle="list" href="#account" role="tab">
+                        Compte
+                    </a>
+                    <a class="list-group-item list-group-item-action" data-bs-toggle="list" href="#password" role="tab">
+                        Mot de passe
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-9 col-xl-10">
+            <div class="tab-content">
+                <div class="tab-pane fade show active" id="account" role="tabpanel">
+
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-actions float-end">
+                                <a class="me-1">
+                                    <i class="align-middle" data-feather="refresh-cw"></i>
+                                </a>
+                                <div class="d-inline-block dropdown show">
+                                    <a data-bs-toggle="dropdown" data-bs-display="static">
+                                        <i class="align-middle" data-feather="more-vertical"></i>
+                                    </a>
+
+                                    <div class="dropdown-menu dropdown-menu-end">
+                                        <a class="dropdown-item" href="#">Action</a>
+                                        <a class="dropdown-item" href="#">Another action</a>
+                                        <a class="dropdown-item" href="#">Something else here</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <h5 class="card-title mb-0">Informations</h5>
+                        </div>
+                        <div class="card-body">
+                            <form #f="ngForm">
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <div class="mb-3">
+                                            <label for="inputUsername">E-mail</label>
+                                            <input *ngIf="admin.email != null" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}" value="{{admin.email}}"   name="email" [(ngModel)]="admin.email"  type="email" class="form-control" id="inputUsername" placeholder="Entrer votre email" required>
+                                            <input *ngIf="admin.email == null" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}" [(ngModel)]="admin.email"  name="email" type="email" class="form-control" id="inputUsername" placeholder="Entrer votre email" required>
+                                        </div>
+
+
+                                        <div class="mb-3">
+                                            <label for="inputUsername">Biographie</label>
+                                            <textarea rows="2" *ngIf="admin.bio != null" name="bio" [(ngModel)]="admin.bio" value="{{admin.bio}}" class="form-control" id="inputBio" placeholder="Dites quelque chose sur vous"></textarea>
+                                            <textarea rows="2" *ngIf="admin.bio == null" name="bio" [(ngModel)]="admin.bio" class="form-control" id="inputBio" placeholder="Dites quelque chose sur vous"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <div class="text-center">
+                                                <div *ngIf="admin.profilePhoto == null && selectPhoto == 0">
+                                                    <img src="/assets/img/logoUserEmpty.png" class="img-thumbnail" width="128px" height="128px">
+                                                </div>
+                                                <div *ngIf="admin.profilePhoto != null && selectPhoto == 0">
+                                                    <img [src]="this.authService.userProfile?.profilePhoto"  class="img-thumbnail" width="128px" height="128px">
+                                                </div>
+
+                                                <div *ngIf="selectPhoto == 1">
+                                                    <img [src]="imagePreview" class="img-thumbnail" width="128px" height="128px">
+                                                </div>
+
+                                            <div class="mt-2">
+                                                <input #fileInput type="file" style="display: none" (change)="selectFile($event)">
+                                                <span class="btn btn-primary" (click)="fileInput.click()"><i class="fas fa-upload"></i> Upload</span>
+                                            </div>
+                                            <span *ngIf="errorPreviewImage && isRealImage" style="color: green;"> {{errorPreviewImage}}<br></span>
+                                            <span *ngIf="errorPreviewImage && !isRealImage" style="color: red;"> {{errorPreviewImage}}<br></span>
+                                            <small>Pour de meilleurs résultats, utilisez une image d'au moins 128 pixels sur 128 pixels au format .jpg</small>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <mat-dialog-actions>
+									<button mat-raised-button  type="submit" [disabled]="f.invalid" (click)="openConfirmPassDialog()" class="btn btn-primary">
+										Sauvegarder
+									</button>
+                                </mat-dialog-actions>
+								
+                            </form>
+                           
+                        </div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-actions float-end">
+                                <a href="#" class="me-1">
+                                    <i class="align-middle" data-feather="refresh-cw"></i>
+                                </a>
+                                <div class="d-inline-block dropdown show">
+                                    <a href="#" data-bs-toggle="dropdown" data-bs-display="static">
+                                        <i class="align-middle" data-feather="more-vertical"></i>
+                                    </a>
+
+                                    <div class="dropdown-menu dropdown-menu-end">
+                                        <a class="dropdown-item" href="#">Action</a>
+                                        <a class="dropdown-item" href="#">Another action</a>
+                                        <a class="dropdown-item" href="#">Something else here</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <h5 class="card-title mb-0">Informations</h5>
+                        </div>
+                        <div class="card-body">
+                            <form #f2="ngForm">
+                                <div class="row">
+                                    <div class="mb-3 col-md-4">
+                                        <label for="inputState">Genre</label>
+
+                                            <div *ngIf="admin.gender == null">
+                                                <select id="inputGender" class="form-control" #genders (change)="onSelected(genders.value)">
+                                                <option selected="" disabled>Choose...</option>
+                                                <option value="MALE">Homme</option>
+                                                <option value="FEMALE">Femme</option>
+                                                </select>
+                                            </div>
+
+                                            <div *ngIf="admin.gender == 'MALE'">
+                                                <select id="inputGender" class="form-control" #genders (change)="onSelected(genders.value)">
+                                                <option disabled>Choose...</option>
+                                                <option value="MALE" selected>Homme</option>
+                                                <option value="FEMALE">Femme</option>
+                                                </select>
+                                            </div>
+
+                                            <div *ngIf="admin.gender == 'FEMALE'">
+                                                <select id="inputGender" class="form-control" #genders (change)="onSelected(genders.value)">
+                                                <option disabled>Choose...</option>
+                                                <option value="MALE" >Homme</option>
+                                                <option value="FEMALE" selected >Femme</option>
+                                                </select>
+                                            </div>
+
+                                       
+                                    </div>
+                                    <div class="mb-3 col-md-4">
+                                        <label for="inputFirstName">Prénom</label>
+                                        <input type="text" *ngIf="admin.firstName != null" [(ngModel)]="admin.firstName" value="{{admin.firstName}}" class="form-control" name="inputFirstName" id="inputFirstName" placeholder="Entrer votre Prénom" required>
+                                        <input type="text" *ngIf="admin.firstName == null" [(ngModel)]="admin.firstName" class="form-control" id="inputFirstName" placeholder="Entrer votre Prénom" required>
+                                    </div>
+                                    <div class="mb-3 col-md-4">
+                                        <label for="inputLastName">Nom</label>
+                                        <input type="text" *ngIf="admin.lastName != null" [(ngModel)]="admin.lastName" value="{{admin.lastName}}" class="form-control" id="inputLastName" name="inputLastName" placeholder="Entrer votre Nom"  required>
+                                        <input type="text" *ngIf="admin.lastName == null" [(ngModel)]="admin.lastName" class="form-control" id="inputLastName" placeholder="Entrer votre Nom"  required>
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="inputAddress">Adresse</label>
+                                    <input type="text" *ngIf="admin.address != null" [(ngModel)]="admin.address" value="{{admin.address}}" class="form-control" id="inputAddress" name="inputAddress" placeholder="1234 Main St"  required>
+                                    <input type="text" *ngIf="admin.address == null" [(ngModel)]="admin.address" class="form-control" id="inputAddress" placeholder="1234 Main St" name="inputAddress"  required>
+                                </div>
+                                <div class="row">
+                                    <div class="mb-3 col-md-4">
+                                        <label for="inputCity">Numéro téléphone</label>
+                                        <input type="text" *ngIf="admin.phone != null" [(ngModel)]="admin.phone" value="{{admin.phone}}" class="form-control" id="inputPhone" name="inputPhone" required>
+                                        <input type="text" *ngIf="admin.phone == null" [(ngModel)]="admin.phone"  class="form-control" id="inputPhone" name="inputPhone" required>
+                                    </div>
+                                    <div class="mb-3 col-md-4">
+                                        <label for="inputCity">Date de naissance</label>
+                                        <input type="date" *ngIf="admin.dob != null" [max]="maxDate" [(ngModel)]="admin.dob" value="{{admin.dob}}" class="form-control" id="inputDate" name="inputDate" required>
+                                        <input type="date" *ngIf="admin.dob == null" [max]="maxDate" [(ngModel)]="admin.dob" value="" class="form-control" id="inputDate" name="inputDate" required>
+
+                                    </div>
+                                    <div class="mb-3 col-sm-4">
+                                        <label for="inputState">Pays</label>
+                                        <select (change)="onSelectCountry($event)" class="form-control">
+                                            <option value="">Choisissez un pays</option>
+                                            <option *ngFor="let country of countries" [value]="country" [(ngModel)]="admin.country" [selected]="country == admin.country" name="inputCountry" required>{{ country }}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="mb-3 col-md-6">
+                                        <label for="inputCity">Ville</label>
+                                        <input type="text" *ngIf="admin.city != null" [(ngModel)]="admin.city" value="{{admin.city}}" class="form-control" id="inputCity" name="inputCity" required>
+                                        <input type="text" *ngIf="admin.city == null" [(ngModel)]="admin.city" class="form-control" id="inputCity" name="inputCity" required>
+                                    </div>
+                                    <div class="mb-3 col-md-4">
+                                        <label for="inputCity">Région</label>
+                                        <input type="text" *ngIf="admin.state != null" [(ngModel)]="admin.state"  value="{{admin.state}}" class="form-control" id="inputState" name="inputState" required>
+                                        <input type="text" *ngIf="admin.state == null"  [(ngModel)]="admin.state"  class="form-control" id="inputState" name="inputState" required>
+                                    </div>
+                                    <div class="mb-3 col-md-2">
+                                        <label for="inputZip">Code postal</label>
+                                        <input type="text" *ngIf="admin.zipCode != null" [(ngModel)]="admin.zipCode" value="{{admin.zipCode}}" class="form-control" id="inputZipCode" name="inputZipCode"required>
+                                        <input type="text" *ngIf="admin.zipCode == null" [(ngModel)]="admin.zipCode" class="form-control" id="inputZipCode" name="inputZipCode" required>
+                                    </div>
+                                </div>
+                                <mat-dialog-actions>
+									<button mat-raised-button  type="submit" [disabled]="f2.invalid" (click)="openConfirmPassDialogSecondData()" class="btn btn-primary">
+										Sauvegarder
+									</button>
+                                </mat-dialog-actions>
+                            </form>
+
+                        </div>
+                    </div>
+
+                </div>
+                <div class="tab-pane fade" id="password" role="tabpanel">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Mot de passe</h5>
+
+                            <form #f3="ngForm">
+                                <div class="mb-3">
+                                    <label for="inputPasswordCurrent">Mot de passe actuel</label>
+                                    <input type="password" class="form-control" id="inputPasswordCurrent" minlength="2" [(ngModel)]="currentPass" name="inputPasswordCurrent" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="inputPasswordNew">Nouveau mot de passe</label>
+                                    <input type="password" class="form-control" id="inputPasswordNew" minlength="2" [(ngModel)]="newPass" name="inputPasswordNew" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="inputPasswordNew2">Vérifier le mot de passe</label>
+                                    <input type="password" class="form-control" id="inputPasswordNew2" minlength="2" [(ngModel)]="confirmPass" name="inputPasswordNew2" required>
+                                </div>
+                                <button type="submit" (click)="updatePassword()" [disabled]="f3.invalid" class="btn btn-primary">Sauvegarder</button>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,112 @@
+<div *ngIf="homePage">
+<div class="container-fluid">
+
+    <div class="header">
+        <h1 class="header-title">
+            Checkout
+        </h1>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a style="color: white;" (click)="setPrincipalSettings()">Paramètres</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Checkout</li>
+            </ol>
+        </nav>
+    </div>
+    <div class="row">
+        <div class="col-xxl-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-actions float-end">
+                        <a  class="me-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-refresh-cw align-middle"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+                        </a>
+                        <div class="d-inline-block dropdown show">
+                            <a  data-bs-toggle="dropdown" data-bs-display="static">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical align-middle"><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg>
+                            </a>
+
+                            <div class="dropdown-menu dropdown-menu-end">
+                                <a class="dropdown-item" >Action</a>
+                                <a class="dropdown-item" >Another action</a>
+                                <a class="dropdown-item" >Something else here</a>
+                            </div>
+                        </div>
+                    </div>
+                    <h5 class="card-title mb-0">Formulaire du checkout</h5><br>
+                    <h4>Choisir les champs que vous voulez mettre dans le formulaire et préciser si c'est un champs obligatoire ou pas:</h4>
+                </div>
+                <div class="card-body">
+                    <div id="datatables-clients_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
+                    <div class="row dt-row">
+                        <div class="col-xs-12">
+                            <mat-table
+                                #table
+                                [dataSource]="dataSource"
+                                class="mat-elevation-z8">
+
+                                <ng-container matColumnDef="name" >
+                                    <mat-header-cell *matHeaderCellDef> CHAMP </mat-header-cell>
+                                    <mat-cell *matCellDef="let element"> 
+                                        {{element.name}}
+                                     </mat-cell>
+                                </ng-container>
+
+
+                                    <ng-container matColumnDef="shown">
+                                        <mat-header-cell *matHeaderCellDef> AFFICHÉ(E) </mat-header-cell>
+                                        <mat-cell *matCellDef="let element">
+                                          <ng-container >
+                                            <mat-slide-toggle color="primary" [(ngModel)]="element.shown" (change)="toggleShow(element.id)"></mat-slide-toggle>
+                                          </ng-container>
+                                      
+                                        </mat-cell>
+                                      </ng-container>
+                                      
+
+
+                                    <ng-container matColumnDef="required">
+                                        <mat-header-cell *matHeaderCellDef> CHAMPS OBLIGATOIRE </mat-header-cell>
+                                        <mat-cell *matCellDef="let element">
+                                          <ng-container >
+                                            <mat-slide-toggle color="primary" [(ngModel)]="element.required" (change)="toggleIsRequired(element.id)"></mat-slide-toggle>
+                                          </ng-container>
+                                      
+                                        </mat-cell>
+                                      </ng-container>
+                                      
+
+                                      
+
+                                    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                                    <mat-row
+                                      *matRowDef="let row; columns: displayedColumns;"
+                                      cdkDrag
+                                      [cdkDragData]="row">
+                                    </mat-row>
+                            </mat-table>     
+                            <br><br>
+                            <hr>
+                            <label>Message à afficher sur le site après achat:</label>
+                            <br>  <br>
+                            <mat-form-field appearance="fill" bord style="width: 100%;">
+                                <textarea type="text" matInput [value]="orderConfirmationMsg" [(ngModel)]="orderConfirmationMsg" ></textarea><br>
+                            </mat-form-field>
+                            <br>
+                            <button type="button" (click)="saveOrderConfirmationMsg()" class="btn btn-primary">Enegistrer</button>
+
+                     
+                         </div>
+                   </div>
+            </div>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+
+<div *ngIf="settingsPage">
+    <app-settings></app-settings>
+</div>

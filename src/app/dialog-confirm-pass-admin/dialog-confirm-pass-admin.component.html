@@ -1,0 +1,12 @@
+<h3 mat-dialog-title>Vérification requise</h3>
+<div mat-dialog-content border="1px solid blacks">
+  <mat-form-field appearance="fill" bord>
+    <mat-label>Confirmer votre mot de passe</mat-label>
+    <input placeholder="Entrer votre mot de passe" style="width:290px" matInput [(ngModel)]="data.checkpass"><br>
+  </mat-form-field>
+  <br><font color="red" >{{checkPassError}}</font>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="cancel()">Non merci</button>
+  <button mat-button  (click)="checkPassword()">Envoyer</button>
+</div>

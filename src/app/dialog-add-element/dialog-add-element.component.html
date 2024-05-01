@@ -1,0 +1,52 @@
+<h2  mat-dialog-title>Ajouter une valeur dans l'attribut <font color="green">{{attributeName}}</font></h2>
+<div mat-dialog-content border="1px solid blacks" style="width: 500px;">
+
+    <ng-container *ngIf="attributType!='colors'; else otherAttributes" >
+    <mat-form-field appearance="fill" bord style="width: 454px;">
+        <mat-label>Nom d'affichage (exemple : Medium)</mat-label>
+        <input placeholder="Nom d'affichage (exemple : Medium)" matInput [(ngModel)]="elementName"  ><br>
+    </mat-form-field>
+    <br>
+        <mat-form-field appearance="fill" bord style="width: 454px;">
+            <mat-label>Référence (exemple: M)</mat-label>
+            <input placeholder="Référence (exemple: M)" matInput [(ngModel)]="elementRef" ><br>
+        </mat-form-field>
+    </ng-container>
+    
+    <ng-template #otherAttributes>
+        <mat-form-field appearance="fill" bord style="width: 454px;">
+            <mat-label>Couleur d'affichage (exemple : noir)</mat-label>
+            <input placeholder="Couleur d'affichage (exemple : noir)" matInput [(ngModel)]="elementName"  ><br>
+        </mat-form-field>
+        <br>
+        <mat-form-field appearance="fill" bord style="width: 454px;">
+            <mat-label>Couleur</mat-label>
+            <input type="color" placeholder="Couleur" matInput [(ngModel)]="elementRef" ><br>
+        </mat-form-field>
+    </ng-template>
+    <br>
+    <button mat-button (click)="cancel()">Non merci</button>
+    <button mat-button  (click)="checkData()">Envoyer</button>
+    <br><br>
+
+    <h4>List des éléments:</h4>
+<table class="table">
+  <thead>
+    <tr>
+      <th>Attribut</th>
+      <th>Nom</th>
+      <th>Ref</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let item of datatableItems; let i = index">
+      <td>{{ item.Attribut }}</td>
+      <td>{{ item.Nom }}</td>
+      <td>{{ item.Ref }}</td>
+      <td>
+        <button type="button" class="btn btn-danger" (click)="removeItem(i,item)">Supprimer</button>&nbsp;
+      </td>
+    </tr>
+  </tbody>
+</table>

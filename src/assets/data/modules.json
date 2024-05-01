@@ -1,0 +1,63 @@
+[
+    {
+      "name": "Tableau de bord"
+    },
+    {
+      "name": "Commandes"
+    },
+    {
+      "name": "Catalogue",
+      "submodules": [
+        {
+          "name": "Produits"
+        },
+        {
+          "name": "Stock"
+        },
+        {
+          "name": "Attributs"
+        },
+        {
+          "name": "Collections"
+        }
+      ]
+    },
+    {
+      "name": "Site web",
+      "submodules": [
+        {
+          "name": "UpSell"
+        },
+        {
+          "name": "Promotion"
+        }
+      ]
+    },
+    {
+      "name": "Clients",
+      "submodules": [
+        {
+          "name": "Mes clients"
+        },
+        {
+          "name": "Avis clients"
+        }
+        ,
+        {
+          "name": "Réclamations"
+        }
+      ]
+    },
+    {
+      "name": "Entreprise",
+      "submodules": [
+        {
+          "name": "Personnels"
+        }
+      ]
+    },
+    {
+      "name": "Paramètres"
+    }
+  ]
+  

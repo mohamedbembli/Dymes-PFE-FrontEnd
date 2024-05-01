@@ -1,0 +1,275 @@
+<div class="container-fluid">
+
+    <div class="header">
+        <h1 class="header-title">
+            Tableau de bord
+        </h1>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="">Tableau de bord</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Statistique</li>
+            </ol>
+        </nav>
+    </div>
+    <div class="row">
+        <div class="col-md-4 col-lg-4 col-xl">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col mt-0">
+                            <h5 class="card-title">Total commandes reçu</h5>
+                        </div>
+
+                        <div class="col-auto">
+                            <div class="avatar">
+                                <div class="avatar-title rounded-circle bg-primary-dark">
+                                    <img width="24" height="24" src="https://dashboard.tiktakpro.com/assets/icons/cart-3-svgrepo-com.svg" alt="">                               </div>
+                            </div>
+                        </div>
+                    </div>
+                    <h1 class="display-5 mt-1 mb-3">{{ordersList.length}}</h1>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-lg-4 col-xl">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col mt-0">
+                            <h5 class="card-title">Confirmation (Nbre / %)</h5>
+                        </div>
+
+                        <div class="col-auto">
+                            <div class="avatar">
+                                <div class="avatar-title rounded-circle bg-primary-dark">
+                                    <img width="24" height="24" src=" https://dashboard.tiktakpro.com/assets/icons/verification-svgrepo-com.svg" alt="">      
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <h1 class="display-5 mt-1 mb-3">{{confirmedOrders.length}} / {{confirmedOrderRate.toFixed(2)}} %</h1>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-lg-4 col-xl">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col mt-0">
+                            <h5 class="card-title">Expéditions</h5>
+                        </div>
+
+                        <div class="col-auto">
+                            <div class="avatar">
+                                <div class="avatar-title rounded-circle bg-primary-dark">
+                                    <img width="24" height="24" src="https://dashboard.tiktakpro.com/assets/icons/percent-square-svgrepo-com.svg" alt="">      
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <h1 class="display-5 mt-1 mb-3">{{shippedOrders.length}}</h1>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-lg-4 col-xl">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col mt-0">
+                            <h5 class="card-title">Expéditions</h5>
+                        </div>
+
+                        <div class="col-auto">
+                            <div class="avatar">
+                                <div class="avatar-title rounded-circle bg-primary-dark">
+                                    <img width="24" height="24" src="https://dashboard.tiktakpro.com/assets/icons/export-svgrepo-com.svg  " alt="">      
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <h1 class="display-5 mt-1 mb-3">{{shippedOrdersValue.toFixed(2)}} TND</h1>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-lg-4 col-xl">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col mt-0">
+                            <h5 class="card-title">Taux de livraison</h5>
+                        </div>
+
+                        <div class="col-auto">
+                            <div class="avatar">
+                                <div class="avatar-title rounded-circle bg-primary-dark">
+                                    <img width="24" height="24" src="https://dashboard.tiktakpro.com/assets/icons/delivery.svg" alt="">      
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <h1 class="display-5 mt-1 mb-3">{{deliveredOrderRate.toFixed(2)}} %</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4 col-lg-4 col-xl">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col mt-0">
+                            <h5 class="card-title">Taux de retour</h5>
+                        </div>
+
+                        <div class="col-auto">
+                            <div class="avatar">
+                                <div class="avatar-title rounded-circle bg-primary-dark">
+                                    <img width="24" height="24" src="https://dashboard.tiktakpro.com/assets/icons/return-button-svgrepo-com.svg" alt="">                               </div>
+                            </div>
+                        </div>
+                    </div>
+                    <h1 class="display-5 mt-1 mb-3">{{returnedOrderRate.toFixed(2)}} %</h1>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-lg-4 col-xl">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col mt-0">
+                            <h5 class="card-title">Marchandises vendues</h5>
+                           
+                        </div>
+
+                        <div class="col-auto">
+                            <div class="avatar">
+                                <div class="avatar-title rounded-circle bg-primary-dark">
+                                    <img width="24" height="24" src="https://dashboard.tiktakpro.com/assets/img/icons/store-inventory.svg" alt="">      
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <h1 class="display-5 mt-1 mb-3">{{getDeliveredOrdersValue().toFixed(2)}} TND</h1>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-lg-4 col-xl">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col mt-0">
+                            <h5 class="card-title">Commandes Livrées</h5>
+                        </div>
+
+                        <div class="col-auto">
+                            <div class="avatar">
+                                <div class="avatar-title rounded-circle bg-primary-dark">
+                                    <img width="24" height="24" src="https://dashboard.tiktakpro.com/assets/img/icons/money-bag-svgrepo-com.svg" alt="">      
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <h1 class="display-5 mt-1 mb-3">{{deliveredOrders.length}}</h1>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 col-lg-4 col-xl">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col mt-0">
+                            <h5 class="card-title">Bénéfices (M. vendues)</h5>
+                        </div>
+                        <div class="col-auto">
+                            <div class="avatar">
+                                <div class="avatar-title rounded-circle bg-primary-dark">
+                                    <img width="24" height="24" src="https://dashboard.tiktakpro.com/assets/img/icons/bank-svgrepo-com.svg" alt="">      
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <h1 class="display-5 mt-1 mb-3">{{ getBenefits().toFixed(2) }} TND</h1>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4 col-lg-4 col-xl">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col mt-0">
+                            <h5 class="card-title">Nombre d'utilisateurs</h5>
+                        </div>
+
+                        <div class="col-auto">
+                            <div class="avatar">
+                                <div class="avatar-title rounded-circle bg-primary-dark">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-activity align-middle"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <h1 class="display-5 mt-1 mb-3">{{clientList.length}}</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4 col-lg-4 col-xl-4">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <canvas id="ordersChart" height="300px"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 col-lg-4 col-xl-4">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <canvas id="orderStatusChart" height="300px"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 col-lg-4 col-xl-4">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <canvas id="chartAVGOrdersPerDay" height="300px"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-md-4 col-lg-4 col-xl-4">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <canvas id="mostSoldProductsChart" height="300px"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4 col-lg-4 col-xl-4">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <canvas id="topRatedProductsChart" height="300px"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    
+</div>

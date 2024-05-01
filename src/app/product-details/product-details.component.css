@@ -1,0 +1,92 @@
+.color-inputs {
+    white-space: nowrap; /* Prevent line breaks */
+}
+  
+.color-inputs > div {
+    display: inline-block;
+    margin-right: 10px; /* Adjust the spacing between color inputs */
+}
+
+.horizontal-buttons {
+    display: flex;
+    flex-direction: row;
+}
+
+.horizontal-buttons > div {
+    margin-right: 10px; /* Adjust the margin as needed */
+}
+
+.horizontal-images-container {
+    display: flex;
+    flex-direction: row;
+}
+
+.variant__media {
+    margin-right: 10px; /* Adjust the margin as needed */
+    padding-left: 5px;
+}
+
+.horizontal-images-container {
+    display: flex;
+  }
+  
+  .variant__color--value {
+    /* Add your regular styles here */
+    margin-right: 10px;
+  }
+  
+  .selected-image {
+    border: 2px solid black; /* Add your desired border styles for the selected image */
+  }
+
+  
+  
+.days,
+.hours,
+.minutes,
+.seconds {
+  display: inline-block;
+  padding: 5px;
+  margin: 2px;
+  background-color: white;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.days,
+.hours,
+.minutes,
+.seconds {
+  background-color: white;
+  color: black;
+  font-size: 24px;
+}
+
+.countdown{
+    padding: 10px 10px 10px 10px;
+    text-align: center;
+    background-color: #ffc4c4;
+    width: 300px;
+}
+
+.freeShipping {
+    padding: 10px 10px 10px 10px;
+    border: 1px solid rgb(59, 59, 59);
+    width: 300px;
+}
+
+.fixed-top {
+    top: 0;
+    z-index: 1000; /* Adjust the z-index as needed */
+}
+
+@keyframes vibrate {
+  0%, 100% { transform: translateX(0); }
+  25%, 75% { transform: translateX(-5px); }
+  50% { transform: translateX(5px); }
+}
+
+.variant__buy--now__btn {
+  animation: vibrate 2s infinite; /* 1s vibrate + 2s wait */
+}
+

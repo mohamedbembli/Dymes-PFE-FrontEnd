@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="zxx">
+
+<head>
+  <meta charset="utf-8">
+  <title>Shop - Dymes TN</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="shortcut icon" type="image/x-icon" href="/assets/store/img/favicon.ico">
+    
+   <!-- ======= All CSS Plugins here ======== -->
+   
+  <link rel="stylesheet" href="/assets/store/css/swiper-bundle.min.css">
+  <link rel="stylesheet" href="/assets/store/css/glightbox.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+  <!-- Plugin css -->
+  <link rel="stylesheet" href="/assets/store/css/bootstrap.min.css">
+
+  <!-- Custom Style CSS -->
+  <link rel="stylesheet" href="/assets/store/css/style.css">
+
+  <style>
+    .checkout__page--inner, .main__footer {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  </style>
+
+</head>
+
+<body>
+    <!-- Start checkout page area -->
+    <div class="checkout__page--area">
+        <div class="container">
+            <div class="checkout__page--inner d-flex">
+                <div class="main checkout__mian">
+                    <header class="main__header checkout__mian--header mb-30">
+                        <h1 class="main__logo--title">
+                            <a class="logo logo__left mb-20"  [routerLink]="['/']" >
+                                <img class="main__logo--img" [src]="logoPreview" alt="logo-img" style="height: 105px;">
+                            </a>
+                        </h1>
+                    </header>
+                    <main class="main__content_wrapper">
+                        <form action="#">
+                            <div class="checkout__content--step section__shipping--address pt-0">
+                                <div class="section__header checkout__header--style3 position__relative mb-25">
+                                    <span class="checkout__order--number" *ngIf="!twoOrders">Commande #{{orderID1}}</span>
+                                    <span class="checkout__order--number" *ngIf="twoOrders">Commande1:  #{{orderID1}}</span><br>
+                                    <span class="checkout__order--number" *ngIf="twoOrders">Commande2:  #{{orderID2}}</span>
+                                    <h2 class="section__header--title h3">{{confirmationMsg}}</h2>
+                                    <div class="checkout__submission--icon">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="25.995" height="25.979" viewBox="0 0 512 512"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M416 128L192 384l-96-96"/></svg>
+                                    </div>
+                                </div>
+                                <div class="order__confirmed--area border-radius-5 mb-15">
+                                    <h3 class="order__confirmed--title h4">Votre commande est confirmée.</h3>
+                                    <p class="order__confirmed--desc">Vous recevrez sous peu un courriel de confirmation avec votre numéro de commande.</p>
+                                </div>
+                                <div class="customer__information--area border-radius-5">
+                                    <h3 class="customer__information--title h4"><b>Informations client</b></h3>
+                                    <div class="customer__information--inner d-flex">
+                                        <div class="customer__information--list">
+                                            <div class="customer__information--step">
+                                                <h4 class="customer__information--subtitle h5"><b>Coordonnées</b></h4>
+                                                <ul>
+                                                    <li><a class="customer__information--text__link" *ngIf="order.principalPhone != '' && order.principalPhone != null">{{order.principalPhone}}</a></li>
+                                                    <li><a class="customer__information--text__link" *ngIf="order.secodaryPhone != '' && order.secodaryPhone != null">{{order.secodaryPhone}}</a></li>
+                                                    <li><a class="customer__information--text__link" *ngIf="order.email != '' && order.email != null">{{order.email}}</a></li>
+                                                </ul>
+                                            </div>
+                                            <div class="customer__information--step">
+                                                <h4 class="customer__information--subtitle h5"><b>Adresse de livraison</b></h4>
+                                                <ul>
+                                                    <li><span class="customer__information--text" *ngIf="order.fullName != '' && order.fullName != null">{{order.fullName}}</span></li>
+                                                    <li><span class="customer__information--text" *ngIf="order.address != '' && order.address != null">{{order.address}}</span></li>
+                                                    <li><span class="customer__information--text" *ngIf="order.city != '' && order.city != null">{{order.city}}</span></li>
+                                                    <li><span class="customer__information--text" *ngIf="order.state != '' && order.state != null">{{order.state}}</span></li>
+                                                    <li><span class="customer__information--text" *ngIf="order.zipCode != '' && order.zipCode != null">{{order.zipCode}}</span></li>
+                                                    <li><span class="customer__information--text" *ngIf="order.pays != '' && order.pays != null">{{order.pays}}</span></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                        <div class="customer__information--list">
+                                            <div class="customer__information--step">
+                                                <h4 class="customer__information--subtitle h5"><b>Mode de paiement</b></h4>
+                                                <ul>
+                                                    <li><span class="customer__information--text" *ngIf="order.paymentType == 'COD'"  >Paiement à la livraison</span></li>
+                                                    <li><span class="customer__information--text" *ngIf="order.paymentType == 'BANK'" >Paiement par virement bancaire</span></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="checkout__content--step__footer d-flex align-items-center">
+                                <a href="/" class="previous__link--content" >Retour au boutique</a>
+                            </div>
+                        </form>
+                    </main>
+                    <footer class="main__footer checkout__footer">
+                        <p class="copyright__content">Copyright © {{currentYear}} <a class="copyright__content--link text__primary" >Dymes TN</a> . Tous droits réservés</p>
+
+                    </footer>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End checkout page area -->
+
+    <!-- Scroll top bar -->
+    <button id="scroll__top"><svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewBox="0 0 512 512"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="48" d="M112 244l144-144 144 144M256 120v292"/></svg></button>
+
+  <!-- All Script JS Plugins here  -->
+  <script src="assets/js/vendor/popper.js" defer="defer"></script>
+  <script src="assets/js/vendor/bootstrap.min.js" defer="defer"></script>
+  <script src="assets/js/plugins/swiper-bundle.min.js"></script>
+  <script src="assets/js/plugins/glightbox.min.js"></script>
+
+  <!-- Customscript js -->
+  <script src="assets/js/script.js"></script>
+
+  
+</body>
+</html>

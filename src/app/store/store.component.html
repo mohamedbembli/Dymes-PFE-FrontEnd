@@ -1,0 +1,340 @@
+<div *ngIf="homePage">
+<div class="container-fluid">
+
+    <div class="header">
+        <h1 class="header-title">
+            Paramètres
+        </h1>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a style="color: white;" (click)="setPrincipalSettings()" >Paramètres</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Boutique</li>
+            </ol>
+        </nav>
+    </div>
+    <div class="row">
+        <div class="col-md-3 col-xl-2">
+
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Paramètres de la boutique</h5>
+                </div>
+
+                <div class="list-group list-group-flush" role="tablist">
+                    <a class="list-group-item list-group-item-action active" data-bs-toggle="list" href="#account" role="tab">
+                        <i class="fa fa-address-card" aria-hidden="true"></i> Coordonnées de la boutique
+                       
+                    </a>
+                    <a class="list-group-item list-group-item-action" data-bs-toggle="list" href="#ribbnnk" role="tab">
+                        <i class="fa fa-university" aria-hidden="true"></i>  Coordonnées bancaires
+                    </a>
+                    <a class="list-group-item list-group-item-action" data-bs-toggle="list" href="#Logos" role="tab">
+                        <i class="fa fa-file-image" aria-hidden="true"></i> Logos
+                    </a>
+                    <a class="list-group-item list-group-item-action" data-bs-toggle="list" href="#payMethodes" role="tab">
+                        <i class="fa fa-credit-card-alt" aria-hidden="true"></i>
+                        Méthode de paiement
+                    </a>
+                    <a class="list-group-item list-group-item-action" data-bs-toggle="list" href="#SocialMedia" role="tab">
+                        <i class="fa fa-hashtag" ></i> Réseaux sociaux
+                    </a>
+                    <a class="list-group-item list-group-item-action" data-bs-toggle="list" href="#SeoRef" role="tab">
+                      SEO - Référencement
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-9 col-xl-10">
+            <div class="tab-content">
+                <div class="tab-pane fade show active" id="account" role="tabpanel">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-actions float-end">
+                                <a href="#" class="me-1">
+                                    <i class="align-middle" data-feather="refresh-cw"></i>
+                                </a>
+                                <div class="d-inline-block dropdown show">
+                                    <a href="#" data-bs-toggle="dropdown" data-bs-display="static">
+                                        <i class="align-middle" data-feather="more-vertical"></i>
+                                    </a>
+
+                                    <div class="dropdown-menu dropdown-menu-end">
+                                        <a class="dropdown-item" href="#">Action</a>
+                                        <a class="dropdown-item" href="#">Another action</a>
+                                        <a class="dropdown-item" href="#">Something else here</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <h5 class="card-title mb-0">Coordonnées de la boutique</h5>
+                        </div>
+                        <div class="card-body">
+                            
+                                <div class="row">
+                                    <div class="mb-3 col-md-6">
+                                        <label for="inputEntreprise">Entreprise</label>
+                                        <input type="text" [(ngModel)]="storeName" class="form-control" id="inputEntreprise" placeholder="">
+                                    </div>
+                                    <div class="mb-3 col-md-6">
+                                        <label for="inputtvaCode">Code TVA</label>
+                                        <input type="text" [(ngModel)]="tvaCode" class="form-control" id="inputtvaCode" placeholder="">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="mb-3 col-md-6">
+                                        <label for="inputphone1">Téléphone</label>
+                                        <input type="tel" [(ngModel)]="phone1" class="form-control" id="inputphone1" placeholder="">
+                                    </div>
+                                    <div class="mb-3 col-md-6">
+                                        <label for="inputphone2">Téléphone 2</label>
+                                        <input type="tel" [(ngModel)]="phone2" class="form-control" id="inputphone2" placeholder="">
+                                    </div>
+                                    <div class="mb-3 col-md-6">
+                                        <label for="inputstate">Gouvernorat</label>
+                                        <input type="text" [(ngModel)]="state" class="form-control" id="inputstate" placeholder="">
+                                    </div>
+                                    <div class="mb-3 col-md-6">
+                                        <label for="inputCity">Ville</label>
+                                        <input type="text" [(ngModel)]="city" class="form-control" id="inputCity">
+                                    </div>
+                                    <div class="mb-3 col-md-6">
+                                        <label for="inputAdresse">Adresse</label>
+                                        <input type="text" [(ngModel)]="address" class="form-control" id="inputAdresse">
+                                    </div>
+                                    <div class="mb-3 col-md-6">
+                                        <label for="inputZip">Code postal</label>
+                                        <input type="text" [(ngModel)]="zipCode" class="form-control" id="inputZip">
+                                    </div>
+                                    <div class="mb-3 col-md-6">
+                                        <label for="inputPays">Pays</label>
+                                        <input type="text" [(ngModel)]="pays" class="form-control" id="inputPays">
+                                    </div>
+                                    <div class="mb-3 col-md-6">
+                                        <label for="inputEmail">Email</label>
+                                        <input type="text" [(ngModel)]="email" class="form-control" id="inputEmail">
+                                    </div>
+                                </div>
+                                <button type="submit" (click)="saveStoreInfo()" class="btn btn-primary">Sauvgarder</button>
+                            
+
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="tab-pane fade" id="Logos" role="tabpanel">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Logos</h5>
+
+                            
+                                <div class="mt-2">
+                                    <label>Logo</label><br>
+                                    <div *ngIf="selectPhotoLogo == 1">
+                                        <img [src]="imagePreviewLogo" class="img-thumbnail" width="200px" height="200px">
+                                    </div><br>
+                                    <input #fileInput1 type="file" style="display: none" (change)="selectFileLogo($event)">
+                                    <span class="btn btn-primary" (click)="fileInput1.click()"><i class="fas fa-upload"></i> Télécharger une image</span>
+                                </div>   
+
+                                <div class="mt-2">
+                                    <label>Favicon</label><br>
+                                    <div *ngIf="selectPhotoFavicon == 1">
+                                        <img [src]="imagePreviewFavicon" class="img-thumbnail" width="200px" height="200px">
+                                    </div><br>
+                                    <input #fileInput2 type="file" style="display: none" (change)="selectFileFavicon($event)">
+                                    <span class="btn btn-primary" (click)="fileInput2.click()"><i class="fas fa-upload"></i> Télécharger une image</span>
+                                </div>   
+                                <br><br>
+                                <button type="submit" (click)="saveLogos()" class="btn btn-primary">Sauvgarder</button>
+                            
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-pane fade" id="SeoRef" role="tabpanel">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">SEO - Référencement</h5>
+
+                            
+                                <div class="mb-3 col-md-6">
+                                    <label for="inputDesciption">Desciption(160 caractères maximum)</label>
+                                    <textarea type="text" [(ngModel)]="seoDescription" maxlength="160" class="form-control" id="inputDesciption"></textarea>
+                                </div>    
+                                
+                                <div class="mb-3 col-md-6">
+                                    <label for="inputDomaine">URL de la boutique</label>
+                                    <input type="text" [(ngModel)]="seoStoreUrl" class="form-control" id="inputDomaine" placeholder="https://www.exemple.com">
+                                </div> 
+
+                                <div class="mb-3 col-md-6">
+                                    <label for="inputTitre">Titre</label>
+                                    <input type="text" [(ngModel)]="seoTitle" class="form-control" id="inputTitre">
+                                </div> 
+
+                                <br><br>
+                                
+                                <button type="submit" (click)="saveSEO()" class="btn btn-primary">Sauvgarder</button>
+                            
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-pane fade" id="SocialMedia" role="tabpanel">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Réseaux sociaux</h5>
+
+                            
+                                <div class="mb-3 col-md-6">
+                                    <label for="inputFacebook">Facebook</label>
+                                    <input type="text" [(ngModel)]="facebookLink"  placeholder="Lien" class="form-control" id="inputFacebook">
+                                </div>    
+                                
+                                <div class="mb-3 col-md-6">
+                                    <label for="inputInstagram">Instagram</label>
+                                    <input type="text" [(ngModel)]="instagramLink" placeholder="Lien" class="form-control" id="inputInstagram">
+                                </div> 
+
+                                <div class="mb-3 col-md-6">
+                                    <label for="inputLinkedin">Linkedin</label>
+                                    <input type="text" [(ngModel)]="linkedinLink" placeholder="Lien" class="form-control" id="inputLinkedin">
+                                </div> 
+
+                                <div class="mb-3 col-md-6">
+                                    <label for="inputWhatsapp">Whatsapp</label>
+                                    <input type="text" [(ngModel)]="whatsappLink" placeholder="Lien" class="form-control" id="inputWhatsapp">
+                                </div> 
+
+                                <div class="mb-3 col-md-6">
+                                    <label for="inputYouTube">YouTube</label>
+                                    <input type="text"  [(ngModel)]="youtubeLink"placeholder="Lien" class="form-control" id="inputYouTube">
+                                </div> 
+
+                                <div class="mb-3 col-md-6">
+                                    <label for="inputSnapchat">Snapchat</label>
+                                    <input type="text" [(ngModel)]="snapchatLink" placeholder="Lien" class="form-control" id="inputSnapchat">
+                                </div> 
+
+                                <div class="mb-3 col-md-6">
+                                    <label for="inputTiktok">Tiktok</label>
+                                    <input type="text" [(ngModel)]="tiktokLink!" placeholder="Lien" class="form-control" id="inputTiktok">
+                                </div> 
+
+                                <br><br>
+                            
+                                <button type="submit" (click)="saveSocialMedia()" class="btn btn-primary">Sauvgarder</button>
+                            
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tab-pane fade" id="payMethodes" role="tabpanel">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Méthode de paiement</h5>
+
+                            
+                                <div class="mb-12">
+                                    <p><mat-checkbox [checked]="payInDelivery" (change)="onCheckpayInDelivery()">Paiement à la livraison (COD)</mat-checkbox></p>
+                                    <p><mat-checkbox [checked]="payWithBank" (change)="onCheckpayWithBank()" >Paiement par virement bancaire </mat-checkbox></p>
+                                </div>
+                                <hr>
+                                <div class="mb-12">
+                                    <label for="inputBnk">Type de paiement par défaut sur la boutique</label>
+                                      <mat-form-field appearance="fill" style="width: 100%; height: 35px;">
+                                         <mat-select [(ngModel)]="paymentByDefault" >
+                                            <mat-option *ngIf="payInDelivery" value="COD">Paiement à la livraison (COD)</mat-option>
+                                            <mat-option  *ngIf="payWithBank" value="BANK">Paiement par virement bancaire</mat-option>
+                                         </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <br><br>
+                            
+                                <button type="submit" (click)="savePayMethodes()" class="btn btn-primary">Sauvgarder</button>
+                            
+
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="tab-pane fade" id="ribbnnk" role="tabpanel">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Coordonnées bancaires</h5>
+
+                            
+                                <div class="mb-3">
+                                    <label for="inputBnk">Banque </label>
+                                      <mat-form-field appearance="fill" style="width: 100%; height: 35px;">
+                                         <mat-select [(ngModel)]="bnkName">
+                                             <mat-option value="Société Tunisienne de Banque"><img src="/assets/logosbank/STB.jpg" height="35px"/> Société Tunisienne de Banque </mat-option>
+                                             <mat-option value="Banque Nationale Agricole"><img src="/assets/logosbank/BNA.jpg" height="35px"/> Banque Nationale Agricole </mat-option>
+                                             <mat-option value="Banque de l’Habitat"><img src="/assets/logosbank/BH.jpg" height="35px"/> Banque de l’Habitat </mat-option>
+                                             <mat-option value="Banque de Financement des Petites et Moyennes entreprises"><img src="/assets/logosbank/BFPME.jpg" height="35px"/> Banque de Financement des Petites et Moyennes entreprises </mat-option>
+                                             <mat-option value="Banque Tunisienne de Solidarité"><img src="/assets/logosbank/BTS.jpg" height="35px"/> Banque Tunisienne de Solidarité </mat-option>
+                                             <mat-option value="Banque de Tunisie et des Emirats"><img src="/assets/logosbank/BTE.jpg" height="35px"/> Banque de Tunisie et des Emirats </mat-option>
+                                             <mat-option value="Banque Tuniso-Libyenne"><img src="/assets/logosbank/BTL.jpg" height="35px"/> Banque Tuniso-Libyenne </mat-option>
+                                             <mat-option value="Tunisian Saudi Bank"><img src="/assets/logosbank/TSB.jpg" height="35px"/> Tunisian Saudi Bank </mat-option>
+                                             <mat-option value="Banque Zitouna"><img src="/assets/logosbank/Zitouna.jpg" height="35px"/> Banque Zitouna </mat-option>
+                                             <mat-option value="Al Baraka Bank"><img src="/assets/logosbank/Baraka.jpg" height="35px"/> Al Baraka Bank </mat-option>
+                                             <mat-option value="Al Wifak International Bank"><img src="/assets/logosbank/Wifak.jpg" height="35px"/> Al Wifak International Bank </mat-option>
+                                             <mat-option value="Amen Bank"><img src="/assets/logosbank/Amen.jpg" height="35px"/> Amen Bank </mat-option>
+                                             <mat-option value="Attijari Bank"><img src="/assets/logosbank/Attijari.jpg" height="35px"/> Attijari Bank </mat-option>
+                                             <mat-option value="Arab Tunisian Bank"><img src="/assets/logosbank/ATB.jpg" height="35px"/> Arab Tunisian Bank </mat-option>
+                                             <mat-option value="Arab Banking Corporation"><img src="/assets/logosbank/ABC.jpg" height="35px"/> Arab Banking Corporation </mat-option>
+                                             <mat-option value="BIAT"><img src="/assets/logosbank/BIAT.jpg" height="35px"/> Banque Internationale Arabe de Tunisie </mat-option>
+                                             <mat-option value="Banque de Tunisie"><img src="/assets/logosbank/BT.jpg" height="35px"/> Banque de Tunisie </mat-option>
+                                             <mat-option value="Banque Tuniso Koweitienne"><img src="/assets/logosbank/BTK.jpg" height="35px"/> Banque Tuniso Koweitienne </mat-option>
+                                             <mat-option value="Banque Franco Tunisienne"><img src="/assets/logosbank/BFT.jpg" height="35px"/> Banque Franco Tunisienne </mat-option>
+                                             <mat-option value="Citi Bank"><img src="/assets/logosbank/Citi.jpg" height="35px"/> Citi Bank </mat-option>
+                                             <mat-option value="Qatar National Bank- Tunis"><img src="/assets/logosbank/QNB-Tunis.jpg" height="35px"/> Qatar National Bank- Tunis </mat-option>
+                                             <mat-option value="Union Bancaire de Commerce et d’Industrie"><img src="/assets/logosbank/UBCI.jpg" height="35px"/> Union Bancaire de Commerce et d’Industrie </mat-option>
+                                             <mat-option value="Union Internationale de Banque"><img src="/assets/logosbank/UIB.jpg" height="35px"/> Union Internationale de Banque </mat-option>
+                                             <mat-option value="Poste tunisienne"><img src="/assets/logosbank/Poste tunisienne.jpg" height="35px"/> Poste tunisienne </mat-option>
+                                             <mat-option value="Banque centrale de tunisie"><img src="/assets/logosbank/BCT.jpg" height="35px"/> Banque centrale de tunisie </mat-option>
+                                             <mat-option value="Tunisian international Bank"><img src="/assets/logosbank/TIB.ico" height="35px"/> Tunisian international Bank </mat-option>
+
+
+                                         </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="inputDesignation">Désignation</label>
+                                    <input type="text" [(ngModel)]="designation" class="form-control" id="inputDesignation">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="inputAgence">Agence</label>
+                                    <input type="text" [(ngModel)]="agence" class="form-control" id="inputAgence">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="inputSwift">Swift</label>
+                                    <input type="text" [(ngModel)]="swift" class="form-control" id="inputSwift">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="inputIBAN">IBAN</label>
+                                    <input type="text" [(ngModel)]="iban" class="form-control" id="inputIBAN" placeholder="____ ____ ____ ____ ____ __">
+                                    <label>Exemple : TN59 1000 0000 0000 0000 0000</label>
+                                </div>
+                                <button type="submit" (click)="saveBnkInfo()" class="btn btn-primary">Sauvgarder</button>
+                            
+
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<div *ngIf="settingsPage">
+    <app-settings></app-settings>
+</div>

@@ -1,0 +1,70 @@
+<div class="container-fluid">
+
+    <div class="header">
+        <h1 class="header-title">
+            Upsell
+        </h1>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="">Site web</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Upsell</li>
+            </ol>
+        </nav>
+    </div>
+    <div class="row">
+        <div class="col-xxl-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-actions float-end">
+                        <a  class="me-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-refresh-cw align-middle"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+                        </a>
+                        <div class="d-inline-block dropdown show">
+                            <a  data-bs-toggle="dropdown" data-bs-display="static">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical align-middle"><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg>
+                            </a>
+
+                            <div class="dropdown-menu dropdown-menu-end">
+                                <a class="dropdown-item" >Action</a>
+                                <a class="dropdown-item" >Another action</a>
+                                <a class="dropdown-item" >Something else here</a>
+                            </div>
+                        </div>
+                    </div>
+                    <h5 class="card-title mb-0">Gestion des Upsells</h5><br>
+                    <mat-dialog-actions>
+                        <button mat-raised-button  type="submit" (click)="openAddUpsellDialog()"  class="btn btn-primary">
+                            Ajouter nouveau upsell
+                        </button>
+                    </mat-dialog-actions>
+                </div>
+                <div class="card-body">
+                    <div id="datatables-clients_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
+                    <div class="row dt-row">
+                        <div class="col-xs-12">
+                       
+                        <table id="upSellsTable" class="table table-striped dataTable no-footer dtr-inline" style="width: 100%;" aria-describedby="datatables-clients_info">
+                            <thead>
+                            <tr>
+                                <th class="sorting" tabindex="0" aria-controls="datatables-clients" rowspan="1" colspan="1" style="width: 18px;" aria-label="#: activate to sort column ascending">ID</th>
+                                <th class="sorting" tabindex="0" aria-controls="datatables-clients" rowspan="1" colspan="1" style="width: 18px;" aria-label="#: activate to sort column ascending">L'OFFRE</th>
+                                <th class="sorting" tabindex="0" aria-controls="datatables-clients" rowspan="1" colspan="1" style="width: 144px;" aria-label="Email: activate to sort column ascending">EXPOSITION</th>
+                                <th class="sorting" tabindex="0" aria-controls="datatables-clients" rowspan="1" colspan="1" style="width: 144px;" aria-label="Email: activate to sort column ascending">CONVERSION</th>
+                                <th class="sorting" tabindex="0" aria-controls="datatables-clients" rowspan="1" colspan="1" style="width: 144px;" aria-label="Email: activate to sort column ascending">RATIO</th>
+                                <th class="sorting" tabindex="0" aria-controls="datatables-clients" rowspan="1" colspan="1" style="width: 64px;" aria-label="Company: activate to sort column ascending">CRÉER LE</th>
+                                <th class="sorting" tabindex="0" aria-controls="datatables-clients" rowspan="1" colspan="1" style="width: 144px;" aria-label="Email: activate to sort column ascending">ACTIF</th>
+                                <th class="sorting" tabindex="0" aria-controls="datatables-clients" rowspan="1" colspan="1" style="width: 42px;" aria-label="Status: activate to sort column ascending">ACTIONS</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                      
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

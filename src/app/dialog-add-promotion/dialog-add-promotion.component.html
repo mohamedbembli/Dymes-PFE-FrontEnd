@@ -1,0 +1,58 @@
+<h2 *ngIf="!isEditMode" mat-dialog-title>Ajouter code promo</h2>
+<h2 *ngIf="isEditMode" mat-dialog-title>Modifier code promo</h2>
+
+<div mat-dialog-content border="1px solid black" style="width: 550px;">
+  <mat-form-field appearance="fill">
+    <mat-label>Code promo</mat-label>
+    <input matInput placeholder="Entrer code promo" [(ngModel)]="codePromo">
+  </mat-form-field>
+
+  <br>
+
+  <mat-form-field appearance="fill" style="width: 500px;">
+    <mat-label>L'offre est active sur ?</mat-label>
+    <mat-select [(ngModel)]="promoType" (ngModelChange)="onSelectedPromoType($event)" matInput>
+      <mat-option value="allDays">Toujours actif</mat-option>
+      <mat-option value="period">Active sur une période précise</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <br>
+
+  <div *ngIf="isDateRange">
+    <mat-form-field style="width: 500px;">
+      <mat-label>Entrez la période</mat-label>
+      <mat-date-range-input [rangePicker]="rangePicker" [min]="minDate">
+        <input matStartDate [(ngModel)]="startDate" placeholder="Date de début" matInput>
+        <input matEndDate [(ngModel)]="endDate" placeholder="Date de fin" matInput>
+      </mat-date-range-input>
+      <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+      <mat-datepicker-toggle matSuffix [for]="rangePicker"></mat-datepicker-toggle>
+      <mat-date-range-picker #rangePicker></mat-date-range-picker>
+    </mat-form-field>
+
+    <br><br>
+  </div>
+
+  <mat-form-field appearance="fill" style="width: 500px;">
+    <mat-label>Type de remise</mat-label>
+    <mat-select [(ngModel)]="discountType" (ngModelChange)="onSelectDiscountType($event)" required>
+      <mat-option value="fixed_amount">Montant fixe</mat-option>
+      <mat-option value="percent">Pourcentage</mat-option>
+      <mat-option value="free_shipping">Livraison gratuite</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <br>
+
+  <ng-container *ngIf="isValueShown">
+    <mat-form-field appearance="fill" style="width: 500px;">
+      <mat-label>{{ discountType === 'fixed_amount' ? 'Remise en DT' : 'Remise en %' }}</mat-label>
+      <input matInput placeholder="Entrer la valeur de remise" (keyup)="checkValue()" [(ngModel)]="discountValue">
+    </mat-form-field>
+    <br>
+  </ng-container>
+
+  <button mat-button (click)="cancel()">Non merci</button>
+  <button mat-button (click)="checkData()">Envoyer</button>
+</div>

@@ -1,0 +1,173 @@
+<!doctype html>
+<html lang="zxx">
+
+<head>
+  <meta charset="utf-8">
+  <title>Shop - Dymes TN</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="shortcut icon" type="image/x-icon" href="/assets/store/img/favicon.ico">
+    
+   <!-- ======= All CSS Plugins here ======== -->
+  <link rel="stylesheet" href="/assets/store/css/swiper-bundle.min.css">
+  <link rel="stylesheet" href="/assets/store/css/glightbox.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+  <!-- Plugin css -->
+  <link rel="stylesheet" href="/assets/store/css/bootstrap.min.css">
+
+  <!-- Custom Style CSS -->
+  <link rel="stylesheet" href="/assets/store/css/style.css">
+
+</head>
+
+
+<body [ngClass]="{ 'mobile_menu_open': isMobileMenuOpen }">
+    <app-header-store></app-header-store>
+<main class="main__content_wrapper">
+        
+    <!-- Start breadcrumb section -->
+    <section class="breadcrumb__section breadcrumb__bg">
+        <div class="container">
+            <div class="row row-cols-1">
+                <div class="col">
+                    <div class="breadcrumb__content text-center">
+                        <h1 class="breadcrumb__content--title text-white mb-25">Liste des favoris</h1>
+                        <ul class="breadcrumb__content--menu d-flex justify-content-center">
+                            <li class="breadcrumb__content--menu__items"><a class="text-white" [routerLink]="['/']" routerLinkActive="router-link-active" >Boutique</a></li>
+                            <li class="breadcrumb__content--menu__items"><span class="text-white">Liste des favoris</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End breadcrumb section -->
+
+    <!-- cart section start -->
+    <section class="cart__section section--padding">
+        <div class="container">
+            <div class="cart__section--inner">
+                <form action="#"> 
+                    <h2 class="cart__title mb-40">Liste des favoris</h2>
+                    <div class="cart__table">
+                        <table class="cart__table--inner">
+                            <thead class="cart__table--header">
+                                <tr class="cart__table--header__items">
+                                    <th class="cart__table--header__list">Produit</th>
+                                    <th class="cart__table--header__list">Prix</th>
+                                    <th class="cart__table--header__list text-center">ÉTAT DES STOCKS</th>
+                                    <th class="cart__table--header__list text-right">VOIR PLUS</th>
+                                </tr>
+                            </thead>
+                            <tbody class="cart__table--body">
+
+                                <ng-container *ngFor="let product of productsList" >
+                                    <tr class="cart__table--body__items">
+                                        <td class="cart__table--body__list">
+                                            <div class="cart__product d-flex align-items-center">
+                                                <button class="cart__remove--btn" (click)="removeFavoriteProduct(product.id)" aria-label="search button" type="button">
+                                                    <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="16px" height="16px"><path d="M 4.7070312 3.2929688 L 3.2929688 4.7070312 L 10.585938 12 L 3.2929688 19.292969 L 4.7070312 20.707031 L 12 13.414062 L 19.292969 20.707031 L 20.707031 19.292969 L 13.414062 12 L 20.707031 4.7070312 L 19.292969 3.2929688 L 12 10.585938 L 4.7070312 3.2929688 z"></path></svg>
+                                                </button>
+                                                <div class="cart__thumbnail" [routerLink]="['/product-details', product.id]" routerLinkActive="router-link-active" >
+                                                    <a ><img class="border-radius-5" [src]="getProductPhotoUrl(product.id)" alt="cart-product"></a>
+                                                </div>
+                                                <div class="cart__content">
+                                                    <h4 class="cart__content--title"><a >{{product.name}}</a></h4>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="cart__table--body__list">
+                                                <ng-container *ngIf="product.simpleDiscountValue > 0">
+                                                    <span class="old__price cart__price" style="color: black;">{{product.sellPrice}} DT</span>
+                                                    <span class="price__divided"></span>
+                                                    <ng-container *ngIf="product.simpleDiscountType == 'fixed'">
+                                                        <span class="current__price cart__price" style="color: black;">{{product.sellPrice - product.simpleDiscountValue}} DT</span>
+                                                    </ng-container>
+
+                                                    <ng-container *ngIf="product.simpleDiscountType == 'percent'">
+                                                        <span class="current__price cart__price" style="color: black;">{{product.sellPrice - ((product.sellPrice * product.simpleDiscountValue) / 100) }} DT</span>
+                                                    </ng-container>
+                                                </ng-container>
+
+                                                <ng-container *ngIf="product.simpleDiscountValue == 0 || product.simpleDiscountValue == null">
+                                                        <span class="current__price cart__price" style="color: black;">{{product.sellPrice}} DT</span>
+                                                </ng-container>
+                                        </td>
+                                        <td class="cart__table--body__list text-center">
+                                            <ng-container *ngIf="checkStock(product.id) > 0">
+                                                 <span class="in__stock text__secondary">en stock</span>
+                                              </ng-container>
+                                              
+                                              <ng-container *ngIf="checkStock(product.id) == 0">
+                                                    <span class="in__stock text__secondary">En rupture de stock</span>
+                                              </ng-container>
+                                              
+                                        </td>
+                                        <td class="cart__table--body__list text-right">
+                                            <a class="wishlist__cart--btn primary__btn" [routerLink]="['/product-details', product.id]" routerLinkActive="router-link-active" >Voir Plus</a>
+                                        </td>
+                                    </tr>
+                                </ng-container>
+
+                            </tbody>
+                        </table> 
+                        <div class="continue__shopping d-flex justify-content-between">
+                            <a class="continue__shopping--link" [routerLink]="['/']" routerLinkActive="router-link-active" >Continuer vos achats</a>
+                            <a class="continue__shopping--link" [routerLink]="['/']" routerLinkActive="router-link-active">Voir tous les produits</a>
+                        </div>
+                    </div> 
+                </form> 
+            </div>
+        </div>     
+    </section>
+    <!-- cart section end -->
+
+    <!-- Start shipping section -->
+    <section class="shipping__section2 shipping__style3 section--padding">
+        <div class="container">
+            <div class="shipping__section2--inner shipping__style3--inner d-flex justify-content-between">
+                <div class="shipping__items2 d-flex align-items-center">
+                    <div class="shipping__items2--icon">
+                        <img src="/assets/store/img/other/shipping1-1.png" alt="">
+                    </div>
+                    <div class="shipping__items2--content">
+                        <h2 class="shipping__items2--content__title h3">Expédition</h2>
+                        <p class="shipping__items2--content__desc">Des vendeurs triés sur le volet</p>
+                    </div>
+                </div>
+                <div class="shipping__items2 d-flex align-items-center">
+                    <div class="shipping__items2--icon">
+                        <img src="/assets/store/img/other/shipping2-2.png" alt="">
+                    </div>
+                    <div class="shipping__items2--content">
+                        <h2 class="shipping__items2--content__title h3">Paiement</h2>
+                        <p class="shipping__items2--content__desc">Sécurisés</p>
+                    </div>
+                </div>
+                <div class="shipping__items2 d-flex align-items-center">
+                    <div class="shipping__items2--icon">
+                        <img src="/assets/store/img/other/shipping3-2.png" alt="">
+                    </div>
+                    <div class="shipping__items2--content">
+                        <h2 class="shipping__items2--content__title h3">Retour</h2>
+                        <p class="shipping__items2--content__desc">Garantie 48 heures</p>
+                    </div>
+                </div>
+                <div class="shipping__items2 d-flex align-items-center">
+                    <div class="shipping__items2--icon">
+                        <img src="/assets/store/img/other/shipping4.png" alt="">
+                    </div>
+                    <div class="shipping__items2--content">
+                        <h2 class="shipping__items2--content__title h3">Assistance</h2>
+                        <p class="shipping__items2--content__desc">24h/24 7j/7</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End shipping section -->
+
+</main>
+<app-footer-store></app-footer-store>
+</body>
+</html>

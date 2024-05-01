@@ -1,0 +1,26 @@
+<div *ngIf="errorMSG"
+     class="alert alert-danger alert-dismissible fade show fixed-top w-100"
+     role="alert">
+     {{ errorMSG }}
+    <button type="button" class="btn-close" aria-label="Close" (click)="closeError()"></button>
+</div>
+
+<h2 mat-dialog-title>Ajouter une réclamation produit</h2>
+<div mat-dialog-content border="1px solid blacks" style="width: 500px;">
+
+    <mat-form-field appearance="fill" bord style="width: 454px;">
+        <mat-label>Sujet</mat-label>
+        <input placeholder="Entrer le sujet de réclamation" matInput [(ngModel)]="subject" ><br>
+    </mat-form-field>
+    <br>
+    
+    <mat-form-field bord style="width: 454px;">
+        <mat-label>Laisser un commentaire</mat-label>
+        <textarea style="height: 100px;" matInput [(ngModel)]="comment" placeholder="Vos commentaires..."></textarea>
+    </mat-form-field>
+    <br>
+
+    <button mat-button (click)="cancel()">Non merci</button>
+    <button mat-button  (click)="checkData()">Envoyer</button>
+    <br><br>
+</div>

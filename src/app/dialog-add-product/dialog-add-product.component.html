@@ -1,0 +1,659 @@
+<body  style="background-color: #f3f3f3e0">
+    <br>
+<div class="container">
+       
+    <div class="row">
+        <div class="col-sm-9 col-xs-12">
+            <i class="bi bi-upc-scan"></i>
+            <h2 *ngIf="!isEditMode" style="text-decoration: underline;">Ajouter un produit</h2>
+            <h2 *ngIf="isEditMode" style="text-decoration: underline;">Modifier un produit</h2>
+        </div>
+        <div class="col-sm-3 col-xs-12">
+            <div class="btn-group" style="width: 100%;">
+                <button type="button" (click)="saveProduct()" class="btn btn-primary mx-2" style="height: 50px; width: 150px; font-size: 14px;  border-radius: 2px;">Enregistrer</button>
+            </div>
+        </div>
+    </div>
+
+        <br><br>
+
+        <!-- Général-->
+        <div class="row">
+            <div class="col-lg-8 col-xs-12">
+                <div class="stock-container" (click)="isCollapsedGeneral = !isCollapsedGeneral" [attr.aria-expanded]="!isCollapsedGeneral" aria-controls="CollapsedGeneral">
+                    <b class="stock-text">Général</b>
+                    <div class="down-arrow">
+                      <i class="fas fa-caret-down"></i>
+                    </div>
+                  </div>
+                <div id="collapseGeneral" [ngbCollapse]="!isCollapsedGeneral">
+                    <div class="card">
+                        <div class="card-body">
+
+                            <div class="row">
+                                <div class="col-6">
+                                    <label>Nom du produit(*)</label>
+                                    <mat-form-field appearance="fill" bord style="width: 98%;" >
+                                        <mat-label>Entrer le nom de produit</mat-label>
+                                        <input  placeholder="Nom du produit" matInput [(ngModel)]="productName"><br>
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="col-6">
+                                    <label>Code à barre</label>
+                                    <mat-form-field appearance="fill" bord style="width: 98%;" >
+                                        <mat-label>Entrer le Code à barre de produit</mat-label>
+                                        <input placeholder="Code à barre" [(ngModel)]="productBarCode" matInput ><br>
+                                    </mat-form-field>
+                                </div>
+                                
+                            </div>
+
+                            <div class="row">
+                                <div class="col-6">
+                                    <label>Référence</label>
+                                    <mat-form-field appearance="fill" bord style="width: 98%;" >
+                                        <mat-label>Entrer la Référence de produit</mat-label>
+                                        <input placeholder="Référence" [(ngModel)]="productRef" matInput ><br>
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="col-6">
+                                    <label>Fournisseur</label>
+                                    <mat-form-field appearance="fill" bord style="width: 98%;" >
+                                        <mat-label>Entrer le Fournisseur de produit</mat-label>
+                                        <input placeholder="Fournisseur" [(ngModel)]="productSupplier" matInput ><br>
+                                    </mat-form-field>
+                                </div>
+                                
+                            </div>
+
+                            <div class="row">
+                                <div class="col-12">
+                                    <label>Description(*)</label>
+                                    <div appearance="fill" bord style="width: 98%;" >
+                                        <angular-editor  placeholder="Enter text here..." [(ngModel)]="htmlContent"></angular-editor>
+                                    </div>
+                                </div>
+                                
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+           </div>
+        
+        <!-- Status du produit-->
+         <div class="col-lg-4 col-xs-12">
+            <div class="stock-container" (click)="isCollapsedStatusProduct = !isCollapsedStatusProduct" [attr.aria-expanded]="!isCollapsedStatusProduct" aria-controls="CollapsedStatusProduct">
+                <b class="stock-text">Statut du produit</b>
+                <div class="down-arrow">
+                  <i class="fas fa-caret-down"></i>
+                </div>
+              </div>
+            <div id="collapseStatusProduct" [ngbCollapse]="!isCollapsedStatusProduct">
+                <div class="card">
+                    <div class="card-body">
+
+                        <div class="row">
+                            <div class="col-12" >
+                                <mat-form-field style="width: 100%;">
+                                    <mat-label>Statut</mat-label>
+                                    <select matNativeControl #statusP (change)="onSelectedStatus(statusP.value)" required>
+                                      <ng-container *ngIf="productStatus == 'actif'">
+                                        <option value="actif" selected>En ligne</option>
+                                        <option value="inactif">Hors ligne</option>
+                                     </ng-container>
+
+                                     <ng-container *ngIf="productStatus == 'inactif'">
+                                        <option value="actif">En ligne</option>
+                                        <option value="inactif" selected>Hors ligne</option>
+                                     </ng-container>
+                                    </select>
+                                  </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+         </div>
+        </div>
+
+        <br>
+        <!-- Prix-->
+        <div class="row">
+            <div class="col-lg-8 col-xs-12">
+                <div class="stock-container" (click)="isCollapsedPrice = !isCollapsedPrice" [attr.aria-expanded]="!isCollapsedPrice" aria-controls="CollapsedPrice">
+                    <b class="stock-text">Prix</b>
+                    <div class="down-arrow">
+                      <i class="fas fa-caret-down"></i>
+                    </div>
+                  </div>
+                <div id="collapsePrice" [ngbCollapse]="!isCollapsedPrice">
+                    <div class="card">
+                        <div class="card-body">
+
+                            <div class="row">
+                                
+                                <div class="col-lg-4 col-xs-12">
+                                    <label>Prix d'achat(*)</label>
+                                    <mat-form-field appearance="fill" bord style="width: 98%;" >
+                                        <mat-label>Entrer Prix d'achat</mat-label>
+                                        <input type="number" min="0" placeholder="Prix d'achat" matInput [(ngModel)]="buyPrice" (keyup)="enforcePositiveBuyPrice()" ><br>
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="col-lg-4 col-xs-12">
+                                    <label>Prix de vente TTC(*)</label>
+                                    <mat-form-field appearance="fill" bord style="width: 98%;" >
+                                        <mat-label>Entrer Prix de vente TTC</mat-label>
+                                        <input type="number" min="0" placeholder="Prix de vente TTC" matInput [(ngModel)]="sellPrice" (keyup)="enforcePositiveSellPrice()" ><br>
+                                    </mat-form-field>
+                                </div>
+
+                                <div class="col-lg-4 col-xs-12">
+                                    <label>TVA</label>
+                                        <select style="height: 55%;" id="inputTax" class="form-control" #Tax (change)="onSelectedTax(Tax.value)">
+                                         <ng-container *ngIf="tax == 19" >
+                                            <option value="19" selected>+ 19%</option>
+                                            <option value="13" >+ 13%</option>
+                                            <option value="7" >+ 7%</option>
+                                            <option value="0" selected>+ 0%</option>
+                                        </ng-container>
+
+                                        <ng-container *ngIf="tax == 13" >
+                                            <option value="19">+ 19%</option>
+                                            <option value="13" selected>+ 13%</option>
+                                            <option value="7" >+ 7%</option>
+                                            <option value="0" selected>+ 0%</option>
+                                        </ng-container>
+
+                                        <ng-container *ngIf="tax == 7" >
+                                            <option value="19">+ 19%</option>
+                                            <option value="13" >+ 13%</option>
+                                            <option value="7" selected>+ 7%</option>
+                                            <option value="0" >+ 0%</option>
+                                        </ng-container>
+
+                                        <ng-container *ngIf="tax == 0" >
+                                            <option value="19">+ 19%</option>
+                                            <option value="13" >+ 13%</option>
+                                            <option value="7" >+ 7%</option>
+                                            <option value="0" selected>+ 0%</option>
+                                        </ng-container>
+
+                                        </select>
+                                </div>
+
+                            </div>
+                            <!--  Réduction simple -->
+                            <br>
+                            <div class="row">
+                                <div class="col-12">
+                                    <div style="width: 100%; font-size: 13px; font-weight: 500; padding-left: 25px; padding-top: 8px; height:35px; background-color:rgba(226, 222, 222, 0.917);">Réduction simple </div>
+                                </div><br><br>
+                                <div class="row">
+
+                                    <div class="col-lg-4 col-xs-12">
+                                        <label>Type de réduction</label>
+                                        <select style="height: 55%;" id="inputReductionType" class="form-control" #ReductionType (change)="onSelectedReductionType(ReductionType.value)">
+                                           <ng-container *ngIf="simpleReductionType == 'fixed'" >
+                                                <option value="fixed" selected="">Montant fixe</option>
+                                                <option value="percent">Pourcentage</option>
+                                           </ng-container>
+
+                                           <ng-container *ngIf="simpleReductionType == 'percent'" >
+                                            <option value="fixed" selected="">Montant fixe</option>
+                                            <option value="percent">Pourcentage</option>
+                                          </ng-container>
+                                        </select>
+                                    </div>
+
+                                    <div class="col-lg-4 col-xs-12">
+                                        <div *ngIf="simpleReductionType == 'fixed'" >
+                                        <label>Réduction en DT</label>
+                                            <mat-form-field appearance="fill" bord style="width: 98%;" >
+                                                <mat-label>Réduction en DT</mat-label>
+                                                <input type="number" placeholder="Entrer Réduction en DT" (keyup)="enforcePositiveSimpleReductionValue()" [(ngModel)]="simpleReductionValue" matInput ><br>
+                                            </mat-form-field>
+                                        </div>
+
+                                    <div *ngIf="simpleReductionType == 'percent'">
+                                        <label>Réduction en %</label>
+                                        <mat-form-field appearance="fill" bord style="width: 98%;" >
+                                            <mat-label>Réduction en %</mat-label>
+                                            <input type="number" placeholder="Entrer Réduction en %" (keyup)="enforcePositiveSimpleReductionValue()" [(ngModel)]="simpleReductionValue" matInput ><br>
+                                        </mat-form-field>
+                                    </div>
+                                        
+                                    </div>
+
+                                 </div>
+                            </div>
+
+                             <!--  Réduction par formules (selon la quantité) -->
+                             <div class="row">
+                                <div class="col-12">
+                                    <div style="width: 100%; font-size: 13px; font-weight: 500; padding-left: 25px; padding-top: 8px; height:35px; background-color:rgba(226, 222, 222, 0.917);">Réduction par formules (selon la quantité) </div>
+                                </div><br><br>
+                                <div class="row">
+
+                                    <div class="col-4">
+                                        <button (click)="addToDiscountTable()" type="button" class="btn btn-outline-primary mx-2" style="height: 35px; width: 200px; font-size: 14px;  border-radius: 2px;"> Ajouter une formule</button>
+                                        <br><br>
+                                    </div>
+
+                                 </div>
+
+                                 <div class="row">
+                                    <div class="col-12">
+                                      <div class="table-responsive">
+                                        <table class="table" id="discountTable">
+                                          <thead style="background-color: rgb(221, 245, 238); font-size: 14px;">
+                                            <tr>
+                                              <th>QUANTITÉ</th>
+                                              <th>TYPE</th>
+                                              <th>RÉDUCTION</th>
+                                              <th>PRIX FINAL/UNITÉ</th>
+                                              <th>ACTIONS</th>
+                                            </tr>
+                                          </thead>
+                                          <tbody>
+                                            <tr *ngFor="let row of discountTable">
+                                              <td >
+                                                <input type="number" min="2" style="height: 40px; width: 90%; font-size: 14px;" placeholder="A partir de" (keyup)="enforcePositiveQte(row)" [(ngModel)]="row.qte">
+                                              </td>
+                                              <td>
+                                                <select [(ngModel)]="row.type" style="height: 40px; font-size: 14px; width: 110%;" id="inputDiscountType" class="form-control" (change)="onSelectedComplexReductionType(row)" #dicountType>
+                                                    <option value="fixed" selected>Montant fixe</option>
+                                                    <option value="percent">Pourcentage</option>
+                                                </select>
+                                                
+                                                
+                                              </td>
+                                              <td>
+                                                <input type="number" min="0" [max]="sellPrice" (keyup)="enforceValueRange(row)" style="height: 40px; width: 90%; font-size: 14px;" placeholder="0" [value]="row.reduction" [(ngModel)]="row.reduction">
+                                            </td>
+                                              <td>
+                                                <ng-container *ngIf="row.type == 'fixed'" >
+                                                     <input type="number" style="height: 40px; width: 90%;font-size: 14px;" [value]="sellPrice - row.reduction" [(ngModel)]="row.finalPrice" disabled>
+                                                </ng-container>
+
+                                                <ng-container *ngIf="row.type == 'percent'" >
+                                                    <input type="number" style="height: 40px; width: 90%;font-size: 14px;" [value]="sellPrice - ((sellPrice * row.reduction) / 100)" [(ngModel)]="row.finalPrice" disabled>
+                                               </ng-container>
+                                            </td>
+                                              <td>
+                                                <div (click)="deleteRow(row)" style="width: 35px; height: 35px; background-color: red; display: flex; justify-content: center; align-items: center; border-radius: 5px;">
+                                                    <i class="fas fa-trash-alt" style="color: white; font-size: 16px;"></i>
+                                                </div>
+                                              </td>
+                                            </tr>
+                                          </tbody>
+                                        </table>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+             <!-- categories-->
+            <div class="col-lg-4 col-xs-12">
+                <div class="stock-container" (click)="isCollapsedCategory = !isCollapsedCategory" [attr.aria-expanded]="!isCollapsedCategory" aria-controls="CollapsedCategory">
+                    <b class="stock-text">Catégories</b>
+                    <div class="down-arrow">
+                      <i class="fas fa-caret-down"></i>
+                    </div>
+                  </div>
+                <div id="CollapsedCategory" [ngbCollapse]="!isCollapsedCategory">
+                    <div class="card">
+                        <div class="card-body">
+
+                            <div class="row">
+                                <div class="col-12">
+                                    <form>
+                                    <!-- Parent categories-->
+                                    <ng-container *ngIf="listProductCategories != null">
+                                        <h4>Categorie principale</h4>
+                                         <mat-form-field appearance="fill" style="width: 100%;">
+                                       <mat-label>Chercher une catégorie</mat-label>
+                                        <mat-select [(ngModel)]="parentCat" name="parentCategory" [compareWith]="compareCategories" (ngModelChange)="onSelectedParentCategory($event)">
+                                            <ng-container *ngFor="let category of listProductCategories">
+                                            <mat-option *ngIf="category.categoryParent == 'null'" [value]="category">
+                                                {{ category.name }}
+                                            </mat-option>
+                                            </ng-container>
+                                        </mat-select>
+                                        </mat-form-field>
+                                    </ng-container>
+
+
+
+                                    <!-- if no category already exist-->   
+                                    <ng-container *ngIf="listProductCategories == null" >
+                                          Aucune categorie trouvé!
+                                    </ng-container>                                 
+                                   <!-- Sub category-->
+
+                                    <ng-container *ngIf="subCategoryList != null" >
+
+                                        <h4>Sous Categories</h4>
+                                        <mat-form-field appearance="fill" style="width: 100%;">
+                                        <mat-label>Chercher une catégorie</mat-label>
+                                          <mat-select [(ngModel)]="subCat" [compareWith]="compareCategories" name="subCategory">
+                                            <ng-container *ngFor="let sub of subCategoryList">
+                                            <mat-option [value]="sub">
+                                                {{ sub.name }}
+                                            </mat-option>
+                                            </ng-container>
+                                          </mat-select>
+                                       </mat-form-field>
+                                    </ng-container>
+
+                                  
+                                </form>
+                                </div>
+                              </div>
+                              
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+        <!-- images -->
+        <div class="row">
+            <div class="col-lg-8 col-xs-12">                
+                <div class="stock-container" (click)="isCollapsedImages = !isCollapsedImages" [attr.aria-expanded]="!isCollapsedImages" aria-controls="CollapsedImages">
+                    <b class="stock-text">Images</b>
+                    <div class="down-arrow">
+                      <i class="fas fa-caret-down"></i>
+                    </div>
+                  </div>
+                <div id="CollapsedImages" [ngbCollapse]="!isCollapsedImages">
+                    <div class="card">
+                        <div class="card-body">
+                            <label for="fileInput" class="custom-file-input-label">{{ fileInputLabel }}</label>
+                            <input
+                            style="display: none;"
+                            type="file"
+                            id="fileInput"
+                            (change)="selectFiles($event)"
+                            accept="image/*"
+                            multiple
+                            />
+
+                            <div *ngFor="let preview of imagePreviews; let i = index"
+                            [draggable]="true"
+                            (dragstart)="onDragStart($event, i)"
+                            (dragover)="onDragOver($event)"
+                            (drop)="onDrop($event, i)">
+                            <div class="image-preview" style="display: flex; align-items: center; margin-bottom: 10px; ">
+                                <img [src]="preview" class="zoom2" alt="Image Preview {{i}}" height="110px" width="130px" />&nbsp;
+                                <div (click)="deleteImage(i)" style="width: 35px; height: 35px; background-color: red; display: flex; justify-content: center; align-items: center; border-radius: 5px;">
+                                    <i class="fas fa-trash-alt" style="color: white; font-size: 16px;"></i>
+                                </div>
+                            </div>
+                            </div>
+                        <!--   <br>
+                            <button type="button" [hidden]="!filesSelected" class="btn btn-success" (click)="saveImages()">Enregistrer</button> --> 
+
+                        </div>
+                    </div>
+                </div>
+             </div>
+             <!-- Stock-->
+             <div class="col-lg-4 col-xs-12">
+                <div class="stock-container" (click)="isCollapsedStock = !isCollapsedStock" [attr.aria-expanded]="!isCollapsedStock" aria-controls="CollapsedStock">
+                    <b class="stock-text">Stock</b>
+                    <div class="down-arrow">
+                      <i class="fas fa-caret-down"></i>
+                    </div>
+                  </div>
+                  
+            
+                <div id="CollapsedStock" [ngbCollapse]="!isCollapsedStock">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="col-12">
+                                <label>Stock actuel</label>
+                                <mat-form-field appearance="fill" bord style="width: 98%;" >
+                                    <mat-label>Entrer le nombre des produits disponible!</mat-label>
+                                    <input type="number" min="0" placeholder="Stock actuel" value="{{stockPrincipal}}" (keyup)="enforcePositiveStockPrincipal()" [(ngModel)]="stockPrincipal" matInput ><br>
+                                </mat-form-field>
+
+                                  
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <!-- Variants-->
+
+        <br>
+        <div class="row">
+            <div class="col-lg-8 col-xs-12">                
+                <div class="stock-container" (click)="isCollapsedVariants = !isCollapsedVariants" [attr.aria-expanded]="!isCollapsedVariants" aria-controls="CollapsedVariants">
+                    <b class="stock-text">Variants</b>
+                    <div class="down-arrow">
+                      <i class="fas fa-caret-down"></i>
+                    </div>
+                  </div>
+                <div id="CollapsedVariants" [ngbCollapse]="!isCollapsedVariants">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row">
+                            <div class="col-12">
+                                <div style="color: RED;">
+                                    Pour ajouter des déclinaisons, vous devez d'abord créer les attributs et valeurs nécessaires dans " Catalogue -> Attributs ".
+                                </div>
+                            </div>
+                            <br>
+
+                            <div class="col-md-6 col-xs-12">
+                                <ng-container *ngIf="attributesList != null">
+                                    <br>
+                                    <h4>Créer des sous produits en choisissant les critères liées</h4>
+                                     <mat-form-field appearance="fill" style="width: 100%;">
+                                            <mat-select [(ngModel)]="selectedElements" multiple>
+                                              <mat-optgroup *ngFor="let attribut of attributesList" [label]="attribut.name"
+                                                            [disabled]="attribut.disabled">
+                                                <mat-option *ngFor="let element of attribut.elements" [value]="element.name">
+                                                  {{element.name}}
+                                                </mat-option>
+                                              </mat-optgroup>
+                                            </mat-select>
+                                     </mat-form-field>
+                                </ng-container>
+                                <br>
+                                <button (click)="generateNow()" mat-raised-button color="primary">Générer</button>
+
+                            </div>
+                              
+                                <div class="col-12"  *ngIf="showVariantsTable">
+                                  <div class="table-responsive" >
+                                    <br>
+                                    <table id="variantsTable"  class="table table-striped dataTable no-footer dtr-inline">
+                                      <thead style="background-color: rgb(221, 245, 238); font-size: 14px;">
+                                        <tr>
+                                          <th>Produits</th>
+                                          <th>Attributs</th>
+                                          <th>Stock</th>
+                                          <th>Prix</th>
+                                          <th>Variant par défaut</th>
+                                          <th>Statut</th>
+                                          <th>Actions</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                        <tr *ngFor="let row of variantsTable; let i = index">
+                                          <td >
+                                          <!--   <ng-container *ngIf="selectedImages == null || selectedImages === undefined">
+                                              <label for="imageUpload{{i}}" style="cursor: pointer;">
+                                                    <img [src]="row.image" width="42" height="42" class="rounded-circle my-n1" alt="Produit">
+                                                    <input type="file" id="imageUpload{{i}}" (change)="handleImageUpload($event, row)" style="display: none;">
+                                                </label>
+                                            </ng-container> --> 
+
+                                            <ng-container>
+                                                <label for="imageUpload{{i}}" style="cursor: pointer;">
+                                                    <ng-container *ngIf="row.image == null" >
+                                                        <img src="/assets/img/package.png" width="42" height="42" class="rounded-circle my-n1" alt="Produit">
+                                                    </ng-container>
+                                                    <ng-container *ngIf="row.image != null" >
+                                                        <img [src]="row.image" width="42" height="42" class="rounded-circle my-n1" alt="Produit">
+                                                    </ng-container>
+                                                    <input type="file" id="imageUpload{{i}}" (change)="handleImageUpload($event, row)" style="display: none;">
+                                                </label>
+                                            </ng-container>
+                                          </td>
+
+                                          <td>
+                                            <ng-container *ngFor="let item of row.attributes">
+                                                    <td style="padding: 3px 3px 3px 3px; background-color: rgb(31, 159, 251); color: white; height: 30px; display: inline-block; margin-right: 5px;">{{ item }}</td>&nbsp;
+                                            </ng-container>
+                                          </td>
+
+                                          <td>
+                                                <mat-form-field appearance="fill" bord style="width: 98%;" >
+                                                    <mat-label>Stock actuel</mat-label>
+                                                    <input type="number" min="1" placeholder="Stock actuel" (keyup)="enforcePositiveStockVariant(row)" [value]="stockPrincipal" matInput [(ngModel)]="row.stock" ><br>
+                                                </mat-form-field>
+                                          </td>
+
+                                          <td>
+                                            <mat-form-field appearance="fill" bord style="width: 98%;" >
+                                                <mat-label>Prix</mat-label>
+                                                <input type="number" min="0" placeholder="Prix de variant" (keyup)="enforcePositivePriceVariant(row)" [value]="sellPrice" matInput [(ngModel)]="row.price" ><br>
+                                            </mat-form-field>
+                                          </td>
+                                          
+                                          <td>
+                                            <mat-slide-toggle color="primary" [(ngModel)]="row.defaultVariant" (change)="toggleRow(i, row)"></mat-slide-toggle>
+                                        </td>
+
+                                          <td>
+                                            <mat-slide-toggle color="primary" [(ngModel)]="row.actif" >
+                                                <ng-container *ngIf="row.actif" >Actif</ng-container>
+                                                <ng-container *ngIf="!row.actif" >Inactif</ng-container>
+                                            </mat-slide-toggle>
+                                          </td>
+                                         
+                                          <td>
+                                            <div (click)="deleteRowVariant(row)" style="width: 35px; height: 35px; background-color: red; display: flex; justify-content: center; align-items: center; border-radius: 5px;">
+                                                <i class="fas fa-trash-alt" style="color: white; font-size: 16px;"></i>
+                                            </div>
+                                          </td>
+                                        </tr>
+                                      </tbody>
+                                    </table>
+                                  </div>
+                                </div>
+
+                        </div>
+                    </div>
+                    </div>
+                 </div>
+            </div>
+
+             <!-- categories-->
+             <div class="col-lg-4 col-xs-12">
+                <div class="stock-container" (click)="isCollapsedShippingPrice = !isCollapsedShippingPrice" [attr.aria-expanded]="!isCollapsedShippingPrice" aria-controls="CollapsedShippingPrice">
+                    <b class="stock-text">Frais de livraison spécial</b>
+                    <div class="down-arrow">
+                      <i class="fas fa-caret-down"></i>
+                    </div>
+                  </div>
+                <div id="CollapsedShippingPrice" [ngbCollapse]="!isCollapsedShippingPrice">
+                    <div class="card">
+                        <div class="card-body">
+
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <label>Personnaliser le prix sur la livraison</label>
+                                    <mat-form-field appearance="fill" bord style="width: 98%;" >
+                                        <mat-label>Entrer le prix</mat-label>
+                                        <input type="number" min="0" placeholder="Prix de livraison" matInput (keyup)="enforcePositiveShippingPrice()" [value]="shippingPrice" [(ngModel)]="shippingPrice"><br>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+             </div>
+                
+        </div>
+        <br>
+        <div class="row">
+                <!-- Visitors Range-->
+                <div class="col-lg-8 col-xs-12">
+                    <div class="stock-container" (click)="isCollapsedVisitorsRange = !isCollapsedVisitorsRange" [attr.aria-expanded]="!isCollapsedVisitorsRange" aria-controls="CollapsedVisitorsRange">
+                        <b class="stock-text">Nombre de visiteurs live</b>
+                        <div class="down-arrow">
+                          <i class="fas fa-caret-down"></i>
+                        </div>
+                      </div>
+                      
+                
+                    <div id="CollapsedVisitorsRange" [ngbCollapse]="!isCollapsedVisitorsRange">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="row">
+                                <div class="col-6">
+                                    <label>A partir</label>
+                                    <mat-form-field appearance="fill" bord style="width: 98%;" >
+                                        <mat-label>Début de gamme</mat-label>
+                                        <input type="number" min="0" placeholder="A partir" value="{{startRange}}" (keyup)="enforceStartVisitorRange()" [(ngModel)]="startRange" matInput ><br>
+                                    </mat-form-field>
+                                </div>
+                                    <br>
+                                <div class="col-6">
+                                    <label>Jusqu'à</label>
+                                    <mat-form-field appearance="fill" bord style="width: 98%;" >
+                                        <mat-label>Fin de gamme</mat-label>
+                                        <input type="number" min="0" placeholder="Jusqu'à" value="{{endRange}}" (keyup)="enforceEndVisitorRange()" [(ngModel)]="endRange" matInput ><br>
+                                    </mat-form-field>
+                                </div>
+                                </div>
+                                </div>
+                        </div>
+                    </div>
+                </div>
+
+            <!-- Timer -->
+             <div class="col-lg-4 col-xs-12">
+                <div class="stock-container" (click)="isCollapsedTimer = !isCollapsedTimer" [attr.aria-expanded]="!isCollapsedTimer" aria-controls="CollapsedTimer">
+                    <b class="stock-text">Compte à rebours</b>
+                    <div class="down-arrow">
+                      <i class="fas fa-caret-down"></i>
+                    </div>
+                  </div>
+                <div id="CollapsedTimer" [ngbCollapse]="!isCollapsedTimer">
+                    <div class="card">
+                        <div class="card-body">
+
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <label>Veuillez entrer le nombre des heures restantes jusqu'à la fin de l'offre.</label><br>
+                                    <mat-form-field appearance="fill" bord style="width: 98%;" >
+                                        <mat-label>Nombre d'heures</mat-label>
+                                        <input type="text" placeholder="Nombre d'heures" matInput (keyup)="enforcePositiveTimer()" [value]="nbHours" [(ngModel)]="nbHours"><br>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+             </div>
+        </div>
+
+    </div>
+</body>

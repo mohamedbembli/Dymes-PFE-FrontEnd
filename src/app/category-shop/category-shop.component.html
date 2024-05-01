@@ -1,0 +1,405 @@
+<!doctype html>
+<html lang="zxx">
+
+<head>
+  <meta charset="utf-8">
+  <title>Shop - Dymes TN</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="shortcut icon" type="image/x-icon" href="/assets/store/img/favicon.ico">
+    
+   <!-- ======= All CSS Plugins here ======== -->
+   
+  <link rel="stylesheet" href="/assets/store/css/swiper-bundle.min.css">
+  <link rel="stylesheet" href="/assets/store/css/glightbox.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+  <!-- Plugin css -->
+  <link rel="stylesheet" href="/assets/store/css/bootstrap.min.css">
+
+  <!-- Custom Style CSS -->
+  <link rel="stylesheet" href="/assets/store/css/style.css">
+
+</head>
+
+
+<body [ngClass]="{ 'mobile_menu_open': isMobileMenuOpen }">
+    <app-header-store [basketItemCount]="basketItemCount" [countFavoriteProducts]="countFavoriteProducts"></app-header-store>
+
+    <!-- Start offcanvas filter sidebar -->
+    <div class="offcanvas__filter--sidebar widget__area" [class.active]="isMobileFilterActive" >
+        <button type="button" class="offcanvas__filter--close" data-offcanvas="" (click)="closeMobileFilter()">
+            <svg class="minicart__close--icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M368 368L144 144M368 144L144 368"></path></svg> <span class="offcanvas__filter--close__text">Fermer</span>
+        </button>
+        <div class="offcanvas__filter--sidebar__inner">
+            
+            <div class="single__widget price__filter widget__bg">
+                <h2 class="widget__title h3">Filtrer par prix</h2>
+                <form class="price__filter--form" > 
+                    <div class="price__filter--form__inner mb-15 d-flex align-items-center">
+                        <div class="price__filter--group">
+                            <label class="price__filter--label" for="fromPrice">De</label>
+                            <div class="price__filter--input border-radius-5 d-flex align-items-center">
+                                <span class="price__filter--currency">DT</span>
+                                <label>
+                                    <input type="number" name="fromRangePrice" [(ngModel)]="fromRangePrice" class="price__filter--input__field border-0" placeholder="0" min="0">
+                                </label>
+                            </div>
+                        </div>
+                        <div class="price__divider">
+                            <span>-</span>
+                        </div>
+                        <div class="price__filter--group">
+                            <label class="price__filter--label" for="toPrice">À</label>
+                            <div class="price__filter--input border-radius-5 d-flex align-items-center">
+                                <span class="price__filter--currency">DT</span>
+                                <label>
+                                    <input type="number" name="toRangePrice" [(ngModel)]="toRangePrice" class="price__filter--input__field border-0"  min="0" placeholder="250.00" >
+                                </label> 
+                            </div>	
+                        </div>
+                    </div>
+                    <button class="price__filter--btn primary__btn" type="submit" (click)="getProductsPriceRange()">Filtrer</button>
+                </form>
+            </div>
+
+            
+           
+        </div>
+        
+    </div>
+    <!-- END offcanvas filter sidebar -->
+
+    <!--START SHOP SECTION -->
+    <section class="shop__section section--padding">
+        <div class="container-fluid">
+            <div class="shop__header bg__gray--color d-flex align-items-center justify-content-between mb-30">
+                <button class="widget__filter--btn d-flex d-lg-none align-items-center" data-offcanvas="" (click)="mobileFilter()">
+                    <svg class="widget__filter--btn__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="28" d="M368 128h80M64 128h240M368 384h80M64 384h240M208 256h240M64 256h80"></path><circle cx="336" cy="128" r="28" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="28"></circle><circle cx="176" cy="256" r="28" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="28"></circle><circle cx="336" cy="384" r="28" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="28"></circle></svg> 
+                    <span class="widget__filter--btn__text">Filtrer</span>
+                </button>
+                <div class="product__view--mode d-flex align-items-center">
+
+                    <div class="product__view--mode__list product__short--by align-items-center d-none d-lg-flex">
+                        <label class="product__view--label">Trier par :</label>
+                        <div class="select shop__header--select">
+                            <select class="product__view--select" [(ngModel)]="filterValue" (change)="filterChange()">
+                                <option selected="" value="1">Trier par plus récent</option>
+                                <option value="2">Trier par l'évaluation </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="product__view--mode__list">
+                        <div class="product__grid--column__buttons d-flex justify-content-center">
+                            <button class="product__grid--column__buttons--icons" aria-label="product grid button" [class.active]="isGridActive" (click)="toggleView('grid')">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 9 9">
+                                    <g transform="translate(-1360 -479)">
+                                        <rect id="Rectangle_5725" data-name="Rectangle 5725" width="4" height="4" transform="translate(1360 479)" fill="currentColor"></rect>
+                                        <rect id="Rectangle_5727" data-name="Rectangle 5727" width="4" height="4" transform="translate(1360 484)" fill="currentColor"></rect>
+                                        <rect id="Rectangle_5726" data-name="Rectangle 5726" width="4" height="4" transform="translate(1365 479)" fill="currentColor"></rect>
+                                        <rect id="Rectangle_5728" data-name="Rectangle 5728" width="4" height="4" transform="translate(1365 484)" fill="currentColor"></rect>
+                                    </g>
+                                </svg>
+                            </button>
+                            
+                            <button class="product__grid--column__buttons--icons" aria-label="product list button" [class.active]="!isGridActive" (click)="toggleView('list')">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="17" height="16" viewBox="0 0 13 8">
+                                    <g id="Group_14700" data-name="Group 14700" transform="translate(-1376 -478)">
+                                        <g transform="translate(12 -2)">
+                                            <g id="Group_1326" data-name="Group 1326">
+                                                <rect id="Rectangle_5729" data-name="Rectangle 5729" width="3" height="2" transform="translate(1364 483)" fill="currentColor"></rect>
+                                                <rect id="Rectangle_5730" data-name="Rectangle 5730" width="9" height="2" transform="translate(1368 483)" fill="currentColor"></rect>
+                                            </g>
+                                            <g id="Group_1328" data-name="Group 1328" transform="translate(0 -3)">
+                                                <rect id="Rectangle_5729-2" data-name="Rectangle 5729" width="3" height="2" transform="translate(1364 483)" fill="currentColor"></rect>
+                                                <rect id="Rectangle_5730-2" data-name="Rectangle 5730" width="9" height="2" transform="translate(1368 483)" fill="currentColor"></rect>
+                                            </g>
+                                            <g id="Group_1327" data-name="Group 1327" transform="translate(0 -1)">
+                                                <rect id="Rectangle_5731" data-name="Rectangle 5731" width="3" height="2" transform="translate(1364 487)" fill="currentColor"></rect>
+                                                <rect id="Rectangle_5732" data-name="Rectangle 5732" width="9" height="2" transform="translate(1368 487)" fill="currentColor"></rect>
+                                            </g>
+                                        </g>
+                                    </g>
+                                </svg>
+                            </button>
+                            
+                           
+                        </div>
+                    </div>
+                    <div class="product__view--mode__list product__view--search d-none d-lg-block">
+                        <form class="product__view--search__form" >
+                            <label>
+                                <input type="text" name="searchTerm" id="searchTerm" [(ngModel)]="searchTerm" class="product__view--search__input border-0" placeholder="Recherché par" >
+                            </label>
+                            <button (click)="searchByNameFilter()" class="product__view--search__btn" aria-label="shop button" type="submit">
+                                <svg class="product__view--search__btn--svg" xmlns="http://www.w3.org/2000/svg" width="22.51" height="20.443" viewBox="0 0 512 512"><path d="M221.09 64a157.09 157.09 0 10157.09 157.09A157.1 157.1 0 00221.09 64z" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"></path><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="32" d="M338.29 338.29L448 448"></path></svg>  
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                <p class="product__showing--count"> {{productsList.length}} produits</p>
+            </div>
+            <div class="row">
+                <div class="col-xl-3 col-lg-4">
+                    <div class="shop__sidebar--widget widget__area d-none d-lg-block">
+                        <div class="single__widget price__filter widget__bg">
+                            <h2 class="widget__title h3">Filtrer par prix</h2>
+                            <form class="price__filter--form" > 
+                                <div class="price__filter--form__inner mb-15 d-flex align-items-center">
+                                    <div class="price__filter--group">
+                                        <label class="price__filter--label" for="fromPrice">De</label>
+                                        <div class="price__filter--input border-radius-5 d-flex align-items-center">
+                                            <span class="price__filter--currency">DT</span>
+                                            <label>
+                                                <input  type="number" name="fromRangePrice" [(ngModel)]="fromRangePrice" class="price__filter--input__field border-0"  placeholder="0" min="0" >
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="price__divider">
+                                        <span>-</span>
+                                    </div>
+                                    <div class="price__filter--group">
+                                        <label class="price__filter--label" for="toPrice">À</label>
+                                        <div class="price__filter--input border-radius-5 d-flex align-items-center">
+                                            <span class="price__filter--currency">DT</span>
+                                            <label>
+                                                <input type="number" name="toRangePrice" [(ngModel)]="toRangePrice" class="price__filter--input__field border-0"  min="0" placeholder="250.00">
+                                            </label> 
+                                        </div>	
+                                    </div>
+                                </div>
+                                <button class="price__filter--btn primary__btn" type="submit" (click)="getProductsPriceRange()">Filtrer</button>
+                            </form>
+                        </div>
+                        
+                       
+                    </div>
+                </div>
+                <div class="col-xl-9 col-lg-8">
+                    <div class="shop__product--wrapper">
+                        <div class="tab_content">
+                            <div id="product_grid" class="tab_pane" [ngClass]="{'active': isGridActive, 'show': isGridActive}">
+                                <div class="product__section--inner product__grid--inner">
+                                    <div class="row row-cols-xl-4 row-cols-lg-3 row-cols-md-3 row-cols-2 mb--n30">
+                                        <ng-container *ngIf="productsList != null">
+                                            <ng-container *ngFor="let product of productsList">
+                                                    <div class="col mb-30" >
+                                                        <div class="product__items ">
+                                                            <div class="product__items--thumbnail" [routerLink]="['/product-details', product.id]" routerLinkActive="router-link-active" >
+                                                                <a class="product__items--link">
+                                                                    <img class="product__items--img product__primary--img" [src]="getProductPhotoUrl(product.id)" style="width:282px; height:310px;" alt="product-img">
+                                                                    <ng-container *ngIf="product.productImages.length > 1">
+                                                                        <img class="product__items--img product__secondary--img" style="width:282px; height:310px;" [src]="getProductImagePhotoUrl(product.productImages[1].id)" alt="product-img">
+                                                                    </ng-container>
+                                                                </a>      
+                                                                <ng-container *ngIf="product.simpleDiscountValue > 0 || product.discounts.length > 0">                                                 
+                                                                    <div class="product__badge">
+                                                                        <span class="product__badge--items sale">En promotion!</span>
+                                                                    </div>
+                                                                </ng-container> 
+                                                            </div>
+                                                            <div class="product__items--content">
+                                                                <span class="product__items--content__subtitle">{{product.category.name}}</span>
+                                                                <h3 class="product__items--content__title h4"><a>{{product.name}}</a></h3>
+                                                                <div class="product__items--price">
+                                                                    <ng-container *ngIf="product.simpleDiscountValue > 0">
+                                                                                <span class="old__price">{{product.sellPrice}} DT</span>
+                                                                                <span class="price__divided"></span>
+                                                                                <ng-container *ngIf="product.simpleDiscountType == 'fixed'">
+                                                                                    <span class="current__price">{{product.sellPrice - product.simpleDiscountValue}} DT</span>
+                                                                                </ng-container>
+        
+                                                                                <ng-container *ngIf="product.simpleDiscountType == 'percent'">
+                                                                                    <span class="current__price">{{product.sellPrice - ((product.sellPrice * product.simpleDiscountValue) / 100) }} DT</span>
+                                                                                </ng-container>
+                                                                    </ng-container>
+        
+                                                                    <ng-container *ngIf="product.simpleDiscountValue == 0 || product.simpleDiscountValue == null">
+                                                                            <span class="current__price">{{product.sellPrice}} DT</span>
+                                                                    </ng-container>
+        
+        
+                                                                </div>
+                                                                <ul class="rating product__rating d-flex">
+                                                                        <ng-container *ngIf="product.ratings.length > 0" >
+                                                                            <ng-container *ngFor="let star of [].constructor(calculateAverageRating(product.ratings)); let i = index"> 
+                                                                                <li class="rating__list">
+                                                                                    <span class="rating__list--icon">
+                                                                                        <svg class="rating__list--icon__svg" xmlns="http://www.w3.org/2000/svg" width="14.105" height="14.732" viewBox="0 0 10.105 9.732">
+                                                                                        <path data-name="star - Copy" d="M9.837,3.5,6.73,3.039,5.338.179a.335.335,0,0,0-.571,0L3.375,3.039.268,3.5a.3.3,0,0,0-.178.514L2.347,6.242,1.813,9.4a.314.314,0,0,0,.464.316L5.052,8.232,7.827,9.712A.314.314,0,0,0,8.292,9.4L7.758,6.242l2.257-2.231A.3.3,0,0,0,9.837,3.5Z" transform="translate(0 -0.018)" fill="currentColor"></path>
+                                                                                        </svg>
+                                                                                    </span>
+                                                                                </li>
+                                                                            </ng-container>
+                                                                        </ng-container>
+                                                                </ul>
+        
+                                                                <ul class="product__items--action d-flex">
+                                                                    <li class="product__items--action__list" [routerLink]="['/product-details', product.id]" routerLinkActive="router-link-active">
+                                                                        <a class="product__items--action__btn add__to--cart">
+                                                                            <span class="add__to--cart__text">Voir plus</span>
+                                                                        </a>
+                                                                    </li>
+                                                                            <li class="product__items--action__list">
+                                                                                        <a *ngIf="isFavorite(product.id)" class="product__items--action__btn"  style="color: white; background-color:#ee2761;" (click)="addProductToFavoriteList(product)">
+                                                                                            <svg class="product__items--action__btn--svg" xmlns="http://www.w3.org/2000/svg" width="25.51" height="23.443" viewBox="0 0 512 512">
+                                                                                                <path d="M352.92 80C288 80 256 144 256 144s-32-64-96.92-64c-52.76 0-94.54 44.14-95.08 96.81-1.1 109.33 86.73 187.08 183 252.42a16 16 0 0018 0c96.26-65.34 184.09-143.09 183-252.42-.54-52.67-42.32-96.81-95.08-96.81z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"></path>
+                                                                                            </svg> 
+                                                                                            <span class="visually-hidden">Liste des favoris</span>
+                                                                                        </a>
+        
+                                                                                        <a *ngIf="!isFavorite(product.id)" class="product__items--action__btn" (click)="addProductToFavoriteList(product)">
+                                                                                            <svg class="product__items--action__btn--svg" xmlns="http://www.w3.org/2000/svg" width="25.51" height="23.443" viewBox="0 0 512 512">
+                                                                                                <path d="M352.92 80C288 80 256 144 256 144s-32-64-96.92-64c-52.76 0-94.54 44.14-95.08 96.81-1.1 109.33 86.73 187.08 183 252.42a16 16 0 0018 0c96.26-65.34 184.09-143.09 183-252.42-.54-52.67-42.32-96.81-95.08-96.81z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"></path>
+                                                                                            </svg> 
+                                                                                            <span class="visually-hidden">Liste des favoris</span>
+                                                                                        </a>
+                                                                                </li>
+        
+        
+                                                                                <li class="product__items--action__list" [routerLink]="['/product-details', product.id]" routerLinkActive="router-link-active">
+                                                                                    <a class="product__items--action__btn" data-open="modal1" [routerLink]="['/product-details', product.id]" routerLinkActive="router-link-active">
+                                                                                        <svg class="product__items--action__btn--svg" xmlns="http://www.w3.org/2000/svg"  width="25.51" height="23.443" viewBox="0 0 512 512">
+                                                                                            <path d="M255.66 112c-77.94 0-157.89 45.11-220.83 135.33a16 16 0 00-.27 17.77C82.92 340.8 161.8 400 255.66 400c92.84 0 173.34-59.38 221.79-135.25a16.14 16.14 0 000-17.47C428.89 172.28 347.8 112 255.66 112z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/><circle cx="256" cy="256" r="80" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"/></svg>
+                                                                                        <span class="visually-hidden">Aperçu rapide</span>
+                                                                                    </a>
+                                                                                </li>
+                                                                    
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                        </ng-container>
+                                    </ng-container>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="product_list" class="tab_pane" [ngClass]="{'active': !isGridActive, 'show': !isGridActive}">
+                                <div class="product__section--inner">
+                                    <div class="row row-cols-1 mb--n30">
+                                        <ng-container *ngIf="productsList != null">
+                                        <ng-container *ngFor="let product of productsList">
+                                        <div class="col mb-30">
+                                            <div class="product__items product__list--items d-flex">
+                                                <div class="product__items--thumbnail product__list--items__thumbnail" [routerLink]="['/product-details', product.id]" routerLinkActive="router-link-active">
+                                                    <a class="product__items--link">
+                                                        <img class="product__items--img product__primary--img" [src]="getProductPhotoUrl(product.id)" style="width:282px; height:310px;" alt="product-img">
+                                                        <ng-container *ngIf="product.productImages.length > 1">
+                                                            <img class="product__items--img product__secondary--img" style="width:282px; height:310px;" [src]="getProductImagePhotoUrl(product.productImages[1].id)" alt="product-img">
+                                                        </ng-container>
+                                                    </a>      
+                                                    <ng-container *ngIf="product.simpleDiscountValue > 0 || product.discounts.length > 0">                                                 
+                                                        <div class="product__badge">
+                                                            <span class="product__badge--items sale">En promotion!</span>
+                                                        </div>
+                                                    </ng-container> 
+                                                </div>
+                                                <div class="product__list--items__content">
+                                                    <span class="product__items--content__subtitle mb-5">{{product.category.name}}</span>
+                                                    <h3 class="product__list--items__content--title h4 mb-10">
+                                                        <a >{{product.name}}</a>
+                                                    </h3>
+                                                    <div class="product__list--items__price mb-10">
+                                                        <ng-container *ngIf="product.simpleDiscountValue > 0">
+                                                            <span class="old__price">{{product.sellPrice}} DT</span>
+                                                            <span class="price__divided"></span>
+                                                            <ng-container *ngIf="product.simpleDiscountType == 'fixed'">
+                                                                <span class="current__price">{{product.sellPrice - product.simpleDiscountValue}} DT</span>
+                                                            </ng-container>
+
+                                                            <ng-container *ngIf="product.simpleDiscountType == 'percent'">
+                                                                <span class="current__price">{{product.sellPrice - ((product.sellPrice * product.simpleDiscountValue) / 100) }} DT</span>
+                                                            </ng-container>
+                                                        </ng-container>
+
+                                                        <ng-container *ngIf="product.simpleDiscountValue == 0 || product.simpleDiscountValue == null">
+                                                            <span class="current__price">{{product.sellPrice}} DT</span>
+                                                        </ng-container>
+                                                    </div>
+                                                    <ul class="rating product__rating d-flex">
+                                                        <li class="rating__list">
+                                                            <span class="rating__list--icon">
+                                                                <svg class="rating__list--icon__svg" xmlns="http://www.w3.org/2000/svg" width="14.105" height="14.732" viewBox="0 0 10.105 9.732">
+                                                                <path data-name="star - Copy" d="M9.837,3.5,6.73,3.039,5.338.179a.335.335,0,0,0-.571,0L3.375,3.039.268,3.5a.3.3,0,0,0-.178.514L2.347,6.242,1.813,9.4a.314.314,0,0,0,.464.316L5.052,8.232,7.827,9.712A.314.314,0,0,0,8.292,9.4L7.758,6.242l2.257-2.231A.3.3,0,0,0,9.837,3.5Z" transform="translate(0 -0.018)" fill="currentColor"></path>
+                                                                </svg>
+                                                            </span>
+                                                        </li>
+                                                        <li class="rating__list">
+                                                            <span class="rating__list--icon">
+                                                                <svg class="rating__list--icon__svg" xmlns="http://www.w3.org/2000/svg" width="14.105" height="14.732" viewBox="0 0 10.105 9.732">
+                                                                <path data-name="star - Copy" d="M9.837,3.5,6.73,3.039,5.338.179a.335.335,0,0,0-.571,0L3.375,3.039.268,3.5a.3.3,0,0,0-.178.514L2.347,6.242,1.813,9.4a.314.314,0,0,0,.464.316L5.052,8.232,7.827,9.712A.314.314,0,0,0,8.292,9.4L7.758,6.242l2.257-2.231A.3.3,0,0,0,9.837,3.5Z" transform="translate(0 -0.018)" fill="currentColor"></path>
+                                                                </svg>
+                                                            </span>
+                                                        </li>
+                                                        <li class="rating__list">
+                                                            <span class="rating__list--icon">
+                                                                <svg class="rating__list--icon__svg" xmlns="http://www.w3.org/2000/svg" width="14.105" height="14.732" viewBox="0 0 10.105 9.732">
+                                                                <path data-name="star - Copy" d="M9.837,3.5,6.73,3.039,5.338.179a.335.335,0,0,0-.571,0L3.375,3.039.268,3.5a.3.3,0,0,0-.178.514L2.347,6.242,1.813,9.4a.314.314,0,0,0,.464.316L5.052,8.232,7.827,9.712A.314.314,0,0,0,8.292,9.4L7.758,6.242l2.257-2.231A.3.3,0,0,0,9.837,3.5Z" transform="translate(0 -0.018)" fill="currentColor"></path>
+                                                                </svg>
+                                                            </span>
+                                                        </li>
+                                                        <li class="rating__list">
+                                                            <span class="rating__list--icon">
+                                                                <svg class="rating__list--icon__svg" xmlns="http://www.w3.org/2000/svg" width="14.105" height="14.732" viewBox="0 0 10.105 9.732">
+                                                                <path data-name="star - Copy" d="M9.837,3.5,6.73,3.039,5.338.179a.335.335,0,0,0-.571,0L3.375,3.039.268,3.5a.3.3,0,0,0-.178.514L2.347,6.242,1.813,9.4a.314.314,0,0,0,.464.316L5.052,8.232,7.827,9.712A.314.314,0,0,0,8.292,9.4L7.758,6.242l2.257-2.231A.3.3,0,0,0,9.837,3.5Z" transform="translate(0 -0.018)" fill="currentColor"></path>
+                                                                </svg>
+                                                            </span>
+                                                        </li>
+                                                        <li class="rating__list">
+                                                            <span class="rating__list--icon">
+                                                                <svg class="rating__list--icon__svg" xmlns="http://www.w3.org/2000/svg" width="14.105" height="14.732" viewBox="0 0 10.105 9.732">
+                                                                <path data-name="star - Copy" d="M9.837,3.5,6.73,3.039,5.338.179a.335.335,0,0,0-.571,0L3.375,3.039.268,3.5a.3.3,0,0,0-.178.514L2.347,6.242,1.813,9.4a.314.314,0,0,0,.464.316L5.052,8.232,7.827,9.712A.314.314,0,0,0,8.292,9.4L7.758,6.242l2.257-2.231A.3.3,0,0,0,9.837,3.5Z" transform="translate(0 -0.018)" fill="currentColor"></path>
+                                                                </svg>
+                                                            </span>
+                                                        </li>
+                                                    </ul>
+                                                    <ul class="product__items--action d-flex">
+                                                        <li class="product__items--action__list" [routerLink]="['/product-details', product.id]" routerLinkActive="router-link-active">
+                                                            <a class="product__items--action__btn add__to--cart">
+                                                                <span class="add__to--cart__text">Voir plus</span>
+                                                            </a>
+                                                        </li>
+                                                                <li class="product__items--action__list">
+                                                                            <a *ngIf="isFavorite(product.id)" class="product__items--action__btn"  style="color: white; background-color:#ee2761;" (click)="addProductToFavoriteList(product)">
+                                                                                <svg class="product__items--action__btn--svg" xmlns="http://www.w3.org/2000/svg" width="25.51" height="23.443" viewBox="0 0 512 512">
+                                                                                    <path d="M352.92 80C288 80 256 144 256 144s-32-64-96.92-64c-52.76 0-94.54 44.14-95.08 96.81-1.1 109.33 86.73 187.08 183 252.42a16 16 0 0018 0c96.26-65.34 184.09-143.09 183-252.42-.54-52.67-42.32-96.81-95.08-96.81z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"></path>
+                                                                                </svg> 
+                                                                                <span class="visually-hidden">Liste des favoris</span>
+                                                                            </a>
+
+                                                                            <a *ngIf="!isFavorite(product.id)" class="product__items--action__btn" (click)="addProductToFavoriteList(product)">
+                                                                                <svg class="product__items--action__btn--svg" xmlns="http://www.w3.org/2000/svg" width="25.51" height="23.443" viewBox="0 0 512 512">
+                                                                                    <path d="M352.92 80C288 80 256 144 256 144s-32-64-96.92-64c-52.76 0-94.54 44.14-95.08 96.81-1.1 109.33 86.73 187.08 183 252.42a16 16 0 0018 0c96.26-65.34 184.09-143.09 183-252.42-.54-52.67-42.32-96.81-95.08-96.81z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"></path>
+                                                                                </svg> 
+                                                                                <span class="visually-hidden">Liste des favoris</span>
+                                                                            </a>
+                                                                    </li>
+
+
+                                                                    <li class="product__items--action__list" [routerLink]="['/product-details', product.id]" routerLinkActive="router-link-active">
+                                                                        <a class="product__items--action__btn" data-open="modal1" [routerLink]="['/product-details', product.id]" routerLinkActive="router-link-active">
+                                                                            <svg class="product__items--action__btn--svg" xmlns="http://www.w3.org/2000/svg"  width="25.51" height="23.443" viewBox="0 0 512 512">
+                                                                                <path d="M255.66 112c-77.94 0-157.89 45.11-220.83 135.33a16 16 0 00-.27 17.77C82.92 340.8 161.8 400 255.66 400c92.84 0 173.34-59.38 221.79-135.25a16.14 16.14 0 000-17.47C428.89 172.28 347.8 112 255.66 112z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/><circle cx="256" cy="256" r="80" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"/></svg>
+                                                                            <span class="visually-hidden">Aperçu rapide</span>
+                                                                        </a>
+                                                                    </li>
+                                                        
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        </ng-container>
+                                        </ng-container>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- END SHOP SECTION -->
+    <app-footer-store></app-footer-store>
+</body>
+</html>

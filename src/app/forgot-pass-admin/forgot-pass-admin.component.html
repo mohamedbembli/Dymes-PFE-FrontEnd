@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta name="description" content="Dymes Store - Shopping">
+	<meta name="author" content="Dymes">
+
+	<title>Dymes Store</title>
+
+    <link href="/assets/css/modern.css" rel="stylesheet">
+    <style>
+		body {
+			opacity: 0;
+		}
+	</style>
+<!-- SET YOUR THEME -->
+</head>
+<body class="theme-blue">
+	<div class="splash">
+		<div class="splash-icon"></div>
+	</div>
+
+	<main class="main h-100 w-100">
+		<div class="container h-100">
+			<div class="row h-100">
+				<div class="col-sm-10 col-md-8 col-lg-6 mx-auto d-table h-100">
+					<div class="d-table-cell align-middle">
+                        <div class="text-center">
+                            <img src="/assets/img/logo.png" alt="Dymes Store Logo" class="img-fluid rounded-circle" width="170" height="170">
+                        </div>
+						<div class="text-center mt-4">
+							<h1 class="h2">Réinitialiser votre mot de passe</h1>
+                            
+							<p class="lead" *ngIf="state1">
+								Saisissez votre adresse électronique pour réinitialiser votre mot de passe.
+							</p>
+
+                            <p class="lead" *ngIf="state2">
+								Saisissez votre code secret reçu sur {{email}} .
+							</p>
+
+                            <p class="lead" *ngIf="state3">
+								Saisissez votre nouveau mot de passe.
+							</p>
+
+						</div>
+
+						<div class="card">
+							<div class="card-body">
+
+								<div class="m-sm-4" *ngIf="state1">
+									<form #f="ngForm">
+										<div class="mb-3">
+											<label>Courriel</label>
+											<input class="form-control form-control-lg" [(ngModel)]="email" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}" type="email" name="email" placeholder="Saisissez votre adresse électronique" required>
+										</div>
+										<div class="text-center mt-3">
+											<button type="submit" class="btn btn-lg btn-primary" [disabled]="f.invalid || isButtonDisabled" (click)="forgetPass()">Réinitialiser</button>
+										</div>
+									</form>
+								</div>
+
+                                <div class="m-sm-4" *ngIf="state2">
+									<form #f1="ngForm">
+										<div class="mb-3">
+											<label>Code secret</label>
+											<input class="form-control form-control-lg" type="text" maxlength="4" [(ngModel)]="sCode"  name="scode" placeholder="Saisissez votre code secret">
+										</div>
+										<div class="text-center mt-3">
+											<button type="submit" class="btn btn-lg btn-primary" [disabled]="f1.invalid" (click)="validateSecretCode()">Valider</button>
+										</div>
+									</form>
+								</div>
+
+                                <div class="m-sm-4" *ngIf="state3">
+									<form #f2="ngForm">
+										<div class="mb-3">
+											<label>Nouveau mot de passe</label>
+											<input class="form-control form-control-lg" type="password" name="npwd" minlength="3" [(ngModel)]="newPass" placeholder="Saisissez votre nouveau mot de passe">
+                                            <br>
+                                            <label>Vérifier le mot de passe</label>
+											<input class="form-control form-control-lg" type="password" name="cpwd" minlength="3" [(ngModel)]="confirmPass" placeholder="Confirmer votre mot de passe">
+										</div>
+										<div class="text-center mt-3">
+                                            <button type="submit" class="btn btn-lg btn-primary" [disabled]="f2.invalid" (click)="resetPass()">Confirmer</button>
+										</div>
+									</form>
+								</div>
+
+
+                                
+							</div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</main>
+
+
+
+</body></html>

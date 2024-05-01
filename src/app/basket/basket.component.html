@@ -1,0 +1,619 @@
+<!doctype html>
+<html lang="zxx">
+
+<head>
+  <meta charset="utf-8">
+  <title>Shop - Dymes TN</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="shortcut icon" type="image/x-icon" href="/assets/store/img/favicon.ico">
+    
+   <!-- ======= All CSS Plugins here ======== -->
+   
+  <link rel="stylesheet" href="/assets/store/css/swiper-bundle.min.css">
+  <link rel="stylesheet" href="/assets/store/css/glightbox.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+  <!-- Plugin css -->
+  <link rel="stylesheet" href="/assets/store/css/bootstrap.min.css">
+
+  <!-- Custom Style CSS -->
+  <link rel="stylesheet" href="/assets/store/css/style.css">
+
+</head>
+
+
+<body [ngClass]="{ 'mobile_menu_open': isMobileMenuOpen }">
+    <app-header-store [basketItemCount]="basketItemCount" [countFavoriteProducts]="countFavoriteProducts" ></app-header-store>
+    
+    <main class="main__content_wrapper">
+        
+        <!-- Start breadcrumb section -->
+        <section class="breadcrumb__section breadcrumb__bg">
+            <div class="container">
+                <div class="row row-cols-1">
+                    <div class="col">
+                        <div class="breadcrumb__content text-center">
+                            <h1 class="breadcrumb__content--title text-white mb-25">Panier</h1>
+                            <ul class="breadcrumb__content--menu d-flex justify-content-center">
+                                <li class="breadcrumb__content--menu__items"><a class="text-white" href="index.html">Boutique</a></li>
+                                <li class="breadcrumb__content--menu__items"><span class="text-white">Panier</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- End breadcrumb section -->
+
+        <!-- cart section start -->
+        <section class="cart__section section--padding">
+            <div class="container-fluid">
+                <div class="cart__section--inner">
+                    <form action="#"> 
+                        <h2 class="cart__title mb-40">Panier</h2>
+                        <div class="row">
+                            <div class="col-lg-8">
+                                <div class="cart__table">
+                                    <table class="cart__table--inner">
+                                        <thead class="cart__table--header">
+                                            <tr class="cart__table--header__items">
+                                                <th class="cart__table--header__list">Produit</th>
+                                                <th class="cart__table--header__list">Prix</th>
+                                                <th class="cart__table--header__list">Quantité</th>
+                                                <th class="cart__table--header__list">Total</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class="cart__table--body">
+                                            <div
+                                            *ngIf="errorMSG"
+                                            class="alert alert-danger alert-dismissible fade show fixed-top w-100"
+                                            role="alert"
+                                            >
+                                            {{ errorMSG }}
+                                            <button type="button" class="btn-close" aria-label="Close" (click)="closeError()">
+                                            </button>
+                                        </div>
+
+                                            <ng-container *ngFor="let basketPR of basketProducts" >
+                                                <tr class="cart__table--body__items">
+                                                    <td class="cart__table--body__list">
+                                                        <div class="cart__product d-flex align-items-center">
+                                                            <button class="cart__remove--btn" (click)="removeProduct(basketPR)" aria-label="search button" type="button">
+                                                                <svg fill="currentColor" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 24 24" width="16px" height="16px"><path d="M 4.7070312 3.2929688 L 3.2929688 4.7070312 L 10.585938 12 L 3.2929688 19.292969 L 4.7070312 20.707031 L 12 13.414062 L 19.292969 20.707031 L 20.707031 19.292969 L 13.414062 12 L 20.707031 4.7070312 L 19.292969 3.2929688 L 12 10.585938 L 4.7070312 3.2929688 z"/></svg>
+                                                            </button>
+                                                            <div class="cart__thumbnail">
+                                                                <a>
+                                                                    <img *ngIf="basketPR.type == 'product' " [routerLink]="['/product-details', basketPR.obj.id]" routerLinkActive="router-link-active"  class="border-radius-5" [src]="getProductPhotoUrl(basketPR.obj.id)" alt="cart-product">
+                                                                    <img *ngIf="basketPR.type == 'variant' " [routerLink]="['/product-details', basketPR.product.id]" class="border-radius-5" [src]="getVariantImage(basketPR.obj.id)" alt="cart-product">
+                                                                </a>
+                                                            </div>
+                                                            <div class="cart__content">
+                                                                <h4 *ngIf="basketPR.type == 'product' " class="cart__content--title">
+                                                                    <a>{{basketPR.obj.name}}</a>
+                                                                </h4>
+
+                                                                <h4 *ngIf="basketPR.type == 'variant' " class="cart__content--title">
+                                                                    <a>{{basketPR.product.name}}</a>
+                                                                </h4>
+
+                                                                <span *ngIf="basketPR.type == 'product' " class="cart__content--variant">Catégorie: {{basketPR.obj.category.name}}</span>
+                                                                <ng-container *ngIf="basketPR.type == 'variant'">
+                                                                    <span class="cart__content--variant">Catégorie: {{basketPR.product.category.name}}</span>
+                                                                    <ng-container *ngFor="let item of basketPR.obj.elements">
+                                                                      <span class="cart__content--variant" *ngIf="item.attribute">
+                                                                        {{ getAttribute(item.attribute).name}} : {{item.name}}
+                                                                      </span>
+                                                                    </ng-container>
+                                                                  </ng-container>
+                                                                
+                                                                
+                                                            </div>
+                                                        </div>
+                                                    </td>
+                                                    <td class="cart__table--body__list">
+
+                                                        <!-- product price-->
+                                                        <ng-container *ngIf="basketPR.type == 'product' ">
+
+                                                                <ng-container *ngIf="basketPR.obj.discounts.length == 0 && basketPR.obj.simpleDiscountValue == null" >
+                                                                        <span class="cart__price">{{basketPR.obj.sellPrice}} DT</span>
+                                                                </ng-container>
+
+                                                                <ng-container *ngIf="(basketPR.obj.discounts.length == 0) && (basketPR.obj.simpleDiscountValue > 0  && basketPR.qte >= 1)" >
+                                                                            <span class="old__price">{{basketPR.obj.sellPrice}} DT</span>
+                                                                            <span class="price__divided"></span>
+                                                                            
+                                                                                <ng-container *ngIf="basketPR.obj.simpleDiscountType == 'fixed'">
+                                                                                    <span class="current__price">{{basketPR.obj.sellPrice - basketPR.obj.simpleDiscountValue}} DT</span>
+                                                                                </ng-container>
+                                
+                                                                                <ng-container *ngIf="basketPR.obj.simpleDiscountType == 'percent'">
+                                                                                    <span class="current__price">{{basketPR.obj.sellPrice - ((basketPR.obj.sellPrice * basketPR.obj.simpleDiscountValue) / 100) }} DT</span>
+                                                                                </ng-container>
+                                                                </ng-container>
+
+                                                                <ng-container *ngIf="(basketPR.obj.discounts.length > 0) && (basketPR.obj.simpleDiscountValue > 0  && basketPR.qte == 1)" >
+                                                                        <span class="old__price">{{basketPR.obj.sellPrice}} DT</span>
+                                                                        <span class="price__divided"></span>
+                                                                        
+                                                                            <ng-container *ngIf="basketPR.obj.simpleDiscountType == 'fixed'">
+                                                                                <span class="current__price">{{basketPR.obj.sellPrice - basketPR.obj.simpleDiscountValue}} DT</span>
+                                                                            </ng-container>
+                            
+                                                                            <ng-container *ngIf="basketPR.obj.simpleDiscountType == 'percent'">
+                                                                                <span class="current__price">{{basketPR.obj.sellPrice - ((basketPR.obj.sellPrice * basketPR.obj.simpleDiscountValue) / 100) }} DT</span>
+                                                                            </ng-container>
+                                                                </ng-container>
+
+                                                                <ng-container *ngIf="(basketPR.obj.discounts.length > 0) && (basketPR.obj.simpleDiscountValue >= 0  && basketPR.qte > 1)" >
+                                                                        <span class="old__price">{{basketPR.obj.sellPrice}} DT</span>
+                                                                        <span class="price__divided"></span>
+                                                                        
+                                                                        <ng-container *ngFor="let discount of basketPR.obj.discounts">
+                                                                            <ng-container *ngIf="basketPR.qte == discount.quantity">
+                                                                                <span class="current__price">{{discount.finalPrice}} DT</span>
+                                                                            </ng-container>
+                                                                              
+                                                                        </ng-container>
+
+
+                                                                        <ng-container *ngIf="basketPR.qte > basketPR.obj.discounts[basketPR.obj.discounts.length - 1].quantity">
+                                                                            <span class="current__price">{{basketPR.obj.discounts[basketPR.obj.discounts.length - 1].finalPrice}} DT</span>
+                                                                          </ng-container>
+                                                                </ng-container>
+
+                                                        </ng-container>
+                                                        <!-- variant price -->
+                                                        <ng-container *ngIf="basketPR.type == 'variant' ">
+
+                                                            <ng-container *ngIf="basketPR.product.discounts.length == 0 && basketPR.product.simpleDiscountValue == null" >
+                                                                <span class="cart__price">{{basketPR.obj.price}} DT</span>
+                                                            </ng-container>
+
+                                                            <ng-container *ngIf="(basketPR.product.discounts.length == 0) && (basketPR.product.simpleDiscountValue > 0  && basketPR.qte >= 1)" >
+                                                                <span class="old__price">{{basketPR.obj.price}} DT</span>
+                                                                <span class="price__divided"></span>
+                                                                
+                                                                    <ng-container *ngIf="basketPR.product.simpleDiscountType == 'fixed'">
+                                                                        <span class="current__price">{{basketPR.obj.price - basketPR.product.simpleDiscountValue}} DT</span>
+                                                                    </ng-container>
+                    
+                                                                    <ng-container *ngIf="basketPR.product.simpleDiscountType == 'percent'">
+                                                                        <span class="current__price">{{basketPR.obj.price - ((basketPR.obj.price * basketPR.product.simpleDiscountValue) / 100) }} DT</span>
+                                                                    </ng-container>
+                                                            </ng-container>
+
+                                                            <ng-container *ngIf="(basketPR.product.discounts.length > 0) && (basketPR.product.simpleDiscountValue > 0  && basketPR.qte == 1)" >
+                                                                <span class="old__price">{{basketPR.obj.price}} DT</span>
+                                                                <span class="price__divided"></span>
+                                                                
+                                                                    <ng-container *ngIf="basketPR.product.simpleDiscountType == 'fixed'">
+                                                                        <span class="current__price">{{basketPR.obj.price - basketPR.product.simpleDiscountValue}} DT</span>
+                                                                    </ng-container>
+                    
+                                                                    <ng-container *ngIf="basketPR.product.simpleDiscountType == 'percent'">
+                                                                        <span class="current__price">{{basketPR.obj.price - ((basketPR.obj.price * basketPR.product.simpleDiscountValue) / 100) }} DT</span>
+                                                                    </ng-container>
+                                                            </ng-container>
+
+                                                            <ng-container *ngIf="(basketPR.product.discounts.length > 0) && (basketPR.product.simpleDiscountValue >= 0  && basketPR.qte > 1)" >
+                                                                <span class="old__price">{{basketPR.obj.price}} DT</span>
+                                                                <span class="price__divided"></span>
+                                                                
+                                                                <ng-container *ngFor="let discount of basketPR.product.discounts">
+                                                                    <ng-container *ngIf="basketPR.qte == discount.quantity">
+                                                                        <ng-container *ngIf="discount.type ==  'fixed'">
+                                                                            <span class="current__price">{{basketPR.obj.price - discount.value }} DT</span>
+                                                                        </ng-container>
+    
+                                                                        <ng-container *ngIf="discount.type == 'percent'">
+                                                                            <span class="current__price">{{basketPR.obj.price - ((basketPR.obj.price * discount.value ) / 100) }} DT</span>
+                                                                        </ng-container>
+                                                                    </ng-container>
+                                                                </ng-container>
+                                                                
+
+
+                                                                <ng-container *ngIf="basketPR.qte > basketPR.product.discounts[basketPR.product.discounts.length - 1].quantity">
+
+                                                                    <ng-container *ngIf="basketPR.product.discounts[basketPR.product.discounts.length - 1].type ==  'fixed'">
+                                                                        <span class="current__price">{{basketPR.obj.price - basketPR.product.discounts[basketPR.product.discounts.length - 1].value }} DT</span>
+                                                                    </ng-container>
+
+                                                                    <ng-container *ngIf="basketPR.product.discounts[basketPR.product.discounts.length - 1].type == 'percent'">
+                                                                        <span class="current__price">{{basketPR.obj.price - ((basketPR.obj.price * basketPR.product.discounts[basketPR.product.discounts.length - 1].value ) / 100) }} DT</span>
+                                                                    </ng-container>
+
+                                                                </ng-container>
+                                                            </ng-container>
+
+                                                        </ng-container>
+
+
+                                                    </td>
+                                                    <td class="cart__table--body__list">
+                                                        <div class="quantity__box">
+                                                            <button type="button" class="quantity__value quickview__value--quantity decrease" aria-label="quantity value" value="Decrease Value" (click)="decreaseQte(basketPR)">-</button>
+                                                            <label>
+                                                                <input type="number" class="quantity__number quickview__value--number" [value]="basketPR.qte" disabled data-counter/>
+                                                            </label>
+                                                            <button type="button" class="quantity__value quickview__value--quantity increase" aria-label="quantity value" (click)="increaseQte(basketPR)" value="Increase Value">+</button>
+                                                        </div>
+                                                    </td>
+
+                                                    <td class="cart__table--body__list">
+                                                             <!-- TOTAL VARIANT -->
+                                                            <ng-container *ngIf="basketPR.type == 'variant' ">
+
+                                                                <ng-container *ngIf="basketPR.product.discounts.length == 0 && basketPR.product.simpleDiscountValue == null" >
+                                                                    <span class="cart__price end" #totalPriceRef>{{basketPR.obj.price * basketPR.qte | number:'1.1-2'}} DT</span>
+                                                                    <span style="display:none" #productIdRef>{{ basketPR.obj.id }}</span>
+                                                                    <span style="display:none" #typeRef>variant</span>
+                                                                </ng-container>
+
+                                                                <ng-container *ngIf="(basketPR.product.discounts.length == 0) && (basketPR.product.simpleDiscountValue > 0  && basketPR.qte >= 1)" >
+                                                                        <ng-container *ngIf="basketPR.product.simpleDiscountType == 'fixed'">
+                                                                            <span class="cart__price end" #totalPriceRef>{{(basketPR.obj.price - basketPR.product.simpleDiscountValue) * basketPR.qte | number:'1.1-2'}} DT</span>
+                                                                            <span style="display:none" #productIdRef>{{ basketPR.obj.id }}</span>
+                                                                            <span style="display:none" #typeRef>variant</span>
+                                                                        </ng-container>
+                        
+                                                                        <ng-container *ngIf="basketPR.product.simpleDiscountType == 'percent'">
+                                                                            <span class="cart__price end" #totalPriceRef>{{(basketPR.obj.price - ((basketPR.obj.price * basketPR.product.simpleDiscountValue) / 100)) * basketPR.qte | number:'1.1-2' }} DT</span>
+                                                                            <span style="display:none" #productIdRef>{{ basketPR.obj.id }}</span>
+                                                                            <span style="display:none" #typeRef>variant</span>
+                                                                        </ng-container>
+                                                                </ng-container>
+
+                                                                <ng-container *ngIf="(basketPR.product.discounts.length > 0) && (basketPR.product.simpleDiscountValue > 0  && basketPR.qte == 1)" >
+                                                                        <ng-container *ngIf="basketPR.product.simpleDiscountType == 'fixed'">
+                                                                            <span class="cart__price end" #totalPriceRef>{{(basketPR.obj.price - basketPR.product.simpleDiscountValue) * basketPR.qte | number:'1.1-2' }} DT</span>
+                                                                            <span style="display:none" #productIdRef>{{ basketPR.obj.id }}</span>
+                                                                            <span style="display:none" #typeRef>variant</span>
+                                                                        </ng-container>
+                        
+                                                                        <ng-container *ngIf="basketPR.product.simpleDiscountType == 'percent'">
+                                                                            <span class="cart__price end" #totalPriceRef>{{(basketPR.obj.price - ((basketPR.obj.price * basketPR.product.simpleDiscountValue) / 100)) * basketPR.qte  | number:'1.1-2'}} DT</span>
+                                                                            <span style="display:none" #productIdRef>{{ basketPR.obj.id }}</span>
+                                                                            <span style="display:none" #typeRef>variant</span>
+                                                                        </ng-container>
+                                                                </ng-container>
+
+                                                                <ng-container *ngIf="(basketPR.product.discounts.length > 0) && (basketPR.product.simpleDiscountValue >= 0  && basketPR.qte > 1)" >
+                                                                    
+                                                                    <ng-container *ngFor="let discount of basketPR.product.discounts">
+                                                                        <ng-container *ngIf="basketPR.qte == discount.quantity">
+                                                                            <ng-container *ngIf="discount.type ==  'fixed'">
+                                                                                <span class="cart__price end" #totalPriceRef>{{(basketPR.obj.price - discount.value) * basketPR.qte | number:'1.1-2'}} DT</span>
+                                                                                <span style="display:none" #productIdRef>{{ basketPR.obj.id }}</span>
+                                                                                <span style="display:none" #typeRef>variant</span>
+                                                                            </ng-container>
+        
+                                                                            <ng-container *ngIf="discount.type == 'percent'">
+                                                                                <span class="cart__price end" #totalPriceRef>{{(basketPR.obj.price - ((basketPR.obj.price * discount.value ) / 100)) * basketPR.qte | number:'1.1-2'}} DT</span>
+                                                                                <span style="display:none" #productIdRef>{{ basketPR.obj.id }}</span>
+                                                                                <span style="display:none" #typeRef>variant</span>
+                                                                            </ng-container>
+                                                                        </ng-container>
+                                                                    </ng-container>
+                                                                    
+    
+    
+                                                                    <ng-container *ngIf="basketPR.qte > basketPR.product.discounts[basketPR.product.discounts.length - 1].quantity">
+    
+                                                                        <ng-container *ngIf="basketPR.product.discounts[basketPR.product.discounts.length - 1].type ==  'fixed'">
+                                                                            <span class="cart__price end" #totalPriceRef>{{(basketPR.obj.price - basketPR.product.discounts[basketPR.product.discounts.length - 1].value) * basketPR.qte | number:'1.1-2'}} DT</span>
+                                                                            <span style="display:none" #productIdRef>{{ basketPR.obj.id }}</span>
+                                                                            <span style="display:none" #typeRef>variant</span>
+                                                                        </ng-container>
+    
+                                                                        <ng-container *ngIf="basketPR.product.discounts[basketPR.product.discounts.length - 1].type == 'percent'">
+                                                                            <span class="cart__price end" #totalPriceRef>{{(basketPR.obj.price - ((basketPR.obj.price * basketPR.product.discounts[basketPR.product.discounts.length - 1].value ) / 100)) * basketPR.qte | number:'1.1-2'}} DT</span>
+                                                                            <span style="display:none" #productIdRef>{{ basketPR.obj.id }}</span>
+                                                                            <span style="display:none" #typeRef>variant</span>
+                                                                        </ng-container>
+    
+                                                                    </ng-container>
+                                                                </ng-container>
+
+                                                        </ng-container>
+                                                        <!-- END TOTAL VARIANT -->
+                                                        <!-- TOTAL PRODUCT -->
+                                                        <ng-container *ngIf="basketPR.type == 'product' ">
+
+                                                            <ng-container *ngIf="basketPR.obj.discounts.length == 0 && basketPR.obj.simpleDiscountValue == null" >
+                                                                <span class="cart__price end" #totalPriceRef>{{basketPR.obj.sellPrice * basketPR.qte | number:'1.1-2'}} DT</span>
+                                                                <span style="display:none" #productIdRef>{{ basketPR.obj.id }}</span>
+                                                                <span style="display:none" #typeRef>product</span>
+                                                            </ng-container>
+
+                                                            <ng-container *ngIf="(basketPR.obj.discounts.length == 0) && (basketPR.obj.simpleDiscountValue > 0  && basketPR.qte >= 1)" >
+                                                                            <ng-container *ngIf="basketPR.obj.simpleDiscountType == 'fixed'">
+                                                                                <span class="cart__price end" #totalPriceRef>{{(basketPR.obj.sellPrice - basketPR.obj.simpleDiscountValue) * basketPR.qte | number:'1.1-2'}} DT</span>
+                                                                                <span style="display:none" #productIdRef>{{ basketPR.obj.id }}</span>
+                                                                                <span style="display:none" #typeRef>product</span>
+                                                                            </ng-container>
+                            
+                                                                            <ng-container *ngIf="basketPR.obj.simpleDiscountType == 'percent'">
+                                                                                <span class="cart__price end" #totalPriceRef>{{(basketPR.obj.sellPrice - ((basketPR.obj.sellPrice * basketPR.obj.simpleDiscountValue) / 100)) * basketPR.qte | number:'1.1-2'}} DT</span>
+                                                                                <span style="display:none" #productIdRef>{{ basketPR.obj.id }}</span>
+                                                                                <span style="display:none" #typeRef>product</span>
+                                                                            </ng-container>
+                                                            </ng-container>
+
+                                                            <ng-container *ngIf="(basketPR.obj.discounts.length > 0) && (basketPR.obj.simpleDiscountValue > 0  && basketPR.qte == 1)" >
+                                                                        <ng-container *ngIf="basketPR.obj.simpleDiscountType == 'fixed'">
+                                                                            <span class="cart__price end" #totalPriceRef>{{(basketPR.obj.sellPrice - basketPR.obj.simpleDiscountValue) * basketPR.qte | number:'1.1-2'}} DT</span>
+                                                                            <span style="display:none" #productIdRef>{{ basketPR.obj.id }}</span>
+                                                                            <span style="display:none" #typeRef>product</span>
+                                                                        </ng-container>
+                        
+                                                                        <ng-container *ngIf="basketPR.obj.simpleDiscountType == 'percent'">
+                                                                            <span class="cart__price end" #totalPriceRef>{{(basketPR.obj.sellPrice - ((basketPR.obj.sellPrice * basketPR.obj.simpleDiscountValue) / 100)) * basketPR.qte | number:'1.1-2'}} DT</span>
+                                                                            <span style="display:none" #productIdRef>{{ basketPR.obj.id }}</span>
+                                                                            <span style="display:none" #typeRef>product</span>
+                                                                        </ng-container>
+                                                            </ng-container>
+
+                                                            <ng-container *ngIf="(basketPR.obj.discounts.length > 0) && (basketPR.obj.simpleDiscountValue >= 0  && basketPR.qte > 1)" >
+                                                                    
+                                                                    <ng-container *ngFor="let discount of basketPR.obj.discounts">
+                                                                        <ng-container *ngIf="basketPR.qte == discount.quantity">
+                                                                            <span class="cart__price end" #totalPriceRef>{{discount.finalPrice * basketPR.qte | number:'1.1-2'}} DT</span>
+                                                                            <span style="display:none" #productIdRef>{{ basketPR.obj.id }}</span>
+                                                                            <span style="display:none" #typeRef>product</span>
+                                                                    </ng-container>
+                                                                          
+                                                                    </ng-container>
+
+
+                                                                    <ng-container *ngIf="basketPR.qte > basketPR.obj.discounts[basketPR.obj.discounts.length - 1].quantity">
+                                                                        <span class="cart__price end" #totalPriceRef>{{basketPR.obj.discounts[basketPR.obj.discounts.length - 1].finalPrice * basketPR.qte | number:'1.1-2'}} DT</span>
+                                                                        <span style="display:none" #productIdRef>{{ basketPR.obj.id }}</span>
+                                                                        <span style="display:none" #typeRef>product</span>
+                                                                      </ng-container>
+                                                            </ng-container>
+
+                                                    </ng-container>
+                                                    <!-- END TOTAL PRODUCT -->
+                                                    
+                                                    </td>
+
+                                                </tr>
+                                            </ng-container>
+                                        </tbody>
+                                    </table> 
+                                    <div class="continue__shopping d-flex justify-content-between">
+                                        <a [routerLink]="['/']" routerLinkActive="router-link-active" class="continue__shopping--link" >Poursuivre les achats</a>
+                                        <button class="continue__shopping--clear" (click)="clearAllBasketProducts()" type="submit">Vider le panier</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="cart__summary border-radius-10">
+                                    <div class="coupon__code mb-30">
+                                        <h3 class="coupon__code--title">Coupon</h3>
+                                        <p class="coupon__code--desc">Saisissez votre code de coupon si vous en avez un.</p>
+                                        <div class="coupon__code--field d-flex">
+                                            <label>
+                                              <input type="text" [(ngModel)]="promoCode" name="promoCode" placeholder="code de coupon"  class="coupon__code--field__input border-radius-5" >
+                                            </label>
+                                            <button class="coupon__code--field__btn primary__btn" (click)="promoCodeFunc()">Appliquer</button>
+                                          </div>
+                                          
+                                    </div>
+                                    <div class="cart__summary--total mb-20">
+                                        <table class="cart__summary--total__table">
+                                            <tbody>
+                                                <tr class="cart__summary--total__list">
+                                                    <td class="cart__summary--total__title text-left">Sous-total</td>
+                                                    <td class="cart__summary--amount text-right">{{ total | number:'1.1-2' }} DT</td>
+                                                </tr>
+                                                <ng-container *ngIf="isPromoCodeSet">
+                                                    <tr class="cart__summary--total__list">
+                                                         <td class="cart__summary--total__title text-left">
+                                                            <font color="green">Bon de réduction </font> 
+                                                            <svg (click)="removePromoCode()" fill="#000000" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="17px" height="17px" viewBox="0 0 482.428 482.429" xml:space="preserve"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g> <g> <path d="M381.163,57.799h-75.094C302.323,25.316,274.686,0,241.214,0c-33.471,0-61.104,25.315-64.85,57.799h-75.098 c-30.39,0-55.111,24.728-55.111,55.117v2.828c0,23.223,14.46,43.1,34.83,51.199v260.369c0,30.39,24.724,55.117,55.112,55.117 h210.236c30.389,0,55.111-24.729,55.111-55.117V166.944c20.369-8.1,34.83-27.977,34.83-51.199v-2.828 C436.274,82.527,411.551,57.799,381.163,57.799z M241.214,26.139c19.037,0,34.927,13.645,38.443,31.66h-76.879 C206.293,39.783,222.184,26.139,241.214,26.139z M375.305,427.312c0,15.978-13,28.979-28.973,28.979H136.096 c-15.973,0-28.973-13.002-28.973-28.979V170.861h268.182V427.312z M410.135,115.744c0,15.978-13,28.979-28.973,28.979H101.266 c-15.973,0-28.973-13.001-28.973-28.979v-2.828c0-15.978,13-28.979,28.973-28.979h279.897c15.973,0,28.973,13.001,28.973,28.979 V115.744z"></path> <path d="M171.144,422.863c7.218,0,13.069-5.853,13.069-13.068V262.641c0-7.216-5.852-13.07-13.069-13.07 c-7.217,0-13.069,5.854-13.069,13.07v147.154C158.074,417.012,163.926,422.863,171.144,422.863z"></path> <path d="M241.214,422.863c7.218,0,13.07-5.853,13.07-13.068V262.641c0-7.216-5.854-13.07-13.07-13.07 c-7.217,0-13.069,5.854-13.069,13.07v147.154C228.145,417.012,233.996,422.863,241.214,422.863z"></path> <path d="M311.284,422.863c7.217,0,13.068-5.853,13.068-13.068V262.641c0-7.216-5.852-13.07-13.068-13.07 c-7.219,0-13.07,5.854-13.07,13.07v147.154C298.213,417.012,304.067,422.863,311.284,422.863z"></path> </g> </g> </g></svg>
+                                                        </td>
+                                                        <td class="cart__summary--amount text-right"><font color="green">- {{promoCodeValue | number:'1.1-2' }} DT</font></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td class="cart__summary--total__title text-left">
+                                                            <font color="green"> ("{{promotion.code}}") </font> 
+                                                        </td>
+                                                    </tr>
+                                                </ng-container>
+                                                <tr class="cart__summary--total__list">
+                                                    <td class="cart__summary--total__title text-left">Frais d'expédition</td>
+                                                    <!-- shipping fees-->
+                                                        <td class="cart__summary--amount text-right">{{ totalShippingFees }} DT</td>
+                                                    <!-- end shipping fees-->                                               
+                                                </tr>
+                                                <tr class="cart__summary--total__list">
+                                                    <td class="cart__summary--total__title text-left">Total (TVA incluse)</td>
+                                                   
+                                                    <ng-container *ngIf="!isPromoCodeSet">
+                                                         <td class="cart__summary--amount text-right">{{ totalWithTax | number:'1.1-2' }} DT</td>
+                                                    </ng-container>
+
+                                                    <ng-container *ngIf="isPromoCodeSet">
+                                                        <td class="cart__summary--amount text-right">
+                                                            <span class="old__price">{{ totalWithTax + promoCodeValue  | number:'1.1-1' }} DT</span>
+                                                            {{ totalWithTax | number:'1.1-2' }} DT
+                                                        </td>
+                                                    </ng-container>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="cart__summary--footer">
+                                        <ul class="d-flex justify-content-between">
+                                            <li (click)="payNow()">
+                                                <a class="cart__summary--footer__btn primary__btn checkout" >Paiement</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div> 
+                            </div>
+                        </div> 
+                    </form> 
+                </div>
+            </div>     
+        </section>
+        <!-- cart section end -->
+
+        <!-- Start product section -->
+        <section class="product__section section--padding pt-0">
+            <div class="container-fluid">
+                <div class="section__heading text-center mb-50">
+                    <h2 class="section__heading--maintitle">Nouveaux produits</h2>
+                </div>
+                <div class="tab_content">
+                    <div id="featured" class="tab_pane active show">
+                        <div class="product__section--inner">
+                            <div class="row row-cols-xl-5 row-cols-lg-4 row-cols-md-3 row-cols-2 mb--n30">
+
+                                    <ng-container *ngIf="productsList != null">
+                                        <ng-container *ngFor="let pr of productsList">
+                                                <div class="col mb-30" >
+                                                    <div class="product__items ">
+                                                        <div class="product__items--thumbnail" [routerLink]="['/product-details', pr.id]" routerLinkActive="router-link-active">
+                                                            <a class="product__items--link">
+                                                                <img class="product__items--img product__primary--img" [src]="getProductPhotoUrl(pr.id)" style="width:282px; height:310px;" alt="product-img">
+                                                                <ng-container *ngIf="pr.productImages.length > 1">
+                                                                    <img class="product__items--img product__secondary--img" style="width:282px; height:310px;" [src]="getProductImagePhotoUrl(pr.productImages[1].id)" alt="product-img">
+                                                                </ng-container>
+                                                            </a>      
+                                                            <ng-container *ngIf="pr.simpleDiscountValue > 0 || pr.discounts.length > 0">                                                 
+                                                                <div class="product__badge">
+                                                                    <span class="product__badge--items sale">En promotion!</span>
+                                                                </div>
+                                                            </ng-container> 
+                                                        </div>
+                                                        <div class="product__items--content">
+                                                            <span class="product__items--content__subtitle"> {{pr.category.name}}</span>
+                                                            <h3 class="product__items--content__title h4"><a>{{pr.name}}</a></h3>
+                                                            <div class="product__items--price">
+                                                                <ng-container *ngIf="pr.simpleDiscountValue > 0">
+                                                                            <span class="old__price">{{pr.sellPrice}} DT</span>
+                                                                            <span class="price__divided"></span>
+                                                                            <ng-container *ngIf="pr.simpleDiscountType == 'fixed'">
+                                                                                <span class="current__price">{{pr.sellPrice - pr.simpleDiscountValue}} DT</span>
+                                                                            </ng-container>
+
+                                                                            <ng-container *ngIf="pr.simpleDiscountType == 'percent'">
+                                                                                <span class="current__price">{{pr.sellPrice - ((pr.sellPrice * pr.simpleDiscountValue) / 100) }} DT</span>
+                                                                            </ng-container>
+                                                                </ng-container>
+
+                                                                <ng-container *ngIf="pr.simpleDiscountValue == 0 || pr.simpleDiscountValue == null">
+                                                                        <span class="current__price">{{pr.sellPrice}} DT</span>
+                                                                </ng-container>
+
+
+                                                            </div>
+                                                            <ul class="rating product__rating d-flex">
+                                                                <ng-container *ngIf="pr.ratings.length > 0" >
+                                                                    <ng-container *ngFor="let star of [].constructor(calculateAverageRating(pr.ratings)); let i = index"> 
+                                                                        <li class="rating__list">
+                                                                            <span class="rating__list--icon">
+                                                                                <svg class="rating__list--icon__svg" xmlns="http://www.w3.org/2000/svg" width="14.105" height="14.732" viewBox="0 0 10.105 9.732">
+                                                                                <path data-name="star - Copy" d="M9.837,3.5,6.73,3.039,5.338.179a.335.335,0,0,0-.571,0L3.375,3.039.268,3.5a.3.3,0,0,0-.178.514L2.347,6.242,1.813,9.4a.314.314,0,0,0,.464.316L5.052,8.232,7.827,9.712A.314.314,0,0,0,8.292,9.4L7.758,6.242l2.257-2.231A.3.3,0,0,0,9.837,3.5Z" transform="translate(0 -0.018)" fill="currentColor"></path>
+                                                                                </svg>
+                                                                            </span>
+                                                                        </li>
+                                                                    </ng-container>
+                                                                </ng-container>
+                                                            </ul>
+                                                            <ul class="product__items--action d-flex">
+                                                                <li class="product__items--action__list" [routerLink]="['/product-details', pr.id]" routerLinkActive="router-link-active">
+                                                                    <a class="product__items--action__btn add__to--cart">
+                                                                        <span class="add__to--cart__text">Voir plus</span>
+                                                                    </a>
+                                                                </li>
+                                                                <li class="product__items--action__list">
+                                                                    <a *ngIf="isFavorite(pr.id)" class="product__items--action__btn"  style="color: white; background-color:#ee2761;" (click)="addProductToFavoriteList(pr)">
+                                                                        <svg class="product__items--action__btn--svg" xmlns="http://www.w3.org/2000/svg" width="25.51" height="23.443" viewBox="0 0 512 512">
+                                                                            <path d="M352.92 80C288 80 256 144 256 144s-32-64-96.92-64c-52.76 0-94.54 44.14-95.08 96.81-1.1 109.33 86.73 187.08 183 252.42a16 16 0 0018 0c96.26-65.34 184.09-143.09 183-252.42-.54-52.67-42.32-96.81-95.08-96.81z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"></path>
+                                                                        </svg> 
+                                                                        <span class="visually-hidden">Liste des favoris</span>
+                                                                    </a>
+
+                                                                    <a *ngIf="!isFavorite(pr.id)" class="product__items--action__btn" (click)="addProductToFavoriteList(pr)">
+                                                                        <svg class="product__items--action__btn--svg" xmlns="http://www.w3.org/2000/svg" width="25.51" height="23.443" viewBox="0 0 512 512">
+                                                                            <path d="M352.92 80C288 80 256 144 256 144s-32-64-96.92-64c-52.76 0-94.54 44.14-95.08 96.81-1.1 109.33 86.73 187.08 183 252.42a16 16 0 0018 0c96.26-65.34 184.09-143.09 183-252.42-.54-52.67-42.32-96.81-95.08-96.81z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"></path>
+                                                                        </svg> 
+                                                                        <span class="visually-hidden">Liste des favoris</span>
+                                                                    </a>
+                                                            </li>
+                                                            <li class="product__items--action__list" [routerLink]="['/product-details', pr.id]" routerLinkActive="router-link-active">
+                                                                <a class="product__items--action__btn" data-open="modal1" [routerLink]="['/product-details', pr.id]" routerLinkActive="router-link-active">
+                                                                    <svg class="product__items--action__btn--svg" xmlns="http://www.w3.org/2000/svg"  width="25.51" height="23.443" viewBox="0 0 512 512">
+                                                                        <path d="M255.66 112c-77.94 0-157.89 45.11-220.83 135.33a16 16 0 00-.27 17.77C82.92 340.8 161.8 400 255.66 400c92.84 0 173.34-59.38 221.79-135.25a16.14 16.14 0 000-17.47C428.89 172.28 347.8 112 255.66 112z" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"/><circle cx="256" cy="256" r="80" fill="none" stroke="currentColor" stroke-miterlimit="10" stroke-width="32"/></svg>
+                                                                    <span class="visually-hidden">Aperçu rapide</span>
+                                                                </a>
+                                                            </li>
+                                                                
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                    </ng-container>
+                                </ng-container>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+        </section>
+        <!-- End product section -->
+
+        <!-- Start shipping section -->
+        <section class="shipping__section2 shipping__style3 section--padding">
+            <div class="container">
+                <div class="shipping__section2--inner shipping__style3--inner d-flex justify-content-between">
+                    <div class="shipping__items2 d-flex align-items-center">
+                        <div class="shipping__items2--icon">
+                            <img src="/assets/store/img/other/shipping1-1.png" alt="">
+                        </div>
+                        <div class="shipping__items2--content">
+                            <h2 class="shipping__items2--content__title h3">Expédition</h2>
+                            <p class="shipping__items2--content__desc">Des vendeurs triés sur le volet</p>
+                        </div>
+                    </div>
+                    <div class="shipping__items2 d-flex align-items-center">
+                        <div class="shipping__items2--icon">
+                            <img src="/assets/store/img/other/shipping2-2.png" alt="">
+                        </div>
+                        <div class="shipping__items2--content">
+                            <h2 class="shipping__items2--content__title h3">Paiement</h2>
+                            <p class="shipping__items2--content__desc">Sécurisés</p>
+                        </div>
+                    </div>
+                    <div class="shipping__items2 d-flex align-items-center">
+                        <div class="shipping__items2--icon">
+                            <img src="/assets/store/img/other/shipping3-2.png" alt="">
+                        </div>
+                        <div class="shipping__items2--content">
+                            <h2 class="shipping__items2--content__title h3">Retour</h2>
+                            <p class="shipping__items2--content__desc">Garantie 48 heures</p>
+                        </div>
+                    </div>
+                    <div class="shipping__items2 d-flex align-items-center">
+                        <div class="shipping__items2--icon">
+                            <img src="/assets/store/img/other/shipping4.png" alt="">
+                        </div>
+                        <div class="shipping__items2--content">
+                            <h2 class="shipping__items2--content__title h3">Assistance</h2>
+                            <p class="shipping__items2--content__desc">24h/24 7j/7</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- End shipping section -->
+
+    </main>
+    <app-footer-store></app-footer-store>
+</body>
+</html>

@@ -1,0 +1,204 @@
+<ng-container *ngIf="checkoutHome">
+<!doctype html>
+<html lang="zxx">
+
+<head>
+  <meta charset="utf-8">
+  <title>Shop - Dymes TN</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="shortcut icon" type="image/x-icon" href="/assets/store/img/favicon.ico">
+    
+   <!-- ======= All CSS Plugins here ======== -->
+   
+  <link rel="stylesheet" href="/assets/store/css/swiper-bundle.min.css">
+  <link rel="stylesheet" href="/assets/store/css/glightbox.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
+  <!-- Plugin css -->
+  <link rel="stylesheet" href="/assets/store/css/bootstrap.min.css">
+
+  <!-- Custom Style CSS -->
+  <link rel="stylesheet" href="/assets/store/css/style.css">
+
+</head>
+
+
+<body [ngClass]="{ 'mobile_menu_open': isMobileMenuOpen }">
+    <app-header-store [basketItemCount]="basketItemCount" [countFavoriteProducts]="countFavoriteProducts" ></app-header-store>
+ 
+    <div
+        *ngIf="errorMSG"
+        class="alert alert-danger alert-dismissible fade show fixed-top w-100"
+        role="alert"
+        >
+        {{ errorMSG }}
+        <button type="button" class="btn-close" aria-label="Close" (click)="closeError()"> </button>
+    </div>
+    <!-- Start checkout page area -->
+     <div class="checkout__page--area">
+        <div class="container">
+            <div class="checkout__page--inner d-flex">
+                <div class="main checkout__mian">
+                  
+                    
+                    <main class="main__content_wrapper">
+                            <div class="checkout__content--step section__contact--information" *ngIf="!connectedUser">
+                                <div class="section__header checkout__section--header d-flex align-items-center justify-content-between mb-25">
+                                    <h2 class="section__header--title h3">Facturation & Expédition</h2>
+                                    <p class="layout__flex--item">
+                                        Vous avez déjà un compte?
+                                        <a class="layout__flex--item__link" [routerLink]="['/loginUsr']" routerLinkActive="router-link-active"  >Se connecter</a>  
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="checkout__content--step section__shipping--address">
+                                <div class="section__header mb-25">
+                                    <h3 class="section__header--title"><b>Adresse de livraison</b></h3>
+                                </div>
+
+                                <div class="account__login--remember position__relative" *ngIf="isShippingAdresseSet">
+                                    <input class="checkout__checkbox--input" id="check1" (change)="isDefaultAdressCheckedFunction()" type="checkbox">
+                                    <span class="checkout__checkbox--checkmark"></span>
+                                    <label class="checkout__checkbox--label login__remember--label" for="check1">
+                                        Utiliser l'adresse de livraison par défaut.</label>
+                                </div>
+
+                                <form [formGroup]="checkoutForm" id="checkoutFORM" (ngSubmit)="submitCheckoutForm()">
+                                    <div class="section__shipping--address__content">
+                                        <div class="row">
+                                                <div *ngFor="let field of checkoutFieldsData">
+                                                <div *ngIf="field.shown && field.name != 'Créer un compte'" class="form-group">
+                                                        <div class="col-lg-12 mb-12">
+                                                            <div class="checkout__input--list ">
+                                                                <label *ngIf="field.required">{{field.name}} <font color="red">(*)</font></label>
+                                                                <label *ngIf="!field.required">{{field.name}} (optionnel)</label>
+                                                                <input type="text" class="checkout__input--field border-radius-5" placeholder="Entrer votre {{field.name}}"  id="{{ field.name }}" formControlName="{{ field.name }}">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div *ngIf="field.shown && field.name == 'Créer un compte'" >
+                                                            <a class="layout__flex--item__link" >Créer un compte</a>  
+                                                            <br><br>
+                                                    </div>
+                                                </div>
+                                        </div>
+                                    </div>
+                            </form>
+
+                            </div>
+                            <div class="checkout__content--step__footer d-flex align-items-center">
+                                <a class="continue__shipping--btn primary__btn border-radius-5" (click)="submitCheckoutForm()">Commander</a>
+                                <a class="previous__link--content" [routerLink]="['/cart']" routerLinkActive="router-link-active"  >Retour au panier</a>
+                            </div><br><br>
+                    </main>
+                </div>
+                <aside class="checkout__sidebar sidebar">
+                    <div class="cart__table checkout__product--table">
+                        <table class="cart__table--inner">
+                            <tbody class="cart__table--body">
+                                <ng-container *ngFor="let item of totalPrices" >
+                                    <tr class="cart__table--body__items">
+                                        <td class="cart__table--body__list">
+                                            <div class="product__image two  d-flex align-items-center">
+                                                <div class="product__thumbnail border-radius-5">
+                                                    <a>
+                                                        <img *ngIf="item.type == 'product' " [routerLink]="['/product-details', item.id]" routerLinkActive="router-link-active" class="border-radius-5" [src]="getProductPhotoUrl(item.id)" alt="cart-product">
+                                                        <img *ngIf="item.type == 'variant' " [routerLink]="['/product-details', item.id]" routerLinkActive="router-link-active" class="border-radius-5" [src]="getVariantImage(item.id)" alt="cart-product">
+
+                                                    </a>
+                                                    <span class="product__thumbnail--quantity">{{item.qte}}</span>
+                                                </div>
+                                                <div class="product__description">
+                                                    <h3 class="product__description--name h4">
+                                                        <a [routerLink]="['/product-details', item.id]" routerLinkActive="router-link-active">
+                                                            {{item.name}}
+                                                        </a>
+                                                    </h3>
+                                                    <span *ngIf="item.description != '' " class="product__description">{{item.description}}</span>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="cart__table--body__list">
+                                            <span class="cart__price">{{item.total}} DT</span>
+                                        </td>
+                                    </tr>
+                                </ng-container>
+                            </tbody>
+                        </table> 
+                    </div>
+                    <div class="checkout__total">
+                        <table class="checkout__total--table">
+                            <tbody class="checkout__total--body">
+                                <tr class="checkout__total--items">
+                                    <td class="checkout__total--title text-left">Frais d'expédition</td>
+                                    <td class="checkout__total--amount text-right">{{shippingFees}} DT</td>
+                                </tr>
+                                <ng-container *ngIf="isPromoCodeSet" >
+                                    <tr class="checkout__total--items">
+                                        <td class="checkout__total--title text-left"><font color="green">Bon de réduction ("{{promotion.code}}")</font></td>
+                                        <td class="checkout__total--amount text-right">
+                                            <font color="green" *ngIf="promotion.discountType == 'fixed_amount'">{{promotion.discountValue | number:'1.1-2' }} DT</font>
+                                            <font color="green" *ngIf="promotion.discountType == 'percent'">{{promotion.discountValue}} %</font>
+                                            <font color="green" *ngIf="promotion.discountType == 'free_shipping'">Livraison gratuite</font>
+
+                                        </td>
+                                    </tr>
+                                </ng-container>
+                            </tbody>
+                            <tfoot class="checkout__total--footer">
+                                <tr class="checkout__total--footer__items">
+                                    <td class="checkout__total--footer__title checkout__total--footer__list text-left">Total (TVA incluse) </td>
+                                    <td class="checkout__total--footer__amount checkout__total--footer__list text-right">{{totalWithTax | number:'1.1-2' }} DT</td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                      <hr>
+                      <p class="section__header--title h4">Paiement</p>
+                      <span class="checkout__total--title text-left">Toutes les transactions sont sécurisées et cryptées.</span>
+
+                      <div class="checkout__address--content__header">
+
+                        <div class="shipping__contact--box__list" *ngIf="storeData.payInDelivery">
+                            <div class="shipping__radio--input">
+                                <input class="shipping__radio--input__field" id="radiobox" value="COD" [(ngModel)]="paymentType" name="checkmethod" type="radio">
+                            </div>
+                            <label class="shipping__radio--label" for="radiobox">
+                                <span class="shipping__radio--label__primary">Paiement à la livraison</span>
+                            </label>
+                        </div>
+
+                        <div class="shipping__contact--box__list" *ngIf="storeData.payWithBank">
+                            <div class="shipping__radio--input">
+                                <input class="shipping__radio--input__field" id="radiobox2" value="BANK" [(ngModel)]="paymentType" name="checkmethod" type="radio">
+                            </div>
+                            <label class="shipping__radio--label" for="radiobox2">
+                                <span class="shipping__radio--label__primary">Paiement par virement bancaire</span><br>
+                                <ng-container *ngIf="paymentType == 'BANK'" >
+                                    <span style="color:red">Veuillez inclure l'ID de commande affiché sur la page de confirmation dans le message de virement.</span><br>
+                                    <b>Banque: </b><span> {{storeData.bankName}}</span><br>
+                                    <b>Désignation: </b><span> {{storeData.designation}}</span><br>
+                                    <b>IBAN: </b><span> {{storeData.iban}}</span><br>
+                                    <b>SWIFT: </b><span> {{storeData.swift}}</span><br>
+                                </ng-container>
+                            </label>
+                          
+
+                        </div>
+
+                    </div>
+
+
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </div>
+    <!-- End checkout page area -->
+    <br><br><br><br><br><br>
+    <app-footer-store></app-footer-store>
+</body>
+</html>
+</ng-container>
+<ng-container *ngIf="loadingPage" >
+    <app-loading></app-loading>
+</ng-container>

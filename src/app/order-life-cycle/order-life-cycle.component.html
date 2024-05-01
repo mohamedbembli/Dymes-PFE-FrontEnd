@@ -1,0 +1,124 @@
+<div *ngIf="homePage">
+<div class="container-fluid">
+
+    <div class="header">
+        <h1 class="header-title">
+            Produits
+        </h1>
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a style="color: white;" (click)="setPrincipalSettings()">Paramètres</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Cycle de vie des commandes</li>
+            </ol>
+        </nav>
+    </div>
+    <div class="row">
+        <div class="col-xxl-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="card-actions float-end">
+                        <a  class="me-1">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-refresh-cw align-middle"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path></svg>
+                        </a>
+                        <div class="d-inline-block dropdown show">
+                            <a  data-bs-toggle="dropdown" data-bs-display="static">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-more-vertical align-middle"><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg>
+                            </a>
+
+                            <div class="dropdown-menu dropdown-menu-end">
+                                <a class="dropdown-item" >Action</a>
+                                <a class="dropdown-item" >Another action</a>
+                                <a class="dropdown-item" >Something else here</a>
+                            </div>
+                        </div>
+                    </div>
+                    <h5 class="card-title mb-0">Configuration d'étapes</h5><br>
+                    <mat-dialog-actions>
+                        <button mat-raised-button  type="submit"  (click)="openAddOrderLifeCycleStepDialog()" class="btn btn-primary">
+                            Ajouter une étape
+                        </button>
+                    </mat-dialog-actions>
+                </div>
+                <div class="card-body">
+                    <div id="datatables-clients_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
+                    <div class="row dt-row">
+                        <div class="col-xs-12">
+                            <mat-table
+                                #table
+                                [dataSource]="dataSource"
+                                class="mat-elevation-z8"
+                                cdkDropList
+                                (cdkDropListDropped)="drop($event)"
+                                cdkDropListData="dataSource"
+                                [cdkDropListDisabled]="dragDisabled">
+
+                                <ng-container matColumnDef="stepName"  >
+                                    <mat-header-cell *matHeaderCellDef> ÉTAPE </mat-header-cell>
+                                    <mat-cell *matCellDef="let element" class="dragCursor" (mousedown)="dragDisabled = false;"> 
+                                        <img height="35" width="35" [src]="this.authService.host+'/public/OLC/'+element.id">
+                                        &nbsp;
+                                        {{element.stepName}}
+                                     </mat-cell>
+                                </ng-container>
+
+                                  <!-- Position Column -->
+                                    <ng-container matColumnDef="order" sticky>
+                                        <mat-header-cell *matHeaderCellDef> ORDRE No. </mat-header-cell>
+                                        <mat-cell *matCellDef="let element">
+                      
+                                        <span>{{element.position}}</span>
+                                        </mat-cell>
+                                    </ng-container>
+
+
+                                    <ng-container matColumnDef="status">
+                                        <mat-header-cell *matHeaderCellDef> ACTIF </mat-header-cell>
+                                        <mat-cell *matCellDef="let element">
+                                          <ng-container >
+                                            <mat-slide-toggle color="primary" [(ngModel)]="element.status" (change)="toggle(element.id, element.status, element.stepName)"></mat-slide-toggle>
+                                          </ng-container>
+                                      
+                                        </mat-cell>
+                                      </ng-container>
+                                      
+                                       <!-- Position Column -->
+                                        <ng-container matColumnDef="stock" sticky>
+                                            <mat-header-cell *matHeaderCellDef> Synchronisation avec le stock </mat-header-cell>
+                                            <mat-cell *matCellDef="let element">
+                                            <span *ngIf="element.action == 0">Ne pas changer le stock</span>
+                                            <span *ngIf="element.action == 1">Stock va augmenter</span>
+                                            <span *ngIf="element.action == 2">Stock va dimunuer</span>
+                                            </mat-cell>
+                                        </ng-container>
+
+                                      <ng-container matColumnDef="action">
+                                        <mat-header-cell *matHeaderCellDef> ACTION </mat-header-cell>
+                                        <mat-cell *matCellDef="let element">
+                                            <i *ngIf="!checkIfStepExists(element.stepName)" class="fas fa-edit" (click)="openUpdateOrderLifeCycleStepDialog(element)" style="font-size: 1.3em;"></i>&nbsp;&nbsp;
+                                            <i class="fas fa-trash" (click)="deleteStep(element.id)" style="font-size: 1.3em;"></i>
+                                        </mat-cell>
+                                      </ng-container>
+                                      
+
+                                    <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                                    <mat-row
+                                      *matRowDef="let row; columns: displayedColumns;"
+                                      cdkDrag
+                                      [cdkDragData]="row">
+                                    </mat-row>
+                            </mat-table>     
+                       
+                     
+                         </div>
+                   </div>
+            </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<div *ngIf="settingsPage">
+    <app-settings></app-settings>
+</div>
